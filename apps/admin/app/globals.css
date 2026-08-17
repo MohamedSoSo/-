@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-bg: #0a0a0c;
+  --brand-accent: #9d5cff;
+  --brand-surface: #151318;
+}
+
+body {
+  background-color: var(--brand-bg);
+  color: #f5f4f3;
+}
+
+.glass-panel {
+  @apply bg-glass-sheen backdrop-blur-glass border border-white/10 rounded-xl2;
+}

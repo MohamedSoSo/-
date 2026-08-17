@@ -1,0 +1,20 @@
+{
+  "name": "@bbq/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "tsconfig.base.json",
+    "tailwind.preset.ts",
+    "csp.ts"
+  ],
+  "exports": {
+    "./tailwind.preset": "./tailwind.preset.ts",
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./csp": "./csp.ts"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
+  }
+}

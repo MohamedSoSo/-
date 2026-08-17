@@ -1,0 +1,9 @@
+{
+  "name": "Smart BBQ POS",
+  "short_name": "BBQ POS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0f12",
+  "theme_color": "#3fae60",
+  "icons": []
+}
