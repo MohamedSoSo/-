@@ -3,6 +3,7 @@ import { createClient } from "./supabase/server";
 export interface QuickMenuItem {
   id: string;
   name_en: string;
+  name_ar: string;
   base_price: number;
   is_weight_based: boolean;
   weight_tiers: { id: string; label: string; grams: number; price_multiplier: number }[];
@@ -11,6 +12,7 @@ export interface QuickMenuItem {
 export interface QuickMenuCategory {
   id: string;
   name_en: string;
+  name_ar: string;
   items: QuickMenuItem[];
 }
 
@@ -24,10 +26,10 @@ export async function getQuickMenu(): Promise<QuickMenuCategory[]> {
   const supabase = createClient();
 
   const [{ data: categories }, { data: items }, { data: weightTiers }] = await Promise.all([
-    supabase.from("categories").select("id, name_en, sort_order").is("deleted_at", null).order("sort_order"),
+    supabase.from("categories").select("id, name_en, name_ar, sort_order").is("deleted_at", null).order("sort_order"),
     supabase
       .from("menu_items")
-      .select("id, name_en, base_price, is_weight_based, category_id")
+      .select("id, name_en, name_ar, base_price, is_weight_based, category_id")
       .is("deleted_at", null)
       .eq("is_active", true)
       .eq("item_type", "single"),

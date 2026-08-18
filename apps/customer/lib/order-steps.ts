@@ -2,35 +2,35 @@ import type { OrderChannel, OrderStatus } from "@bbq/types";
 
 export interface OrderStep {
   status: OrderStatus;
-  label: string;
+  labelKey: string;
 }
 
 const DINE_IN: OrderStep[] = [
-  { status: "placed", label: "Order received" },
-  { status: "confirmed", label: "Confirmed" },
-  { status: "grilling", label: "On the grill" },
-  { status: "plating", label: "Plating" },
-  { status: "ready", label: "Ready" },
-  { status: "served", label: "Served" },
+  { status: "placed", labelKey: "placed" },
+  { status: "confirmed", labelKey: "confirmed" },
+  { status: "grilling", labelKey: "grilling" },
+  { status: "plating", labelKey: "plating_dine_in" },
+  { status: "ready", labelKey: "ready_dine_in" },
+  { status: "served", labelKey: "served" },
 ];
 
 const PICKUP: OrderStep[] = [
-  { status: "placed", label: "Order received" },
-  { status: "confirmed", label: "Confirmed" },
-  { status: "grilling", label: "On the grill" },
-  { status: "plating", label: "Plating" },
-  { status: "ready", label: "Ready for pickup" },
-  { status: "completed", label: "Picked up" },
+  { status: "placed", labelKey: "placed" },
+  { status: "confirmed", labelKey: "confirmed" },
+  { status: "grilling", labelKey: "grilling" },
+  { status: "plating", labelKey: "plating_pickup" },
+  { status: "ready", labelKey: "ready_pickup" },
+  { status: "completed", labelKey: "completed" },
 ];
 
 const DELIVERY: OrderStep[] = [
-  { status: "placed", label: "Order received" },
-  { status: "confirmed", label: "Confirmed" },
-  { status: "grilling", label: "On the grill" },
-  { status: "plating", label: "Packaging" },
-  { status: "ready", label: "Ready" },
-  { status: "out_for_delivery", label: "Out for delivery" },
-  { status: "delivered", label: "Delivered" },
+  { status: "placed", labelKey: "placed" },
+  { status: "confirmed", labelKey: "confirmed" },
+  { status: "grilling", labelKey: "grilling" },
+  { status: "plating", labelKey: "plating_delivery" },
+  { status: "ready", labelKey: "ready_delivery" },
+  { status: "out_for_delivery", labelKey: "out_for_delivery" },
+  { status: "delivered", labelKey: "delivered" },
 ];
 
 export function stepsForChannel(channel: OrderChannel): OrderStep[] {

@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "سمارت باربكيو — اطلب الآن",
+    "description": "اطلب مشاوي مشوية بإتقان، تتبّع توصيل طلبك، أو احجز طلبك مسبقًا."
+  },
+  "common": {
+    "decreaseQuantity": "إنقاص الكمية",
+    "increaseQuantity": "زيادة الكمية",
+    "close": "إغلاق",
+    "sar": "ريال"
+  },
+  "pricing": {
+    "subtotal": "المجموع الفرعي",
+    "vat": "ضريبة القيمة المضافة (15%)",
+    "deliveryFee": "رسوم التوصيل",
+    "total": "الإجمالي"
+  },
+  "doneness": {
+    "rare": "نيء قليلًا",
+    "medium_rare": "متوسط النضج قليلًا",
+    "medium": "متوسط النضج",
+    "medium_well": "شبه ناضج تمامًا",
+    "well_done": "ناضج تمامًا"
+  },
+  "home": {
+    "heroTitle": "نار. دخان. نكهة.",
+    "heroSubtitle": "اطلب مشاوي مشوية بإتقان، بالطريقة التي تفضّلها."
+  },
+  "header": {
+    "account": "حسابي",
+    "cart": "السلة"
+  },
+  "cart": {
+    "title": "طلبك",
+    "close": "إغلاق السلة",
+    "empty": "سلتك فارغة.",
+    "removeItem": "إزالة الصنف",
+    "eachPrice": "({price} للقطعة)",
+    "checkout": "إتمام الطلب"
+  },
+  "menu": {
+    "soldOut": "نفدت الكمية",
+    "priceFrom": "يبدأ من {price} ريال"
+  },
+  "itemSheet": {
+    "chooseToContinue": "يرجى اختيار {groups} للمتابعة.",
+    "weight": "الوزن",
+    "doneness": "درجة النضج",
+    "notes": "ملاحظات",
+    "notesPlaceholder": "هل لديك أي طلبات خاصة؟",
+    "addToCart": "أضف إلى السلة — {price} ريال",
+    "required": "إلزامي",
+    "upTo": "حتى {count}",
+    "free": "مجانًا",
+    "priceAdd": "+{price} ريال"
+  },
+  "comboSheet": {
+    "loading": "جارٍ تحميل الخيارات…",
+    "noOptions": "لا توجد خيارات متاحة في هذا التصنيف حاليًا."
+  },
+  "checkout": {
+    "title": "إتمام الطلب",
+    "browseMenu": "تصفّح القائمة",
+    "dineInTable": "تناول داخل المطعم — طاولة {label}",
+    "dineInLocked": "تم تحديد الطاولة من رمز الاستجابة السريع الخاص بها.",
+    "orderType": "نوع الطلب",
+    "pickup": "استلام",
+    "delivery": "توصيل",
+    "preOrder": "طلب مسبق",
+    "deliveryAddress": "عنوان التوصيل",
+    "addressPlaceholder": "الشارع، رقم المبنى، المدينة…",
+    "locationCaptured": "تم تحديد الموقع",
+    "useCurrentLocation": "استخدام موقعي الحالي",
+    "schedule": "الموعد",
+    "time": "الوقت",
+    "payment": "الدفع",
+    "cardPayment": "بطاقة (فيزا/ماستركارد)",
+    "applePay": "آبل باي",
+    "cashOnDelivery": "نقدًا / عبر الجهاز عند التوصيل",
+    "placingOrder": "جارٍ إرسال الطلب…",
+    "placeOrder": "إرسال الطلب — {total} ريال",
+    "errorGeneric": "حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى.",
+    "errorOutOfStock": "أحد الأصناف في طلبك نفدت كميته للتو — يرجى تحديث سلتك.",
+    "errorItemUnavailable": "أحد الأصناف في طلبك لم يعد متاحًا.",
+    "errorTableRequired": "يرجى مسح رمز الاستجابة السريع الخاص بطاولتك لطلب التناول داخل المطعم.",
+    "errorValidation": "يرجى مراجعة تفاصيل طلبك."
+  },
+  "account": {
+    "defaultTitle": "حسابك",
+    "loyaltyPoints": "نقاط الولاء",
+    "loyaltyExplain": "نقطة واحدة عن كل 10 ريال يتم إنفاقها على الطلبات المكتملة",
+    "activeOrder": "طلب نشط — {number}",
+    "tapToTrack": "اضغط للتتبع",
+    "orderHistory": "سجل الطلبات",
+    "noOrders": "لا توجد طلبات بعد.",
+    "orderStatus": {
+      "placed": "تم استلام الطلب",
+      "confirmed": "تم التأكيد",
+      "grilling": "على الشواية",
+      "kitchen_prep": "في المطبخ",
+      "plating": "التجهيز في الطبق",
+      "ready": "جاهز",
+      "served": "تم التقديم",
+      "completed": "مكتمل",
+      "out_for_delivery": "في الطريق إليك",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغى",
+      "voided": "ملغى"
+    }
+  },
+  "reorder": {
+    "adding": "جارٍ الإضافة…",
+    "button": "إعادة الطلب"
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "subtitle": "رقم الجوال فقط، بدون كلمة مرور."
+  },
+  "phoneAuth": {
+    "invalidPhone": "يرجى إدخال رقم جوال صحيح.",
+    "otpSentTo": "أدخل الرمز المُرسَل إلى {phone} عبر {channel}.",
+    "whatsapp": "واتساب",
+    "sms": "رسالة نصية",
+    "verifying": "جارٍ التحقق…",
+    "verifyContinue": "تحقق ومتابعة",
+    "resendIn": "إعادة الإرسال خلال {seconds} ثانية",
+    "resend": "إعادة إرسال الرمز",
+    "sending": "جارٍ الإرسال…",
+    "sendCode": "إرسال الرمز عبر {channel}"
+  },
+  "orderTracker": {
+    "orderLabel": "الطلب",
+    "table": "طاولة {label}",
+    "orderStatus": "الطلب {status}",
+    "failedHelp": "يرجى التحدث مع أحد أفراد الطاقم إذا كانت لديك أي استفسارات حول هذا الطلب.",
+    "items": "الأصناف",
+    "unknownItem": "صنف",
+    "viewDeliveryLocation": "عرض موقع التوصيل",
+    "statusValues": {
+      "cancelled": "ملغى",
+      "voided": "ملغى"
+    },
+    "steps": {
+      "placed": "تم استلام الطلب",
+      "confirmed": "تم التأكيد",
+      "grilling": "على الشواية",
+      "plating_dine_in": "التجهيز في الطبق",
+      "plating_pickup": "التجهيز في الطبق",
+      "plating_delivery": "التغليف",
+      "ready_dine_in": "جاهز",
+      "ready_pickup": "جاهز للاستلام",
+      "ready_delivery": "جاهز",
+      "served": "تم التقديم",
+      "completed": "تم الاستلام",
+      "out_for_delivery": "في الطريق إليك",
+      "delivered": "تم التوصيل"
+    }
+  },
+  "tableLock": {
+    "orderingForTable": "الطلب لطاولة {label}",
+    "notFound": "رمز الاستجابة السريع لهذه الطاولة غير معروف — لا يزال بإمكانك الطلب للاستلام أو التوصيل."
+  },
+  "maintenance": {
+    "title": "سنعود للشواية قريبًا",
+    "body": "نقوم حاليًا بأعمال صيانة في المطبخ ولا نستقبل طلبات عبر الإنترنت في الوقت الحالي. يرجى المحاولة لاحقًا — أو التواصل معنا هاتفيًا للتناول داخل المطعم."
+  }
+}

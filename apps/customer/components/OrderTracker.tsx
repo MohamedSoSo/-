@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import type { OrderChannel, OrderStatus } from "@bbq/types";
+import { localizedField, type Locale } from "@bbq/i18n";
 import { createClient } from "@/lib/supabase/client";
 import { currentStepIndex, isTerminalFailure, stepsForChannel } from "@/lib/order-steps";
 
@@ -19,6 +21,7 @@ export interface TrackedOrder {
 export interface TrackedOrderItem {
   id: string;
   name_en: string;
+  name_ar: string;
   quantity: number;
   line_total: number;
 }
@@ -30,6 +33,10 @@ export function OrderTracker({
   initialOrder: TrackedOrder;
   initialItems: TrackedOrderItem[];
 }) {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("orderTracker");
+  const tPricing = useTranslations("pricing");
+  const tCommon = useTranslations("common");
   const [order, setOrder] = useState(initialOrder);
   const [items] = useState(initialItems);
 
@@ -59,17 +66,17 @@ export function OrderTracker({
   return (
     <div className="max-w-lg mx-auto px-4 py-8">
       <div className="glass-panel p-5 mb-6">
-        <p className="text-sm text-smoke-400">Order</p>
+        <p className="text-sm text-smoke-400">{t("orderLabel")}</p>
         <p className="text-xl font-semibold text-white">{order.order_number}</p>
-        {order.table_label && <p className="text-sm text-smoke-400 mt-1">Table {order.table_label}</p>}
+        {order.table_label && <p className="text-sm text-smoke-400 mt-1">{t("table", { label: order.table_label })}</p>}
       </div>
 
       {failed ? (
         <div className="glass-panel p-5 mb-6 border-red-500/30">
-          <p className="text-red-400 font-medium capitalize">Order {order.status}</p>
-          <p className="text-sm text-smoke-400 mt-1">
-            Please speak to a staff member if you have questions about this order.
+          <p className="text-red-400 font-medium">
+            {t("orderStatus", { status: t(`statusValues.${order.status}`) })}
           </p>
+          <p className="text-sm text-smoke-400 mt-1">{t("failedHelp")}</p>
         </div>
       ) : (
         <ol className="space-y-1 mb-6">
@@ -98,7 +105,7 @@ export function OrderTracker({
                   )}
                 </div>
                 <p className={`pt-1 text-sm ${active ? "text-white font-medium" : done ? "text-charcoal-100" : "text-smoke-500"}`}>
-                  {step.label}
+                  {t(`steps.${step.labelKey}`)}
                 </p>
               </li>
             );
@@ -107,20 +114,24 @@ export function OrderTracker({
       )}
 
       <div className="glass-panel p-5">
-        <p className="text-sm font-medium text-charcoal-100 mb-3">Items</p>
+        <p className="text-sm font-medium text-charcoal-100 mb-3">{t("items")}</p>
         <div className="space-y-2">
           {items.map((item) => (
             <div key={item.id} className="flex justify-between text-sm">
               <span className="text-charcoal-100">
-                {item.quantity}× {item.name_en}
+                {item.quantity}× {localizedField(item.name_en, item.name_ar, locale)}
               </span>
-              <span className="text-smoke-400">{item.line_total.toFixed(2)} SAR</span>
+              <span className="text-smoke-400">
+                {item.line_total.toFixed(2)} {tCommon("sar")}
+              </span>
             </div>
           ))}
         </div>
         <div className="flex justify-between text-base font-semibold text-white pt-3 mt-3 border-t border-white/5">
-          <span>Total</span>
-          <span>{order.grand_total.toFixed(2)} SAR</span>
+          <span>{tPricing("total")}</span>
+          <span>
+            {order.grand_total.toFixed(2)} {tCommon("sar")}
+          </span>
         </div>
       </div>
     </div>

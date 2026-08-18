@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Smart BBQ — Order",
+    "description": "Order grilled-to-perfection BBQ, track delivery, and pre-order ahead."
+  },
+  "common": {
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity",
+    "close": "Close",
+    "sar": "SAR"
+  },
+  "pricing": {
+    "subtotal": "Subtotal",
+    "vat": "VAT (15%)",
+    "deliveryFee": "Delivery fee",
+    "total": "Total"
+  },
+  "doneness": {
+    "rare": "Rare",
+    "medium_rare": "Medium Rare",
+    "medium": "Medium",
+    "medium_well": "Medium Well",
+    "well_done": "Well Done"
+  },
+  "home": {
+    "heroTitle": "Fire. Smoke. Flavor.",
+    "heroSubtitle": "Order grilled-to-perfection BBQ, your way."
+  },
+  "header": {
+    "account": "Account",
+    "cart": "Cart"
+  },
+  "cart": {
+    "title": "Your order",
+    "close": "Close cart",
+    "empty": "Your cart is empty.",
+    "removeItem": "Remove item",
+    "eachPrice": "({price} ea)",
+    "checkout": "Checkout"
+  },
+  "menu": {
+    "soldOut": "Sold out",
+    "priceFrom": "From {price} SAR"
+  },
+  "itemSheet": {
+    "chooseToContinue": "Choose {groups} to continue.",
+    "weight": "Weight",
+    "doneness": "Doneness",
+    "notes": "Notes",
+    "notesPlaceholder": "Any special requests?",
+    "addToCart": "Add to cart — {price} SAR",
+    "required": "required",
+    "upTo": "up to {count}",
+    "free": "Free",
+    "priceAdd": "+{price} SAR"
+  },
+  "comboSheet": {
+    "loading": "Loading options…",
+    "noOptions": "No options available in this category right now."
+  },
+  "checkout": {
+    "title": "Checkout",
+    "browseMenu": "Browse the menu",
+    "dineInTable": "Dine-in — Table {label}",
+    "dineInLocked": "Locked from your table's QR code.",
+    "orderType": "Order type",
+    "pickup": "Pickup",
+    "delivery": "Delivery",
+    "preOrder": "Pre-order",
+    "deliveryAddress": "Delivery address",
+    "addressPlaceholder": "Street, building, city…",
+    "locationCaptured": "Location captured",
+    "useCurrentLocation": "Use my current location",
+    "schedule": "Schedule",
+    "time": "Time",
+    "payment": "Payment",
+    "cardPayment": "Card (Visa/Mastercard)",
+    "applePay": "Apple Pay",
+    "cashOnDelivery": "Cash / Terminal on delivery",
+    "placingOrder": "Placing order…",
+    "placeOrder": "Place order — {total} SAR",
+    "errorGeneric": "Something went wrong placing your order. Please try again.",
+    "errorOutOfStock": "One of your items just sold out — please update your cart.",
+    "errorItemUnavailable": "One of your items is no longer available.",
+    "errorTableRequired": "Please scan your table's QR code to order dine-in.",
+    "errorValidation": "Please check your order details."
+  },
+  "account": {
+    "defaultTitle": "Your account",
+    "loyaltyPoints": "Loyalty points",
+    "loyaltyExplain": "1 point per 10 SAR spent on completed orders",
+    "activeOrder": "Active order — {number}",
+    "tapToTrack": "Tap to track",
+    "orderHistory": "Order history",
+    "noOrders": "No orders yet.",
+    "orderStatus": {
+      "placed": "Order received",
+      "confirmed": "Confirmed",
+      "grilling": "On the grill",
+      "kitchen_prep": "In the kitchen",
+      "plating": "Plating",
+      "ready": "Ready",
+      "served": "Served",
+      "completed": "Completed",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "voided": "Voided"
+    }
+  },
+  "reorder": {
+    "adding": "Adding…",
+    "button": "Re-order"
+  },
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Phone number, no password needed."
+  },
+  "phoneAuth": {
+    "invalidPhone": "Enter a valid phone number.",
+    "otpSentTo": "Enter the code sent to {phone} via {channel}.",
+    "whatsapp": "WhatsApp",
+    "sms": "SMS",
+    "verifying": "Verifying…",
+    "verifyContinue": "Verify & continue",
+    "resendIn": "Resend code in {seconds}s",
+    "resend": "Resend code",
+    "sending": "Sending…",
+    "sendCode": "Send code via {channel}"
+  },
+  "orderTracker": {
+    "orderLabel": "Order",
+    "table": "Table {label}",
+    "orderStatus": "Order {status}",
+    "failedHelp": "Please speak to a staff member if you have questions about this order.",
+    "items": "Items",
+    "unknownItem": "Item",
+    "viewDeliveryLocation": "View delivery location",
+    "statusValues": {
+      "cancelled": "cancelled",
+      "voided": "voided"
+    },
+    "steps": {
+      "placed": "Order received",
+      "confirmed": "Confirmed",
+      "grilling": "On the grill",
+      "plating_dine_in": "Plating",
+      "plating_pickup": "Plating",
+      "plating_delivery": "Packaging",
+      "ready_dine_in": "Ready",
+      "ready_pickup": "Ready for pickup",
+      "ready_delivery": "Ready",
+      "served": "Served",
+      "completed": "Picked up",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered"
+    }
+  },
+  "tableLock": {
+    "orderingForTable": "Ordering for Table {label}",
+    "notFound": "That table QR code isn't recognized — you can still order for pickup or delivery."
+  },
+  "maintenance": {
+    "title": "Back on the grill shortly",
+    "body": "We're doing some kitchen maintenance and aren't taking online orders right now. Please check back soon — or give us a call for dine-in."
+  }
+}

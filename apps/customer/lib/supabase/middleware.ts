@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { Database } from "@bbq/supabase";
 import { buildCsp, SECURITY_HEADERS } from "@bbq/config/csp";
+import { stripLocalePrefix } from "@bbq/i18n";
 
 const AUTH_REQUIRED_PREFIXES = ["/account"];
 
@@ -41,10 +42,11 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const needsAuth = AUTH_REQUIRED_PREFIXES.some((p) => request.nextUrl.pathname.startsWith(p));
+  const { locale, path } = stripLocalePrefix(request.nextUrl.pathname);
+  const needsAuth = AUTH_REQUIRED_PREFIXES.some((p) => path.startsWith(p));
   if (needsAuth && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = `/${locale}/login`;
     url.searchParams.set("next", request.nextUrl.pathname);
     return withSecurityHeaders(NextResponse.redirect(url), nonce);
   }

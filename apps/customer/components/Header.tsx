@@ -1,12 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ShoppingCart, User } from "lucide-react";
-import { AppImage, ASSET_KEYS } from "@bbq/ui";
+import { AppImage, ASSET_KEYS, LocaleSwitcher } from "@bbq/ui";
 import { useCartStore } from "@/lib/cart-store";
+import { Link } from "@/i18n/navigation";
 
 export function Header({ isAuthed }: { isAuthed: boolean }) {
+  const t = useTranslations("header");
   const items = useCartStore((s) => s.items);
   const openDrawer = useCartStore((s) => s.openDrawer);
   const [hydrated, setHydrated] = useState(false);
@@ -26,10 +28,11 @@ export function Header({ isAuthed }: { isAuthed: boolean }) {
         </Link>
 
         <div className="flex items-center gap-3">
+          <LocaleSwitcher />
           <Link
             href={isAuthed ? "/account" : "/login"}
             className="p-2 rounded-full text-charcoal-100 hover:bg-white/5"
-            aria-label="Account"
+            aria-label={t("account")}
           >
             <User size={20} />
           </Link>
@@ -37,11 +40,11 @@ export function Header({ isAuthed }: { isAuthed: boolean }) {
             type="button"
             onClick={openDrawer}
             className="relative p-2 rounded-full text-charcoal-100 hover:bg-white/5"
-            aria-label="Cart"
+            aria-label={t("cart")}
           >
             <ShoppingCart size={20} />
             {itemCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 h-4 min-w-4 px-1 rounded-full bg-ember-500 text-[10px] font-bold text-charcoal-900 flex items-center justify-center">
+              <span className="absolute -top-0.5 -end-0.5 h-4 min-w-4 px-1 rounded-full bg-ember-500 text-[10px] font-bold text-charcoal-900 flex items-center justify-center">
                 {itemCount}
               </span>
             )}

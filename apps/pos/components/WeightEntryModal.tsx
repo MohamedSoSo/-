@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Scale as ScaleIcon, Keyboard } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
 import { useScale } from "@/lib/scale/useScale";
 
@@ -24,6 +25,8 @@ export function WeightEntryModal({
   onSubmit: (grams: number, manualReason: string | null) => void;
   onClose: () => void;
 }) {
+  const t = useTranslations("weightModal");
+  const tCommon = useTranslations("common");
   const scale = useScale();
   const [manualGrams, setManualGrams] = useState("");
   const [manualReason, setManualReason] = useState("");
@@ -42,25 +45,25 @@ export function WeightEntryModal({
       >
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm font-medium text-white">{itemLabel}</p>
-          <button onClick={onClose} className="text-smoke-400 hover:text-white" aria-label="Cancel">
+          <button onClick={onClose} className="text-smoke-400 hover:text-white" aria-label={tCommon("cancel")}>
             <X size={18} />
           </button>
         </div>
 
-        {orderedGrams && <p className="text-xs text-smoke-400 mb-4">Ordered: {orderedGrams}g</p>}
+        {orderedGrams && <p className="text-xs text-smoke-400 mb-4">{t("ordered", { grams: orderedGrams })}</p>}
 
         <div className="flex rounded-full border border-white/10 p-1 mb-4">
           <button
             onClick={() => setMode("scale")}
             className={`flex-1 flex items-center justify-center gap-1.5 rounded-full py-1.5 text-xs ${mode === "scale" ? "bg-ember-500 text-charcoal-900 font-medium" : "text-smoke-400"}`}
           >
-            <ScaleIcon size={13} /> Scale
+            <ScaleIcon size={13} /> {t("scale")}
           </button>
           <button
             onClick={() => setMode("manual")}
             className={`flex-1 flex items-center justify-center gap-1.5 rounded-full py-1.5 text-xs ${mode === "manual" ? "bg-ember-500 text-charcoal-900 font-medium" : "text-smoke-400"}`}
           >
-            <Keyboard size={13} /> Manual
+            <Keyboard size={13} /> {t("manual")}
           </button>
         </div>
 
@@ -68,22 +71,22 @@ export function WeightEntryModal({
           <div>
             {!scale.isConnected ? (
               <Button variant="glass" size="sm" className="w-full" onClick={scale.connect}>
-                Connect scale
+                {t("connectScale")}
               </Button>
             ) : (
               <p className="text-center text-2xl font-semibold text-white mb-2">
-                {scale.reading ? `${(scale.reading.grams / 1000).toFixed(3)} kg` : "Waiting for reading…"}
+                {scale.reading ? `${(scale.reading.grams / 1000).toFixed(3)} kg` : t("waitingForReading")}
                 {scale.reading && !scale.reading.stable && !scale.isStale && (
-                  <span className="block text-xs text-yellow-400 font-normal">settling…</span>
+                  <span className="block text-xs text-yellow-400 font-normal">{t("settling")}</span>
                 )}
-                {scale.isStale && (
-                  <span className="block text-xs text-red-400 font-normal">
-                    No signal from scale — it may have disconnected. Switch to manual entry.
-                  </span>
-                )}
+                {scale.isStale && <span className="block text-xs text-red-400 font-normal">{t("noSignal")}</span>}
               </p>
             )}
-            {scale.error && <p className="text-xs text-red-400 mb-2">{scale.error} — switch to manual entry.</p>}
+            {scale.error && (
+              <p className="text-xs text-red-400 mb-2">
+                {scale.error} {t("switchToManual")}
+              </p>
+            )}
             <Button
               variant="primary"
               size="lg"
@@ -91,7 +94,7 @@ export function WeightEntryModal({
               disabled={!canSubmitScale}
               onClick={() => scale.reading && onSubmit(scale.reading.grams, null)}
             >
-              Confirm weight
+              {t("confirmWeight")}
             </Button>
           </div>
         ) : (
@@ -99,14 +102,14 @@ export function WeightEntryModal({
             <input
               type="number"
               autoFocus
-              placeholder="Weight in grams"
+              placeholder={t("weightInGrams")}
               value={manualGrams}
               onChange={(e) => setManualGrams(e.target.value)}
               className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-white"
             />
             <input
               type="text"
-              placeholder="Reason (scale unavailable, disconnected...)"
+              placeholder={t("reasonPlaceholder")}
               value={manualReason}
               onChange={(e) => setManualReason(e.target.value)}
               className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
@@ -118,7 +121,7 @@ export function WeightEntryModal({
               disabled={!canSubmitManual}
               onClick={() => onSubmit(parseInt(manualGrams, 10), manualReason.trim())}
             >
-              Confirm weight
+              {t("confirmWeight")}
             </Button>
           </div>
         )}

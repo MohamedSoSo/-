@@ -28,7 +28,8 @@ export interface RawOrderItem {
   line_total: number;
   status: OrderStatus;
   created_at: string;
-  menu_item_name: string;
+  menu_item_name_en: string;
+  menu_item_name_ar: string;
   category_id: string;
   is_weight_based: boolean;
   base_cogs: number;
@@ -77,12 +78,14 @@ export interface RawShift {
 export interface CategoryInfo {
   id: string;
   name_en: string;
+  name_ar: string;
   expected_shrinkage_pct: number | null;
 }
 
 export interface IngredientInfo {
   id: string;
   name_en: string;
+  name_ar: string;
   unit_cost_per_kg: number;
 }
 
@@ -135,7 +138,7 @@ export async function getBiDataset(range: DateRange): Promise<BiDataset> {
     supabase
       .from("order_items")
       .select(
-        "id, order_id, menu_item_id, station, quantity, weight_grams_ordered, weight_grams_actual, doneness, unit_price, line_total, status, created_at, menu_items (name_en, category_id, is_weight_based, cogs)"
+        "id, order_id, menu_item_id, station, quantity, weight_grams_ordered, weight_grams_actual, doneness, unit_price, line_total, status, created_at, menu_items (name_en, name_ar, category_id, is_weight_based, cogs)"
       )
       .gte("created_at", range.startISO)
       .lt("created_at", range.endISO),
@@ -160,14 +163,16 @@ export async function getBiDataset(range: DateRange): Promise<BiDataset> {
       .gte("opened_at", range.startISO)
       .lt("opened_at", range.endISO)
       .order("opened_at", { ascending: false }),
-    supabase.from("categories").select("id, name_en, expected_shrinkage_pct").is("deleted_at", null),
-    supabase.from("ingredients").select("id, name_en, unit_cost_per_kg"),
+    supabase.from("categories").select("id, name_en, name_ar, expected_shrinkage_pct").is("deleted_at", null),
+    supabase.from("ingredients").select("id, name_en, name_ar, unit_cost_per_kg"),
     supabase.from("menu_item_ingredients").select("menu_item_id, ingredient_id, kg_per_unit"),
     supabase.from("profiles").select("id, display_name, role").eq("is_active", true),
   ]);
 
   const orderItems: RawOrderItem[] = (orderItemsRaw ?? []).map((raw) => {
-    const menuItem = firstOf(raw.menu_items) as { name_en: string; category_id: string; is_weight_based: boolean; cogs: number } | null;
+    const menuItem = firstOf(raw.menu_items) as
+      | { name_en: string; name_ar: string; category_id: string; is_weight_based: boolean; cogs: number }
+      | null;
     return {
       id: raw.id,
       order_id: raw.order_id,
@@ -181,7 +186,8 @@ export async function getBiDataset(range: DateRange): Promise<BiDataset> {
       line_total: raw.line_total,
       status: raw.status,
       created_at: raw.created_at,
-      menu_item_name: menuItem?.name_en ?? "Unknown item",
+      menu_item_name_en: menuItem?.name_en ?? "Unknown item",
+      menu_item_name_ar: menuItem?.name_ar ?? "صنف غير معروف",
       category_id: menuItem?.category_id ?? "",
       is_weight_based: menuItem?.is_weight_based ?? false,
       base_cogs: menuItem?.cogs ?? 0,

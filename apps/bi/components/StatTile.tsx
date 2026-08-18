@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function StatTile({
   label,
@@ -14,6 +15,7 @@ export function StatTile({
   deltaIsGoodWhenPositive?: boolean;
   icon?: ReactNode;
 }) {
+  const t = useTranslations("statTile");
   const hasDelta = deltaPct != null && Number.isFinite(deltaPct);
   const isGood = hasDelta && (deltaIsGoodWhenPositive ? deltaPct! > 0 : deltaPct! < 0);
   const isBad = hasDelta && (deltaIsGoodWhenPositive ? deltaPct! < 0 : deltaPct! > 0);
@@ -28,7 +30,7 @@ export function StatTile({
       {hasDelta && Math.abs(deltaPct!) >= 0.5 && (
         <p className={`text-xs flex items-center gap-1 mt-1 ${isGood ? "text-emerald-400" : isBad ? "text-red-400" : "text-smoke-400"}`}>
           {deltaPct! > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-          {Math.abs(deltaPct!).toFixed(1)}% vs. prior period
+          {Math.abs(deltaPct!).toFixed(1)}% {t("vsPriorPeriod")}
         </p>
       )}
     </div>

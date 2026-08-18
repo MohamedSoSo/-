@@ -26,7 +26,8 @@ export function computeHourlyHeatmap(dataset: BiDataset): HeatmapCell[] {
 }
 
 export interface GrillVelocity {
-  menuItemName: string;
+  menuItemNameEn: string;
+  menuItemNameAr: string;
   avgMinutes: number;
   slaBreachPct: number;
   sampleCount: number;
@@ -41,8 +42,11 @@ export function computeGrillVelocity(dataset: BiDataset): GrillVelocity[] {
     if (ev.to_status === "ready") readyTimes.set(ev.order_item_id, new Date(ev.created_at));
   }
 
-  const itemNameById = new Map(dataset.orderItems.map((i) => [i.id, i.menu_item_name]));
-  const byItem = new Map<string, { totalMinutes: number; breaches: number; count: number }>();
+  const itemNameById = new Map(dataset.orderItems.map((i) => [i.id, { en: i.menu_item_name_en, ar: i.menu_item_name_ar }]));
+  // Grouped by the English name — a stable, unique-enough key since it's
+  // 1:1 with menu_item_id in practice — with the Arabic name carried
+  // alongside for display. Grouping key/logic is otherwise unchanged.
+  const byItem = new Map<string, { nameAr: string; totalMinutes: number; breaches: number; count: number }>();
 
   for (const [orderItemId, start] of grillingStarts.entries()) {
     const ready = readyTimes.get(orderItemId);
@@ -50,17 +54,18 @@ export function computeGrillVelocity(dataset: BiDataset): GrillVelocity[] {
     const minutes = (ready.getTime() - start.getTime()) / 60000;
     if (minutes < 0 || minutes > 180) continue; // guard against bad data
 
-    const name = itemNameById.get(orderItemId) ?? "Unknown item";
-    const acc = byItem.get(name) ?? { totalMinutes: 0, breaches: 0, count: 0 };
+    const itemName = itemNameById.get(orderItemId) ?? { en: "Unknown item", ar: "صنف غير معروف" };
+    const acc = byItem.get(itemName.en) ?? { nameAr: itemName.ar, totalMinutes: 0, breaches: 0, count: 0 };
     acc.totalMinutes += minutes;
     acc.count += 1;
     if (minutes > SLA_BREACH_MINUTES) acc.breaches += 1;
-    byItem.set(name, acc);
+    byItem.set(itemName.en, acc);
   }
 
   return Array.from(byItem.entries())
-    .map(([menuItemName, acc]) => ({
-      menuItemName,
+    .map(([menuItemNameEn, acc]) => ({
+      menuItemNameEn,
+      menuItemNameAr: acc.nameAr,
       avgMinutes: round1(acc.totalMinutes / acc.count),
       slaBreachPct: round1((acc.breaches / acc.count) * 100),
       sampleCount: acc.count,

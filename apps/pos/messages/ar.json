@@ -1,0 +1,195 @@
+{
+  "metadata": {
+    "title": "سمارت باربكيو — نقطة البيع",
+    "description": "نظام نقطة البيع وشاشة المطبخ للطاقم."
+  },
+  "common": {
+    "sar": "ريال",
+    "cancel": "إلغاء"
+  },
+  "supervisorPin": {
+    "heading": "موافقة المشرف",
+    "errorPinInvalid": "هذا الرمز غير مخوّل للموافقة على هذا الإجراء.",
+    "errorZatcaLocked": "تم إصدار فاتورة لهذا الطلب مسبقًا — أصدر إشعار دائن بدلًا من ذلك.",
+    "errorDiscountExceedsTotal": "لا يمكن أن يتجاوز الخصم إجمالي الطلب.",
+    "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+  },
+  "doneness": {
+    "rare": "نيء قليلًا",
+    "medium_rare": "متوسط النضج قليلًا",
+    "medium": "متوسط النضج",
+    "medium_well": "شبه ناضج تمامًا",
+    "well_done": "ناضج تمامًا"
+  },
+  "staffHeader": {
+    "floor": "الصالة",
+    "kitchen": "المطبخ",
+    "shift": "الوردية",
+    "hardware": "الأجهزة"
+  },
+  "login": {
+    "title": "تسجيل دخول الجهاز",
+    "subtitle": "سجّل الدخول مرة واحدة لكل وردية/جهاز. يبدّل الطاقم بينهم باستخدام رمز PIN بعد ذلك."
+  },
+  "phoneAuth": {
+    "invalidPhone": "يرجى إدخال رقم جوال صحيح.",
+    "otpSentTo": "أدخل الرمز المُرسَل إلى {phone}.",
+    "verifying": "جارٍ التحقق…",
+    "openTerminal": "فتح الجهاز",
+    "sending": "جارٍ الإرسال…",
+    "sendCode": "إرسال الرمز"
+  },
+  "offline": {
+    "syncing": "جارٍ مزامنة الطلبات المعلّقة…",
+    "waitingToSync": "{count} طلب بانتظار المزامنة",
+    "offlineQueued": "غير متصل — يتم حفظ الطلبات والمدفوعات محليًا مؤقتًا",
+    "failedActions": "{count} إجراء معلّق فشل ويحتاج إلى مراجعة — تحقق من الإعدادات"
+  },
+  "floor": {
+    "title": "الصالة",
+    "seats": "{count} مقاعد",
+    "newOrderAriaLabel": "طلب جديد لـ {label}",
+    "status": {
+      "free": "متاحة",
+      "occupied": "مشغولة",
+      "reserved": "محجوزة",
+      "needs_cleaning": "تحتاج تنظيف"
+    }
+  },
+  "newOrder": {
+    "title": "طلب جديد",
+    "sendOrder": "إرسال الطلب — {total} ريال",
+    "placing": "جارٍ الإرسال…"
+  },
+  "kds": {
+    "title": "المطبخ",
+    "grillStation": "محطة الشواء",
+    "assemblyDrinks": "التجهيز / المشروبات",
+    "noActiveTickets": "لا توجد تذاكر نشطة.",
+    "nextStatus": {
+      "grilling": "على الشواية",
+      "kitchen_prep": "التحضير في المطبخ",
+      "ready": "جاهز",
+      "served": "تم التقديم",
+      "done": "تم"
+    }
+  },
+  "weightModal": {
+    "cancel": "إلغاء",
+    "ordered": "المطلوب: {grams} جم",
+    "scale": "الميزان",
+    "manual": "يدوي",
+    "connectScale": "توصيل الميزان",
+    "waitingForReading": "بانتظار القراءة…",
+    "settling": "جارٍ الاستقرار…",
+    "noSignal": "لا توجد إشارة من الميزان — قد يكون انقطع الاتصال. تحوّل إلى الإدخال اليدوي.",
+    "switchToManual": "— تحوّل إلى الإدخال اليدوي.",
+    "confirmWeight": "تأكيد الوزن",
+    "weightInGrams": "الوزن بالجرام",
+    "reasonPlaceholder": "السبب (الميزان غير متاح، انقطع الاتصال...)"
+  },
+  "orderDetail": {
+    "table": "طاولة {label}",
+    "zatcaUnsigned": "زاتكا: غير موقّعة (تجريبي)",
+    "void": "إلغاء الصنف",
+    "subtotal": "المجموع الفرعي",
+    "vat": "ضريبة القيمة المضافة ({rate}%)",
+    "discount": "الخصم",
+    "total": "الإجمالي",
+    "paid": "المدفوع",
+    "balanceDue": "المبلغ المتبقي",
+    "discountSection": "الخصم",
+    "amountPlaceholder": "المبلغ",
+    "reasonPlaceholder": "السبب",
+    "apply": "تطبيق",
+    "paymentsSection": "الدفعات (تدعم تقسيم الفاتورة — أضف بقدر ما تحتاج)",
+    "add": "إضافة",
+    "transferTable": "نقل الطاولة",
+    "moveTo": "نقل إلى…",
+    "working": "جارٍ التنفيذ…",
+    "printReceipt": "طباعة الفاتورة",
+    "finalizeAndPrint": "اعتماد الفاتورة والطباعة",
+    "approveVoid": "الموافقة على الإلغاء — الأصناف المطهوة على الشواية تتحول تلقائيًا إلى هدر.",
+    "approveDiscount": "الموافقة على خصم {amount} ريال — {reason}",
+    "printedViaBrowser": "تمت الطباعة عبر المتصفح (لم تستجب أي طابعة حرارية): {error}",
+    "printedViaSecondary": "الطابعة الأساسية غير متاحة — تمت الطباعة عبر الطابعة الثانوية.",
+    "printFailed": "تعذر اعتماد الفاتورة أو طباعتها.",
+    "unknownItem": "صنف",
+    "paymentMethods": {
+      "cash": "نقدًا",
+      "card": "بطاقة",
+      "apple_pay": "آبل باي",
+      "terminal": "جهاز الدفع"
+    },
+    "channel": {
+      "qr_table": "تناول داخل المطعم",
+      "delivery": "توصيل",
+      "pickup": "استلام",
+      "pre_order": "طلب مسبق"
+    },
+    "status": {
+      "placed": "تم الاستلام",
+      "confirmed": "تم التأكيد",
+      "grilling": "على الشواية",
+      "kitchen_prep": "التحضير في المطبخ",
+      "plating": "التجهيز في الطبق",
+      "ready": "جاهز",
+      "served": "تم التقديم",
+      "completed": "مكتمل",
+      "out_for_delivery": "في الطريق",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغى",
+      "voided": "ملغى"
+    }
+  },
+  "shifts": {
+    "title": "الوردية",
+    "openShift": "فتح الوردية",
+    "openingBalancePlaceholder": "الرصيد النقدي الافتتاحي",
+    "open": "فتح",
+    "shiftOpen": "الوردية مفتوحة",
+    "since": "منذ {time} · الافتتاحي: {amount} ريال",
+    "pettyCash": "المصروفات النثرية",
+    "amountPlaceholder": "المبلغ",
+    "reasonPlaceholder": "السبب",
+    "log": "تسجيل",
+    "logWaste": "تسجيل هدر",
+    "selectItem": "اختر الصنف…",
+    "weightPlaceholder": "الوزن (جم، اختياري)",
+    "qtyPlaceholder": "الكمية",
+    "wasteReasons": {
+      "dropped": "سقط",
+      "quality_reject": "رفض جودة",
+      "expired": "منتهي الصلاحية",
+      "other": "أخرى"
+    },
+    "noSaleDrawerOpen": "فتح الدرج بدون بيع",
+    "closeShift": "إغلاق الوردية",
+    "countedCashPlaceholder": "النقد المعدود",
+    "close": "إغلاق",
+    "zReport": "تقرير الإغلاق",
+    "expectedCash": "النقد المتوقع",
+    "variance": "الفرق"
+  },
+  "settings": {
+    "hardware": "الأجهزة",
+    "receiptPrinters": "طابعات الفواتير",
+    "printerExplain": "سجّل طابعة حرارية أساسية وأخرى ثانوية (USB/تسلسلي). إذا نفد الورق من الأساسية أو تعذّر الوصول إليها وقت الطباعة، تنتقل المهام تلقائيًا إلى الثانوية، ثم إلى نافذة طباعة المتصفح كحل أخير.",
+    "registerPrimary": "تسجيل الطابعة الأساسية",
+    "primaryRegistered": "الأساسية ✓ مسجّلة",
+    "registerSecondary": "تسجيل الطابعة الثانوية",
+    "secondaryRegistered": "الثانوية ✓ مسجّلة",
+    "electronicScale": "الميزان الإلكتروني",
+    "notSupported": "هذا المتصفح لا يدعم Web Serial — ستستخدم شاشة إدخال الوزن الإدخال اليدوي دائمًا هنا.",
+    "connectOnce": "قم بالتوصيل مرة واحدة لكل جهاز. يتحوّل إدخال الوزن تلقائيًا إلى الإدخال اليدوي إذا انقطع اتصال الميزان أثناء الخدمة.",
+    "connectScale": "توصيل الميزان",
+    "connected": "متصل ✓",
+    "liveReading": "القراءة المباشرة: {kg} كجم {status}",
+    "stable": "(مستقر)",
+    "settling": "(جارٍ الاستقرار…)",
+    "failedActions": "الإجراءات غير المتصلة الفاشلة",
+    "failedActionsExplain": "لم تتم مزامنة هذه العناصر بعد المحاولة — غالبًا رفض فعلي (مثل نفاد الكمية)، وليس مجرد انقطاع شبكة مؤقت. أعد المحاولة بعد معالجة السبب، أو تجاهلها إذا لم تعد ذات صلة.",
+    "printerNotSupported": "Web Serial غير مدعوم في هذا المتصفح.",
+    "printerError": "تعذّر تسجيل الطابعة."
+  }
+}

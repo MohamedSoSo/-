@@ -5,7 +5,8 @@ export type BcgQuadrant = "star" | "plowhorse" | "puzzle" | "dog";
 
 export interface BcgMenuItem {
   menuItemId: string;
-  name: string;
+  nameEn: string;
+  nameAr: string;
   unitsSold: number;
   revenue: number;
   cogsTotal: number;
@@ -19,11 +20,13 @@ export interface BcgMenuItem {
  * generated no revenue.
  */
 export function computeBcgMatrix(dataset: BiDataset): BcgMenuItem[] {
-  const byItem = new Map<string, { name: string; unitsSold: number; revenue: number; cogsTotal: number }>();
+  const byItem = new Map<string, { nameEn: string; nameAr: string; unitsSold: number; revenue: number; cogsTotal: number }>();
 
   for (const item of dataset.orderItems) {
     if (item.status === "voided") continue;
-    const entry = byItem.get(item.menu_item_id) ?? { name: item.menu_item_name, unitsSold: 0, revenue: 0, cogsTotal: 0 };
+    const entry =
+      byItem.get(item.menu_item_id) ??
+      { nameEn: item.menu_item_name_en, nameAr: item.menu_item_name_ar, unitsSold: 0, revenue: 0, cogsTotal: 0 };
     entry.unitsSold += item.quantity;
     entry.revenue += item.line_total;
     entry.cogsTotal += computeCogs(item, dataset.ingredientUsage, dataset.ingredients) * item.quantity;
@@ -32,7 +35,8 @@ export function computeBcgMatrix(dataset: BiDataset): BcgMenuItem[] {
 
   const rows = Array.from(byItem.entries()).map(([menuItemId, v]) => ({
     menuItemId,
-    name: v.name,
+    nameEn: v.nameEn,
+    nameAr: v.nameAr,
     unitsSold: v.unitsSold,
     revenue: round2(v.revenue),
     cogsTotal: round2(v.cogsTotal),

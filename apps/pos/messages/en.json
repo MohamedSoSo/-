@@ -1,0 +1,195 @@
+{
+  "metadata": {
+    "title": "Smart BBQ — POS / KDS",
+    "description": "Staff point-of-sale and kitchen display system."
+  },
+  "common": {
+    "sar": "SAR",
+    "cancel": "Cancel"
+  },
+  "supervisorPin": {
+    "heading": "Supervisor approval",
+    "errorPinInvalid": "That PIN isn't authorized to approve this.",
+    "errorZatcaLocked": "This order was already invoiced — issue a credit note instead.",
+    "errorDiscountExceedsTotal": "Discount can't exceed the order total.",
+    "errorGeneric": "Something went wrong. Please try again."
+  },
+  "doneness": {
+    "rare": "Rare",
+    "medium_rare": "Medium Rare",
+    "medium": "Medium",
+    "medium_well": "Medium Well",
+    "well_done": "Well Done"
+  },
+  "staffHeader": {
+    "floor": "Floor",
+    "kitchen": "Kitchen",
+    "shift": "Shift",
+    "hardware": "Hardware"
+  },
+  "login": {
+    "title": "Terminal login",
+    "subtitle": "Sign in once per shift/device. Staff switch with a PIN after this."
+  },
+  "phoneAuth": {
+    "invalidPhone": "Enter a valid phone number.",
+    "otpSentTo": "Enter the code sent to {phone}.",
+    "verifying": "Verifying…",
+    "openTerminal": "Open terminal",
+    "sending": "Sending…",
+    "sendCode": "Send code"
+  },
+  "offline": {
+    "syncing": "Syncing queued orders…",
+    "waitingToSync": "{count} order(s) waiting to sync",
+    "offlineQueued": "Offline — orders and payments are being queued locally",
+    "failedActions": "{count} queued action(s) failed and need review — check Settings"
+  },
+  "floor": {
+    "title": "Floor",
+    "seats": "{count} seats",
+    "newOrderAriaLabel": "New order for {label}",
+    "status": {
+      "free": "free",
+      "occupied": "occupied",
+      "reserved": "reserved",
+      "needs_cleaning": "needs cleaning"
+    }
+  },
+  "newOrder": {
+    "title": "New order",
+    "sendOrder": "Send order — {total} SAR",
+    "placing": "Placing…"
+  },
+  "kds": {
+    "title": "Kitchen",
+    "grillStation": "Grill station",
+    "assemblyDrinks": "Assembly / Drinks",
+    "noActiveTickets": "No active tickets.",
+    "nextStatus": {
+      "grilling": "grilling",
+      "kitchen_prep": "kitchen prep",
+      "ready": "ready",
+      "served": "served",
+      "done": "Done"
+    }
+  },
+  "weightModal": {
+    "cancel": "Cancel",
+    "ordered": "Ordered: {grams}g",
+    "scale": "Scale",
+    "manual": "Manual",
+    "connectScale": "Connect scale",
+    "waitingForReading": "Waiting for reading…",
+    "settling": "settling…",
+    "noSignal": "No signal from scale — it may have disconnected. Switch to manual entry.",
+    "switchToManual": "— switch to manual entry.",
+    "confirmWeight": "Confirm weight",
+    "weightInGrams": "Weight in grams",
+    "reasonPlaceholder": "Reason (scale unavailable, disconnected...)"
+  },
+  "orderDetail": {
+    "table": "Table {label}",
+    "zatcaUnsigned": "ZATCA: unsigned (stub)",
+    "void": "Void",
+    "subtotal": "Subtotal",
+    "vat": "VAT ({rate}%)",
+    "discount": "Discount",
+    "total": "Total",
+    "paid": "Paid",
+    "balanceDue": "Balance due",
+    "discountSection": "Discount",
+    "amountPlaceholder": "Amount",
+    "reasonPlaceholder": "Reason",
+    "apply": "Apply",
+    "paymentsSection": "Payments (split-bill friendly — add as many as needed)",
+    "add": "Add",
+    "transferTable": "Transfer table",
+    "moveTo": "Move to…",
+    "working": "Working…",
+    "printReceipt": "Print receipt",
+    "finalizeAndPrint": "Finalize invoice & print",
+    "approveVoid": "Approve void — cooked grill items convert to waste automatically.",
+    "approveDiscount": "Approve {amount} SAR discount — {reason}",
+    "printedViaBrowser": "Printed via browser (no thermal printer responded): {error}",
+    "printedViaSecondary": "Primary printer unavailable — printed via secondary printer.",
+    "printFailed": "Failed to finalize/print.",
+    "unknownItem": "Item",
+    "paymentMethods": {
+      "cash": "Cash",
+      "card": "Card",
+      "apple_pay": "Apple Pay",
+      "terminal": "Terminal"
+    },
+    "channel": {
+      "qr_table": "dine-in",
+      "delivery": "delivery",
+      "pickup": "pickup",
+      "pre_order": "pre-order"
+    },
+    "status": {
+      "placed": "placed",
+      "confirmed": "confirmed",
+      "grilling": "grilling",
+      "kitchen_prep": "kitchen prep",
+      "plating": "plating",
+      "ready": "ready",
+      "served": "served",
+      "completed": "completed",
+      "out_for_delivery": "out for delivery",
+      "delivered": "delivered",
+      "cancelled": "cancelled",
+      "voided": "voided"
+    }
+  },
+  "shifts": {
+    "title": "Shift",
+    "openShift": "Open shift",
+    "openingBalancePlaceholder": "Opening cash balance",
+    "open": "Open",
+    "shiftOpen": "Shift open",
+    "since": "Since {time} · Opening: {amount} SAR",
+    "pettyCash": "Petty cash",
+    "amountPlaceholder": "Amount",
+    "reasonPlaceholder": "Reason",
+    "log": "Log",
+    "logWaste": "Log waste",
+    "selectItem": "Select item…",
+    "weightPlaceholder": "Weight (g, optional)",
+    "qtyPlaceholder": "Qty",
+    "wasteReasons": {
+      "dropped": "Dropped",
+      "quality_reject": "Quality reject",
+      "expired": "Expired",
+      "other": "Other"
+    },
+    "noSaleDrawerOpen": "No-sale drawer open",
+    "closeShift": "Close shift",
+    "countedCashPlaceholder": "Counted cash",
+    "close": "Close",
+    "zReport": "Z-Report",
+    "expectedCash": "Expected cash",
+    "variance": "Variance"
+  },
+  "settings": {
+    "hardware": "Hardware",
+    "receiptPrinters": "Receipt printers",
+    "printerExplain": "Register a primary and secondary thermal printer (USB/serial). If the primary is out of paper or unreachable at print time, jobs automatically fail over to the secondary, then to the browser print dialog as a last resort.",
+    "registerPrimary": "Register primary",
+    "primaryRegistered": "Primary ✓ registered",
+    "registerSecondary": "Register secondary",
+    "secondaryRegistered": "Secondary ✓ registered",
+    "electronicScale": "Electronic scale",
+    "notSupported": "This browser doesn't support Web Serial — the weight entry screen will always use manual entry here.",
+    "connectOnce": "Connect once per device. Weight entry falls back to manual entry automatically if the scale disconnects mid-service.",
+    "connectScale": "Connect scale",
+    "connected": "Connected ✓",
+    "liveReading": "Live reading: {kg} kg {status}",
+    "stable": "(stable)",
+    "settling": "(settling…)",
+    "failedActions": "Failed offline actions",
+    "failedActionsExplain": "These didn't sync after retrying — usually a real rejection (e.g. sold out), not a network blip. Retry after fixing the underlying issue, or discard if it's no longer relevant.",
+    "printerNotSupported": "Web Serial not supported in this browser.",
+    "printerError": "Couldn't register printer."
+  }
+}

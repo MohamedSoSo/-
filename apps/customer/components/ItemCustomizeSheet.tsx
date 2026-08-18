@@ -2,22 +2,20 @@
 
 import { useMemo, useState } from "react";
 import { Minus, Plus } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
+import { localizedField, localizedFieldNullable, type Locale } from "@bbq/i18n";
 import type { DonenessLevel } from "@bbq/types";
 import type { MenuItemView } from "@/lib/menu-data";
 import { useCartStore } from "@/lib/cart-store";
 import { round2 } from "@/lib/pricing";
 import { BottomSheet } from "./BottomSheet";
 
-const DONENESS_LABELS: Record<DonenessLevel, string> = {
-  rare: "Rare",
-  medium_rare: "Medium Rare",
-  medium: "Medium",
-  medium_well: "Medium Well",
-  well_done: "Well Done",
-};
-
 export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onClose: () => void }) {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("itemSheet");
+  const tCommon = useTranslations("common");
+  const tDoneness = useTranslations("doneness");
   const addItem = useCartStore((s) => s.addItem);
 
   const [displayUnit, setDisplayUnit] = useState<"g" | "kg">(item.default_weight_unit);
@@ -28,6 +26,8 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
   const [notes, setNotes] = useState("");
 
   const weightTier = item.weight_tiers.find((t) => t.id === weightTierId) ?? null;
+  const itemName = localizedField(item.name_en, item.name_ar, locale);
+  const itemDescription = localizedFieldNullable(item.description_en, item.description_ar, locale);
 
   const flatSelectedModifiers = useMemo(() => {
     return item.modifier_groups.flatMap((g) =>
@@ -76,38 +76,42 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
 
   return (
     <BottomSheet
-      title={item.name_en}
+      title={itemName}
       onClose={onClose}
       footer={
         <div className="space-y-3">
           {unmetRequiredGroups.length > 0 && (
             <p className="text-xs text-ember-400">
-              Choose {unmetRequiredGroups.map((g) => g.name_en.toLowerCase()).join(", ")} to continue.
+              {t("chooseToContinue", {
+                groups: unmetRequiredGroups
+                  .map((g) => localizedField(g.name_en, g.name_ar, locale).toLowerCase())
+                  .join(locale === "ar" ? "، " : ", "),
+              })}
             </p>
           )}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-3 rounded-full border border-white/10 px-3 py-2">
-              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} aria-label="Decrease quantity">
+              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} aria-label={tCommon("decreaseQuantity")}>
                 <Minus size={16} className="text-smoke-400" />
               </button>
               <span className="text-white w-5 text-center">{quantity}</span>
-              <button onClick={() => setQuantity((q) => q + 1)} aria-label="Increase quantity">
+              <button onClick={() => setQuantity((q) => q + 1)} aria-label={tCommon("increaseQuantity")}>
                 <Plus size={16} className="text-smoke-400" />
               </button>
             </div>
             <Button variant="primary" size="lg" className="flex-1" disabled={!canAdd} onClick={handleAdd}>
-              Add to cart — {round2(unitPrice * quantity).toFixed(2)} SAR
+              {t("addToCart", { price: round2(unitPrice * quantity).toFixed(2) })}
             </Button>
           </div>
         </div>
       }
     >
-      {item.description_en && <p className="text-sm text-smoke-400 mb-5">{item.description_en}</p>}
+      {itemDescription && <p className="text-sm text-smoke-400 mb-5">{itemDescription}</p>}
 
       {item.is_weight_based && item.weight_tiers.length > 0 && (
         <section className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-charcoal-100">Weight</h3>
+            <h3 className="text-sm font-medium text-charcoal-100">{t("weight")}</h3>
             <div className="flex rounded-full border border-white/10 p-0.5 text-xs">
               {(["g", "kg"] as const).map((u) => (
                 <button
@@ -135,7 +139,7 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
                   {displayUnit === "kg" ? `${(tier.grams / 1000).toFixed(tier.grams % 1000 === 0 ? 0 : 2)}kg` : tier.label}
                 </p>
                 <p className="text-xs text-smoke-500">
-                  {round2(item.base_price * tier.price_multiplier).toFixed(0)} SAR
+                  {round2(item.base_price * tier.price_multiplier).toFixed(0)} {tCommon("sar")}
                 </p>
               </button>
             ))}
@@ -145,7 +149,7 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
 
       {item.supports_doneness && item.available_doneness_levels.length > 0 && (
         <section className="mb-6">
-          <h3 className="text-sm font-medium text-charcoal-100 mb-2">Doneness</h3>
+          <h3 className="text-sm font-medium text-charcoal-100 mb-2">{t("doneness")}</h3>
           <div className="flex flex-wrap gap-2">
             {item.available_doneness_levels.map((level) => (
               <button
@@ -155,7 +159,7 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
                   doneness === level ? "border-ember-500 bg-ember-500/10 text-white" : "border-white/10 text-charcoal-100"
                 }`}
               >
-                {DONENESS_LABELS[level]}
+                {tDoneness(level)}
               </button>
             ))}
           </div>
@@ -165,10 +169,10 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
       {item.modifier_groups.map((group) => (
         <section key={group.id} className="mb-6">
           <h3 className="text-sm font-medium text-charcoal-100 mb-2">
-            {group.name_en}
-            {group.is_required && <span className="text-ember-400"> · required</span>}
+            {localizedField(group.name_en, group.name_ar, locale)}
+            {group.is_required && <span className="text-ember-400"> · {t("required")}</span>}
             {group.selection_type === "multiple" && (
-              <span className="text-smoke-500"> · up to {group.max_select}</span>
+              <span className="text-smoke-500"> · {t("upTo", { count: group.max_select })}</span>
             )}
           </h3>
           <div className="space-y-2">
@@ -182,8 +186,10 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
                     isSelected ? "border-ember-500 bg-ember-500/10 text-white" : "border-white/10 text-charcoal-100"
                   }`}
                 >
-                  <span>{mod.name_en}</span>
-                  <span className="text-smoke-400">{mod.price_delta > 0 ? `+${mod.price_delta.toFixed(0)} SAR` : "Free"}</span>
+                  <span>{localizedField(mod.name_en, mod.name_ar, locale)}</span>
+                  <span className="text-smoke-400">
+                    {mod.price_delta > 0 ? t("priceAdd", { price: mod.price_delta.toFixed(0) }) : t("free")}
+                  </span>
                 </button>
               );
             })}
@@ -192,11 +198,11 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
       ))}
 
       <section>
-        <h3 className="text-sm font-medium text-charcoal-100 mb-2">Notes</h3>
+        <h3 className="text-sm font-medium text-charcoal-100 mb-2">{t("notes")}</h3>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value.slice(0, 280))}
-          placeholder="Any special requests?"
+          placeholder={t("notesPlaceholder")}
           rows={2}
           className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-smoke-500 focus:border-ember-500 focus:outline-none"
         />

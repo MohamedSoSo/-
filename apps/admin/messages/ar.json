@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "title": "سمارت باربكيو — الإدارة",
+    "description": "مركز تحكم المالك والمطور."
+  },
+  "home": {
+    "heading": "الإدارة",
+    "body": "تحليلات المالك ترتبط بتطبيق <bi>bi</bi>. مركز التحكم التقني المخفي موجود في <link>/admin/developer</link> — مقتصر على دور <developer>developer</developer>."
+  },
+  "login": {
+    "heading": "تسجيل الدخول",
+    "body": "واجهة مصادقة Supabase (بريد إلكتروني/كلمة مرور + رابط سحري) سيتم ربطها في المرحلة الثانية."
+  },
+  "unauthorized": {
+    "title": "تم رفض الوصول",
+    "restrictedTo": "بوابة المطورين مقتصرة على دور <code>developer</code>.",
+    "currentlySignedInAs": "أنت مسجّل الدخول حاليًا بصفة <code>{role}</code> — على localhost، تُشارك جلسات التطوير عبر منافذ جميع تطبيقات سمارت باربكيو، لذا فإن تسجيل الدخول إلى تطبيق آخر أولًا (نقطة البيع، العميل...) ينقل ذلك الدور إلى هنا.",
+    "signInAsDeveloper": "تسجيل الدخول كمطوّر (للتطوير فقط)"
+  },
+  "developerPortal": {
+    "title": "بوابة المطورين",
+    "subtitle": "مركز التحكم الحي — الهوية البصرية والمظهر وأعلام الميزات عبر التطبيقات الأربعة. التعديلات هنا لا تتطلب نشر كود جديد أبدًا؛ يتم تسجيل كل تعديل في <auditLogs>audit_logs</auditLogs> عبر سياسات RLS المقتصرة على <developer>developer</developer>.",
+    "featureFlags": "أعلام الميزات",
+    "noFlags": "لا توجد أعلام ميزات بعد.",
+    "brandAssets": "أصول الهوية البصرية",
+    "themeTokens": "رموز المظهر",
+    "noThemeRows": "لا توجد صفوف مظهر بعد.",
+    "assetSlots": {
+      "logo_primary": "الشعار الأساسي",
+      "logo_monochrome": "الشعار أحادي اللون",
+      "favicon": "أيقونة الموقع",
+      "hero_bg_customer": "خلفية الصفحة الرئيسية — تطبيق العميل",
+      "hero_bg_pos": "خلفية الصفحة الرئيسية — نقطة البيع",
+      "login_bg": "خلفية صفحة تسجيل الدخول"
+    }
+  },
+  "featureFlagRow": {
+    "rollout": "نسبة الطرح {pct}%",
+    "updateFailed": "تعذّر تحديث العلم"
+  },
+  "assetUploader": {
+    "invalidType": "استخدم PNG أو JPEG أو WebP أو SVG أو ICO.",
+    "tooLarge": "الحد الأقصى 5 ميجابايت.",
+    "notSignedIn": "غير مسجّل الدخول.",
+    "noAsset": "لا يوجد أصل محدد",
+    "uploading": "جارٍ الرفع…",
+    "replace": "استبدال",
+    "upload": "رفع",
+    "saved": "تم الحفظ"
+  },
+  "themeEditor": {
+    "saving": "جارٍ الحفظ…",
+    "saved": "تم الحفظ",
+    "save": "حفظ",
+    "tokens": {
+      "--brand-bg": "الخلفية",
+      "--brand-accent": "لون التمييز",
+      "--brand-surface": "السطح"
+    }
+  },
+  "credentialsPanel": {
+    "title": "بيانات اعتماد واجهات البرمجة",
+    "subtitle": "الحالة فقط — قم بتعيين هذه القيم في ملف <envLocal>.env.local</envLocal> الخاص بكل تطبيق (أو متغيرات البيئة لدى مزوّد الاستضافة في بيئة الإنتاج)، وليس أبدًا في قاعدة البيانات.",
+    "configured": "مُهيّأ",
+    "notSet": "غير مُعيّن",
+    "checks": {
+      "supabaseServiceRole": "دور خدمة Supabase",
+      "zatcaCertificate": "شهادة زاتكا",
+      "zatcaPrivateKey": "المفتاح الخاص لزاتكا",
+      "mapsApiKey": "مفتاح واجهة الخرائط",
+      "twilioAccountSid": "معرّف حساب Twilio",
+      "twilioAuthToken": "رمز مصادقة Twilio",
+      "paymentGatewayKey": "مفتاح بوابة الدفع"
+    }
+  },
+  "demoDataPurge": {
+    "title": "حذف البيانات التجريبية",
+    "explain": "يحذف نهائيًا كل طلب (وأصنافه ومدفوعاته وهدره وسجلات ورديته) تم إنشاؤه ضمن النطاق الزمني الذي تحدده — لا توجد طريقة للتمييز بين الطلبات التجريبية والحقيقية بخلاف التواريخ التي تختارها. لا يمكن التراجع عن هذا الإجراء. استخدمه لمسح بيانات التجربة قبل تسليم التطبيق لمالك المطعم.",
+    "typePhrase": "اكتب <code>{phrase}</code> لتفعيل الزر",
+    "purging": "جارٍ الحذف…",
+    "permanentlyDelete": "حذف نهائي",
+    "result": "تم حذف {count} طلب (مع أصنافه ومدفوعاته) بين {start} و{end}."
+  }
+}

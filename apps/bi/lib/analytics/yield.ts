@@ -12,7 +12,8 @@ function shiftOf(hour: number): ShiftLabel {
 
 export interface YieldRow {
   categoryId: string;
-  categoryName: string;
+  categoryNameEn: string;
+  categoryNameAr: string;
   expectedShrinkagePct: number | null;
   observedShrinkagePct: number; // average across measured items
   excessLossPct: number | null; // observed - expected, null if no expectation configured
@@ -24,7 +25,9 @@ export interface YieldRow {
 
 export interface ShiftYieldRow {
   shift: ShiftLabel;
-  categoryName: string;
+  categoryId: string;
+  categoryNameEn: string;
+  categoryNameAr: string;
   observedShrinkagePct: number;
   sampleCount: number;
 }
@@ -72,7 +75,8 @@ export function computeYieldAnalytics(dataset: BiDataset): YieldAnalytics {
     const observed = acc.count ? acc.shrinkageSum / acc.count : 0;
     return {
       categoryId,
-      categoryName: category?.name_en ?? "Unknown",
+      categoryNameEn: category?.name_en ?? "Unknown",
+      categoryNameAr: category?.name_ar ?? "غير معروف",
       expectedShrinkagePct: category?.expected_shrinkage_pct ?? null,
       observedShrinkagePct: round3(observed),
       excessLossPct: category?.expected_shrinkage_pct != null ? round3(observed - category.expected_shrinkage_pct) : null,
@@ -83,11 +87,13 @@ export function computeYieldAnalytics(dataset: BiDataset): YieldAnalytics {
     };
   });
 
+  // Keyed by categoryId (not the display name) — same grouping semantics as
+  // before (categories are already 1:1 with their name), just a more direct
+  // identity to key on now that the display name is bilingual.
   const byShiftAcc = new Map<string, { shrinkageSum: number; count: number }>();
   for (const item of measured) {
-    const category = categoryById.get(item.category_id);
     const shift = shiftOf(new Date(item.created_at).getHours());
-    const key = `${shift}::${category?.name_en ?? "Unknown"}`;
+    const key = `${shift}::${item.category_id}`;
     const acc = byShiftAcc.get(key) ?? { shrinkageSum: 0, count: 0 };
     acc.shrinkageSum += (item.weight_grams_ordered! - item.weight_grams_actual!) / item.weight_grams_ordered!;
     acc.count += 1;
@@ -95,8 +101,16 @@ export function computeYieldAnalytics(dataset: BiDataset): YieldAnalytics {
   }
 
   const byShift: ShiftYieldRow[] = Array.from(byShiftAcc.entries()).map(([key, acc]) => {
-    const [shift, categoryName] = key.split("::") as [ShiftLabel, string];
-    return { shift, categoryName, observedShrinkagePct: round3(acc.shrinkageSum / acc.count), sampleCount: acc.count };
+    const [shift, categoryId] = key.split("::") as [ShiftLabel, string];
+    const category = categoryById.get(categoryId);
+    return {
+      shift,
+      categoryId,
+      categoryNameEn: category?.name_en ?? "Unknown",
+      categoryNameAr: category?.name_ar ?? "غير معروف",
+      observedShrinkagePct: round3(acc.shrinkageSum / acc.count),
+      sampleCount: acc.count,
+    };
   });
 
   const totalDeclaredWasteKg = round2(
@@ -108,7 +122,8 @@ export function computeYieldAnalytics(dataset: BiDataset): YieldAnalytics {
 
 // ── predictive purchasing: day-of-week moving average of raw kg ordered ────
 export interface PurchasingForecastRow {
-  categoryName: string;
+  categoryNameEn: string;
+  categoryNameAr: string;
   dayOfWeek: string;
   avgKgPerDay: number;
   sampleDays: number;
@@ -148,7 +163,8 @@ export function computePurchasingForecast(dataset: BiDataset): PurchasingForecas
     if (!category) continue;
     const avg = acc.sum / acc.days;
     rows.push({
-      categoryName: category.name_en,
+      categoryNameEn: category.name_en,
+      categoryNameAr: category.name_ar,
       dayOfWeek: DOW_NAMES[Number(dowStr)]!,
       avgKgPerDay: round2(avg),
       sampleDays: acc.days,

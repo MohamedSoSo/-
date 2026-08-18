@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { useCartStore } from "@/lib/cart-store";
 
@@ -11,6 +12,7 @@ import { useCartStore } from "@/lib/cart-store";
  * the URL can't silently route someone's order to another table.
  */
 export function TableLock() {
+  const t = useTranslations("tableLock");
   const searchParams = useSearchParams();
   const token = searchParams.get("table");
   const lockToTable = useCartStore((s) => s.lockToTable);
@@ -43,17 +45,13 @@ export function TableLock() {
   if (orderMode === "qr_table" && tableLabel) {
     return (
       <div className="bg-ember-500 text-charcoal-900 text-sm font-medium text-center py-2">
-        Ordering for Table {tableLabel}
+        {t("orderingForTable", { label: tableLabel })}
       </div>
     );
   }
 
   if (notFound) {
-    return (
-      <div className="bg-red-500/20 text-red-300 text-sm text-center py-2">
-        That table QR code isn't recognized — you can still order for pickup or delivery.
-      </div>
-    );
+    return <div className="bg-red-500/20 text-red-300 text-sm text-center py-2">{t("notFound")}</div>;
   }
 
   return null;

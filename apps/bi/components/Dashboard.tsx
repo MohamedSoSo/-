@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import type { DateRangePreset } from "@/lib/date-range";
 import type { FinancialOverview, DailyRevenuePoint } from "@/lib/analytics/financial";
 import type { BcgMenuItem } from "@/lib/analytics/bcg";
@@ -25,8 +26,8 @@ import { ZReportTable } from "./ZReportTable";
 import { CogsPanel } from "./CogsPanel";
 import { RfmPanel } from "./RfmPanel";
 
-const TABS = ["Overview", "Menu Engineering", "Yield & Purchasing", "Operations", "Customers & Finance"] as const;
-type Tab = (typeof TABS)[number];
+const TAB_KEYS = ["overview", "menuEngineering", "yieldPurchasing", "operations", "customersFinance"] as const;
+type Tab = (typeof TAB_KEYS)[number];
 
 export interface DashboardData {
   rangePreset: DateRangePreset;
@@ -54,38 +55,56 @@ function pctDelta(current: number, prior: number): number | null {
 }
 
 export function Dashboard({ data }: { data: DashboardData }) {
-  const [tab, setTab] = useState<Tab>("Overview");
+  const t = useTranslations("dashboard");
+  const tCommon = useTranslations("common");
+  const [tab, setTab] = useState<Tab>("overview");
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-6 pb-16">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <h1 className="text-2xl font-semibold text-white">Owner BI</h1>
+        <h1 className="text-2xl font-semibold text-white">{t("title")}</h1>
         <DateRangeFilter current={data.rangePreset} />
       </div>
 
       <InsightsBanner insights={data.insights} />
 
       <div className="flex gap-1 overflow-x-auto mb-6 border-b border-white/5">
-        {TABS.map((t) => (
+        {TAB_KEYS.map((key) => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
+            key={key}
+            onClick={() => setTab(key)}
             className={`shrink-0 px-4 py-2 text-sm border-b-2 transition-colors ${
-              tab === t ? "border-ember-500 text-white font-medium" : "border-transparent text-smoke-400"
+              tab === key ? "border-ember-500 text-white font-medium" : "border-transparent text-smoke-400"
             }`}
           >
-            {t}
+            {t(`tabs.${key}`)}
           </button>
         ))}
       </div>
 
-      {tab === "Overview" && (
+      {tab === "overview" && (
         <div className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <StatTile label="Revenue" value={`${data.financial.revenue.toFixed(0)} SAR`} deltaPct={pctDelta(data.financial.revenue, data.priorFinancial.revenue)} />
-            <StatTile label="Net profit" value={`${data.financial.netProfit.toFixed(0)} SAR`} deltaPct={pctDelta(data.financial.netProfit, data.priorFinancial.netProfit)} />
-            <StatTile label="Orders" value={String(data.financial.completedOrderCount)} deltaPct={pctDelta(data.financial.completedOrderCount, data.priorFinancial.completedOrderCount)} />
-            <StatTile label="Avg order value" value={`${data.financial.avgOrderValue.toFixed(0)} SAR`} deltaPct={pctDelta(data.financial.avgOrderValue, data.priorFinancial.avgOrderValue)} />
+            <StatTile
+              label={t("revenue")}
+              value={`${data.financial.revenue.toFixed(0)} ${tCommon("sar")}`}
+              deltaPct={pctDelta(data.financial.revenue, data.priorFinancial.revenue)}
+            />
+            <StatTile
+              label={t("netProfit")}
+              value={`${data.financial.netProfit.toFixed(0)} ${tCommon("sar")}`}
+              deltaPct={pctDelta(data.financial.netProfit, data.priorFinancial.netProfit)}
+            />
+            <StatTile
+              label={t("orders")}
+              value={String(data.financial.completedOrderCount)}
+              deltaPct={pctDelta(data.financial.completedOrderCount, data.priorFinancial.completedOrderCount)}
+            />
+            <StatTile
+              label={t("avgOrderValue")}
+              value={`${data.financial.avgOrderValue.toFixed(0)} ${tCommon("sar")}`}
+              deltaPct={pctDelta(data.financial.avgOrderValue, data.priorFinancial.avgOrderValue)}
+            />
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
             <div className="lg:col-span-2">
@@ -96,19 +115,19 @@ export function Dashboard({ data }: { data: DashboardData }) {
         </div>
       )}
 
-      {tab === "Menu Engineering" && (
+      {tab === "menuEngineering" && (
         <div className="grid gap-4 lg:grid-cols-2">
           <BcgScatter items={data.bcg} />
           <CogsPanel ingredients={data.ingredients} usage={data.ingredientUsage} bcgItems={data.bcg} />
         </div>
       )}
 
-      {tab === "Yield & Purchasing" && (
+      {tab === "yieldPurchasing" && (
         <div className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-2">
-            <StatTile label="Logged waste (dropped/reject/etc.)" value={`${data.yieldAnalytics.totalDeclaredWasteKg.toFixed(1)} kg`} />
+            <StatTile label={t("loggedWaste")} value={`${data.yieldAnalytics.totalDeclaredWasteKg.toFixed(1)} kg`} />
             <StatTile
-              label="Unaccounted loss beyond expected"
+              label={t("unaccountedLoss")}
               value={`${data.yieldAnalytics.byCategory.reduce((s, c) => s + c.totalUnaccountedLossKg, 0).toFixed(1)} kg`}
             />
           </div>
@@ -119,7 +138,7 @@ export function Dashboard({ data }: { data: DashboardData }) {
         </div>
       )}
 
-      {tab === "Operations" && (
+      {tab === "operations" && (
         <div className="space-y-4">
           <HourlyHeatmap cells={data.heatmap} />
           <div className="grid gap-4 lg:grid-cols-2">
@@ -129,7 +148,7 @@ export function Dashboard({ data }: { data: DashboardData }) {
         </div>
       )}
 
-      {tab === "Customers & Finance" && (
+      {tab === "customersFinance" && (
         <div className="grid gap-4 lg:grid-cols-2">
           <RfmPanel rows={data.rfm} />
           <ZReportTable shifts={data.shifts} staffNames={data.staffNames} />

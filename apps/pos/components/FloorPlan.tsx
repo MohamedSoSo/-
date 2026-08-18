@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type { FloorTable } from "@/lib/floor-data";
 import type { TableStatus } from "@bbq/types";
 import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "@/i18n/navigation";
 
 const STATUS_COLOR: Record<TableStatus, string> = {
   free: "bg-emerald-500/20 border-emerald-500/50 text-emerald-300",
@@ -14,6 +15,8 @@ const STATUS_COLOR: Record<TableStatus, string> = {
 };
 
 export function FloorPlan({ initialTables }: { initialTables: FloorTable[] }) {
+  const t = useTranslations("floor");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const [tables, setTables] = useState(initialTables);
 
@@ -64,18 +67,20 @@ export function FloorPlan({ initialTables }: { initialTables: FloorTable[] }) {
         >
           <button onClick={() => cycleStatus(table)} className="flex flex-col items-center">
             <span className="font-semibold text-lg">{table.label}</span>
-            <span className="text-xs opacity-80">{table.seats} seats</span>
+            <span className="text-xs opacity-80">{t("seats", { count: table.seats })}</span>
             {table.active_order ? (
-              <span className="text-xs font-medium mt-1">{table.active_order.grand_total.toFixed(0)} SAR</span>
+              <span className="text-xs font-medium mt-1">
+                {table.active_order.grand_total.toFixed(0)} {tCommon("sar")}
+              </span>
             ) : (
-              <span className="text-xs capitalize opacity-80">{table.status.replace("_", " ")}</span>
+              <span className="text-xs opacity-80">{t(`status.${table.status}`)}</span>
             )}
           </button>
           {!table.active_order && (
             <button
               onClick={() => router.push(`/floor/${table.id}/new`)}
-              className="absolute -bottom-2 -right-2 h-7 w-7 rounded-full bg-white/10 border border-white/20 text-white text-sm hover:bg-white/20"
-              aria-label={`New order for ${table.label}`}
+              className="absolute -bottom-2 -end-2 h-7 w-7 rounded-full bg-white/10 border border-white/20 text-white text-sm hover:bg-white/20"
+              aria-label={t("newOrderAriaLabel", { label: table.label })}
             >
               +
             </button>

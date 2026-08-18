@@ -32,6 +32,7 @@ export interface MenuItemView {
   name_en: string;
   name_ar: string;
   description_en: string | null;
+  description_ar: string | null;
   base_price: number;
   is_weight_based: boolean;
   default_weight_unit: "g" | "kg";
@@ -62,7 +63,7 @@ export async function getMenuData(): Promise<MenuCategoryView[]> {
     supabase
       .from("menu_items")
       .select(
-        "id, name_en, name_ar, description_en, base_price, is_weight_based, default_weight_unit, supports_doneness, available_doneness_levels, image_asset_key, item_type, default_station, stock_quantity, category_id"
+        "id, name_en, name_ar, description_en, description_ar, base_price, is_weight_based, default_weight_unit, supports_doneness, available_doneness_levels, image_asset_key, item_type, default_station, stock_quantity, category_id"
       )
       .is("deleted_at", null)
       .eq("is_active", true),

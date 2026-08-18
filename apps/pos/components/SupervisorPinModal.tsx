@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, ShieldAlert } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { PinPad } from "./PinPad";
 
 export function SupervisorPinModal({
@@ -14,6 +15,8 @@ export function SupervisorPinModal({
   onApprove: (pin: string) => Promise<void>;
   onClose: () => void;
 }) {
+  const t = useTranslations("supervisorPin");
+  const tCommon = useTranslations("common");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,7 +27,7 @@ export function SupervisorPinModal({
       await onApprove(pin);
       onClose();
     } catch (e) {
-      setError(friendlyError(e));
+      setError(friendlyError(e, t));
     } finally {
       setIsSubmitting(false);
     }
@@ -48,9 +51,9 @@ export function SupervisorPinModal({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2 text-ember-400">
             <ShieldAlert size={18} />
-            <span className="text-sm font-medium">Supervisor approval</span>
+            <span className="text-sm font-medium">{t("heading")}</span>
           </div>
-          <button onClick={onClose} className="text-smoke-400 hover:text-white" aria-label="Cancel">
+          <button onClick={onClose} className="text-smoke-400 hover:text-white" aria-label={tCommon("cancel")}>
             <X size={18} />
           </button>
         </div>
@@ -61,10 +64,10 @@ export function SupervisorPinModal({
   );
 }
 
-function friendlyError(e: unknown): string {
+function friendlyError(e: unknown, t: ReturnType<typeof useTranslations>): string {
   const message = e instanceof Error ? e.message : String(e);
-  if (message.includes("SUPERVISOR_PIN_INVALID")) return "That PIN isn't authorized to approve this.";
-  if (message.includes("ZATCA_LOCKED")) return "This order was already invoiced — issue a credit note instead.";
-  if (message.includes("DISCOUNT_EXCEEDS_TOTAL")) return "Discount can't exceed the order total.";
-  return "Something went wrong. Please try again.";
+  if (message.includes("SUPERVISOR_PIN_INVALID")) return t("errorPinInvalid");
+  if (message.includes("ZATCA_LOCKED")) return t("errorZatcaLocked");
+  if (message.includes("DISCOUNT_EXCEEDS_TOTAL")) return t("errorDiscountExceedsTotal");
+  return t("errorGeneric");
 }

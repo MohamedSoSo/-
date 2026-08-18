@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Flame } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import type { KdsItem } from "@/lib/kds-data";
 import { createClient } from "@/lib/supabase/client";
 import { SLA_RED_MINUTES, SLA_YELLOW_MINUTES } from "@/lib/constants";
 import { WeightEntryModal } from "./WeightEntryModal";
 import type { OrderStatus } from "@bbq/types";
 import { usePosSession } from "@/lib/pos-session";
+import { localizedField, type Locale } from "@bbq/i18n";
 
 type View = "grill" | "assembly";
 
@@ -54,6 +56,9 @@ function playBeep() {
 }
 
 export function KdsBoard({ initialItems }: { initialItems: KdsItem[] }) {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("kds");
+  const tDoneness = useTranslations("doneness");
   const operator = usePosSession((s) => s.operator);
   const [view, setView] = useState<View>("grill");
   const [items, setItems] = useState(initialItems);
@@ -144,18 +149,18 @@ export function KdsBoard({ initialItems }: { initialItems: KdsItem[] }) {
     <div className="p-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-xl font-semibold text-white flex items-center gap-2">
-          <Flame size={20} className="text-ember-500" /> Kitchen
+          <Flame size={20} className="text-ember-500" /> {t("title")}
         </h1>
         <div className="flex rounded-full border border-white/10 p-1">
           {(["grill", "assembly"] as View[]).map((v) => (
             <button
               key={v}
               onClick={() => setView(v)}
-              className={`rounded-full px-4 py-1.5 text-sm capitalize ${
+              className={`rounded-full px-4 py-1.5 text-sm ${
                 view === v ? "bg-ember-500 text-charcoal-900 font-medium" : "text-charcoal-100"
               }`}
             >
-              {v === "grill" ? "Grill station" : "Assembly / Drinks"}
+              {v === "grill" ? t("grillStation") : t("assemblyDrinks")}
             </button>
           ))}
         </div>
@@ -165,7 +170,9 @@ export function KdsBoard({ initialItems }: { initialItems: KdsItem[] }) {
         <AnimatePresence>
           {visible.map((item) => {
             const order = firstOf(item.orders);
+            const menuItem = firstOf(item.menu_items);
             const color = flashIds.has(item.id) ? "red" : slaColor(item.created_at);
+            const next = nextStatus(item);
             return (
               <motion.div
                 key={item.id}
@@ -182,27 +189,29 @@ export function KdsBoard({ initialItems }: { initialItems: KdsItem[] }) {
                   <span>{Math.floor((Date.now() - new Date(item.created_at).getTime()) / 60000)}m</span>
                 </div>
                 <p className="text-white font-medium">
-                  {item.quantity}× {firstOf(item.menu_items)?.name_en ?? "Item"}
+                  {item.quantity}× {menuItem ? localizedField(menuItem.name_en, menuItem.name_ar, locale) : "Item"}
                 </p>
                 {item.weight_grams_ordered && <p className="text-sm text-smoke-300">{item.weight_grams_ordered}g</p>}
-                {item.doneness && <p className="text-sm text-smoke-300 capitalize">{item.doneness.replace("_", " ")}</p>}
+                {item.doneness && <p className="text-sm text-smoke-300">{tDoneness(item.doneness)}</p>}
                 {item.notes && <p className="text-xs text-ember-400 mt-1">{item.notes}</p>}
                 <button
                   onClick={() => advance(item)}
-                  className="mt-3 w-full rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm py-2 capitalize"
+                  className="mt-3 w-full rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm py-2"
                 >
-                  {nextStatus(item)?.replace("_", " ") ?? "Done"}
+                  {next ? t(`nextStatus.${next}`) : t("nextStatus.done")}
                 </button>
               </motion.div>
             );
           })}
         </AnimatePresence>
-        {visible.length === 0 && <p className="text-smoke-400 text-sm col-span-full">No active tickets.</p>}
+        {visible.length === 0 && <p className="text-smoke-400 text-sm col-span-full">{t("noActiveTickets")}</p>}
       </div>
 
       {weighingItem && (
         <WeightEntryModal
-          itemLabel={`${weighingItem.quantity}× ${firstOf(weighingItem.menu_items)?.name_en ?? "Item"}`}
+          itemLabel={`${weighingItem.quantity}× ${
+            firstOf(weighingItem.menu_items) ? localizedField(firstOf(weighingItem.menu_items)!.name_en, firstOf(weighingItem.menu_items)!.name_ar, locale) : "Item"
+          }`}
           orderedGrams={weighingItem.weight_grams_ordered}
           onSubmit={confirmWeight}
           onClose={() => setWeighingItem(null)}

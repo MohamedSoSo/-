@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
 export function BottomSheet({
@@ -15,6 +16,7 @@ export function BottomSheet({
   children: ReactNode;
   footer?: ReactNode;
 }) {
+  const tCommon = useTranslations("common");
   return (
     <>
       <motion.div
@@ -33,7 +35,7 @@ export function BottomSheet({
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
           <h2 className="text-lg font-semibold text-white">{title}</h2>
-          <button onClick={onClose} className="p-1 text-smoke-400 hover:text-white" aria-label="Close">
+          <button onClick={onClose} className="p-1 text-smoke-400 hover:text-white" aria-label={tCommon("close")}>
             <X size={22} />
           </button>
         </div>

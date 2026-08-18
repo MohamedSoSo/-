@@ -13,7 +13,7 @@ export async function getOrderDetail(orderId: string) {
       .maybeSingle(),
     supabase
       .from("order_items")
-      .select("id, menu_item_id, quantity, weight_grams_ordered, weight_grams_actual, doneness, unit_price, line_total, status, station, menu_items (name_en)")
+      .select("id, menu_item_id, quantity, weight_grams_ordered, weight_grams_actual, doneness, unit_price, line_total, status, station, menu_items (name_en, name_ar)")
       .eq("order_id", orderId)
       .order("created_at"),
     supabase.from("payments").select("id, method, amount, is_refund, created_at").eq("order_id", orderId).order("created_at"),

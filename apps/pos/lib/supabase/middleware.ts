@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { Database } from "@bbq/supabase";
 import { buildCsp, SECURITY_HEADERS } from "@bbq/config/csp";
+import { stripLocalePrefix } from "@bbq/i18n";
 
 const PUBLIC_PATHS = ["/login", "/api/health", "/api/dev-login", "/sw.js", "/manifest.json"];
 
@@ -45,11 +46,12 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isPublic = PUBLIC_PATHS.some((p) => request.nextUrl.pathname.startsWith(p));
+  const { locale, path } = stripLocalePrefix(request.nextUrl.pathname);
+  const isPublic = PUBLIC_PATHS.some((p) => path.startsWith(p));
 
   if (!isPublic && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = `/${locale}/login`;
     url.searchParams.set("next", request.nextUrl.pathname);
     return withSecurityHeaders(NextResponse.redirect(url), nonce);
   }
@@ -58,7 +60,7 @@ export async function updateSession(request: NextRequest) {
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
     if (!profile || !["cashier", "grill_chef", "kitchen_chef", "waiter", "driver", "owner", "developer"].includes(profile.role)) {
       const url = request.nextUrl.clone();
-      url.pathname = "/login";
+      url.pathname = `/${locale}/login`;
       url.searchParams.set("error", "not_staff");
       return withSecurityHeaders(NextResponse.redirect(url), nonce);
     }

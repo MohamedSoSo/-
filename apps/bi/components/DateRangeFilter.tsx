@@ -1,15 +1,13 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type { DateRangePreset } from "@/lib/date-range";
 
-const PRESETS: { value: DateRangePreset; label: string }[] = [
-  { value: "today", label: "Today" },
-  { value: "7d", label: "7D" },
-  { value: "30d", label: "30D" },
-];
+const PRESET_VALUES: DateRangePreset[] = ["today", "7d", "30d"];
 
 export function DateRangeFilter({ current }: { current: DateRangePreset }) {
+  const t = useTranslations("dateRange");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -22,15 +20,15 @@ export function DateRangeFilter({ current }: { current: DateRangePreset }) {
 
   return (
     <div className="flex rounded-full border border-white/10 p-1">
-      {PRESETS.map((p) => (
+      {PRESET_VALUES.map((value) => (
         <button
-          key={p.value}
-          onClick={() => setPreset(p.value)}
+          key={value}
+          onClick={() => setPreset(value)}
           className={`rounded-full px-3 py-1.5 text-sm ${
-            current === p.value ? "bg-ember-500 text-charcoal-900 font-medium" : "text-charcoal-100"
+            current === value ? "bg-ember-500 text-charcoal-900 font-medium" : "text-charcoal-100"
           }`}
         >
-          {p.label}
+          {t(value)}
         </button>
       ))}
     </div>

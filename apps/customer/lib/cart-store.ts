@@ -21,6 +21,7 @@ export interface CartComboSelection {
   slot_label: string;
   component_menu_item_id: string;
   component_name_en: string;
+  component_name_ar: string;
   upcharge: number;
 }
 

@@ -31,7 +31,7 @@ export async function reconstructCartItems(orderId: string): Promise<CartItem[]>
       .in("order_item_id", orderItemIds),
     supabase
       .from("order_item_components")
-      .select("order_item_id, combo_component_id, slot_label, component_menu_item_id, upcharge_snapshot, menu_items (name_en)")
+      .select("order_item_id, combo_component_id, slot_label, component_menu_item_id, upcharge_snapshot, menu_items (name_en, name_ar)")
       .in("order_item_id", orderItemIds),
   ]);
 
@@ -78,13 +78,17 @@ export async function reconstructCartItems(orderId: string): Promise<CartItem[]>
         })),
       combo_selections: (componentRows ?? [])
         .filter((c) => c.order_item_id === oi.id)
-        .map((c) => ({
-          combo_component_id: c.combo_component_id ?? "",
-          slot_label: c.slot_label,
-          component_menu_item_id: c.component_menu_item_id,
-          component_name_en: (c.menu_items as unknown as { name_en: string } | null)?.name_en ?? "",
-          upcharge: c.upcharge_snapshot,
-        })),
+        .map((c) => {
+          const componentMenuItem = c.menu_items as unknown as { name_en: string; name_ar: string } | null;
+          return {
+            combo_component_id: c.combo_component_id ?? "",
+            slot_label: c.slot_label,
+            component_menu_item_id: c.component_menu_item_id,
+            component_name_en: componentMenuItem?.name_en ?? "",
+            component_name_ar: componentMenuItem?.name_ar ?? "",
+            upcharge: c.upcharge_snapshot,
+          };
+        }),
     });
   }
 

@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { Database } from "@bbq/supabase";
 import { buildCsp, SECURITY_HEADERS } from "@bbq/config/csp";
+import { stripLocalePrefix } from "@bbq/i18n";
 
 const DEVELOPER_ONLY_PREFIX = "/admin/developer";
 
@@ -45,10 +46,12 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (request.nextUrl.pathname.startsWith(DEVELOPER_ONLY_PREFIX)) {
+  const { locale, path } = stripLocalePrefix(request.nextUrl.pathname);
+
+  if (path.startsWith(DEVELOPER_ONLY_PREFIX)) {
     if (!user) {
       const url = request.nextUrl.clone();
-      url.pathname = "/login";
+      url.pathname = `/${locale}/login`;
       url.searchParams.set("next", request.nextUrl.pathname);
       return withSecurityHeaders(NextResponse.redirect(url), nonce);
     }
@@ -57,7 +60,7 @@ export async function updateSession(request: NextRequest) {
 
     if (profile?.role !== "developer") {
       const url = request.nextUrl.clone();
-      url.pathname = "/unauthorized";
+      url.pathname = `/${locale}/unauthorized`;
       return withSecurityHeaders(NextResponse.redirect(url), nonce);
     }
   }

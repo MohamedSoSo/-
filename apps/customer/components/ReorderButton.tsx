@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
 import { useCartStore } from "@/lib/cart-store";
 import { reconstructCartItems } from "@/lib/reorder";
+import { useRouter } from "@/i18n/navigation";
 
 export function ReorderButton({ orderId }: { orderId: string }) {
+  const t = useTranslations("reorder");
   const router = useRouter();
   const addItem = useCartStore((s) => s.addItem);
   const openDrawer = useCartStore((s) => s.openDrawer);
@@ -23,7 +25,7 @@ export function ReorderButton({ orderId }: { orderId: string }) {
 
   return (
     <Button variant="glass" size="sm" onClick={handleReorder} disabled={loading}>
-      {loading ? "Adding…" : "Re-order"}
+      {loading ? t("adding") : t("button")}
     </Button>
   );
 }

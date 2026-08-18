@@ -13,7 +13,7 @@ export interface KdsItem {
   notes: string | null;
   status: string;
   created_at: string;
-  menu_items: { name_en: string } | { name_en: string }[] | null;
+  menu_items: { name_en: string; name_ar: string } | { name_en: string; name_ar: string }[] | null;
   orders: { order_number: string; channel: string; restaurant_tables: { label: string } | { label: string }[] | null } | { order_number: string; channel: string; restaurant_tables: { label: string } | { label: string }[] | null }[] | null;
 }
 
@@ -22,7 +22,7 @@ export async function getKdsItems(): Promise<KdsItem[]> {
   const { data } = await supabase
     .from("order_items")
     .select(
-      "id, order_id, station, quantity, weight_grams_ordered, doneness, notes, status, created_at, menu_items (name_en), orders (order_number, channel, restaurant_tables (label))"
+      "id, order_id, station, quantity, weight_grams_ordered, doneness, notes, status, created_at, menu_items (name_en, name_ar), orders (order_number, channel, restaurant_tables (label))"
     )
     .in("status", ACTIVE_STATUSES)
     .order("created_at");

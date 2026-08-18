@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "title": "Smart BBQ — Owner BI",
+    "description": "Strategic management and analytics hub."
+  },
+  "common": {
+    "sar": "SAR"
+  },
+  "login": {
+    "heading": "Owner BI",
+    "subtitle": "Management sign-in."
+  },
+  "phoneAuth": {
+    "invalidPhone": "Enter a valid phone number.",
+    "otpSentTo": "Enter the code sent to {phone}.",
+    "verifying": "Verifying…",
+    "openDashboard": "Open dashboard",
+    "sending": "Sending…",
+    "sendCode": "Send code",
+    "notManagement": "That account isn't an owner/developer — Owner BI is restricted to management."
+  },
+  "dashboard": {
+    "title": "Owner BI",
+    "tabs": {
+      "overview": "Overview",
+      "menuEngineering": "Menu Engineering",
+      "yieldPurchasing": "Yield & Purchasing",
+      "operations": "Operations",
+      "customersFinance": "Customers & Finance"
+    },
+    "revenue": "Revenue",
+    "netProfit": "Net profit",
+    "orders": "Orders",
+    "avgOrderValue": "Avg order value",
+    "loggedWaste": "Logged waste (dropped/reject/etc.)",
+    "unaccountedLoss": "Unaccounted loss beyond expected"
+  },
+  "dateRange": {
+    "today": "Today",
+    "7d": "7D",
+    "30d": "30D"
+  },
+  "statTile": {
+    "vsPriorPeriod": "vs. prior period"
+  },
+  "insightsBanner": {
+    "title": "Daily takeaways",
+    "ruleBased": "(rule-based, not LLM-generated)"
+  },
+  "revenueTrendChart": {
+    "title": "Revenue trend",
+    "revenue": "Revenue"
+  },
+  "paymentBreakdownChart": {
+    "title": "Payment methods",
+    "paymentsCount": "{count} payments",
+    "methods": {
+      "cash": "Cash",
+      "card": "Card",
+      "apple_pay": "Apple Pay",
+      "terminal": "Terminal"
+    }
+  },
+  "bcgScatter": {
+    "title": "BCG menu matrix",
+    "noSales": "No sales in this period yet.",
+    "unitsSold": "Units sold",
+    "margin": "Margin",
+    "unitsSoldAxis": "Units sold →",
+    "marginAxis": "Margin % →",
+    "quadrants": {
+      "star": "Star",
+      "plowhorse": "Plowhorse",
+      "puzzle": "Puzzle",
+      "dog": "Dog"
+    }
+  },
+  "yieldChart": {
+    "title": "Cooking yield vs. expected",
+    "noData": "No weight-recorded grill items in this period yet.",
+    "observed": "Observed",
+    "expected": "Expected"
+  },
+  "hourlyHeatmap": {
+    "title": "Peak order hours",
+    "ordersCount": "{count} orders",
+    "dow": {
+      "Sun": "Sun",
+      "Mon": "Mon",
+      "Tue": "Tue",
+      "Wed": "Wed",
+      "Thu": "Thu",
+      "Fri": "Fri",
+      "Sat": "Sat"
+    }
+  },
+  "purchasingForecastTable": {
+    "title": "Predictive purchasing (raw kg)",
+    "explain": "Day-of-week moving average of raw kg ordered, +10% safety margin. Not a trained model — a transparent average you can sanity-check against what you already know.",
+    "noData": "Not enough weight-based order history yet to forecast.",
+    "weekend": "Weekend (Fri/Sat)",
+    "weekdays": "Weekdays",
+    "category": "Category",
+    "day": "Day",
+    "avgKg": "Avg kg",
+    "forecast": "Forecast"
+  },
+  "grillVelocityTable": {
+    "title": "Grill throughput by item",
+    "noData": "No grill status-change history in this period yet.",
+    "item": "Item",
+    "avgTime": "Avg time",
+    "slaBreach": "SLA breach",
+    "n": "n"
+  },
+  "staffLeaderboard": {
+    "title": "Staff leaderboard",
+    "explain": "Normalized per staff member across the selected period. Driver delivery timing isn't populated yet — no delivery-assignment flow exists to attribute it.",
+    "noActivity": "No staff-attributed activity yet — this fills in once staff sign in with PIN and work KDS tickets or take payments.",
+    "grillKitchen": "Grill/kitchen — avg prep speed",
+    "noKds": "No KDS activity recorded yet.",
+    "itemsHandled": "{count} items",
+    "cashiers": "Cashiers — avg ticket size",
+    "noPayments": "No payments recorded yet."
+  },
+  "zReportTable": {
+    "title": "Z-Report history",
+    "noShifts": "No shifts closed in this period yet.",
+    "date": "Date",
+    "cashier": "Cashier",
+    "expected": "Expected",
+    "counted": "Counted",
+    "variance": "Variance",
+    "unknown": "Unknown",
+    "open": "open"
+  },
+  "cogsPanel": {
+    "title": "Supplier prices → live COGS",
+    "explain": "Editing a raw price recalculates margin for every menu item that uses it — instantly in this preview, and for real once you save.",
+    "sarPerKg": "SAR/kg"
+  },
+  "rfmPanel": {
+    "title": "Customer segments (RFM)",
+    "explain": "Based on all-time order history, not just this date range. WhatsApp links open pre-filled messages — no Business API configured, so sending is still one tap per contact.",
+    "noCustomers": "No customer-attributed completed orders yet — segments populate once signed-in customers order.",
+    "ordersMeta": "{count} orders · {amount} SAR · {days}d ago",
+    "reEngage": "Re-engage",
+    "segments": {
+      "champion": "Champions",
+      "at_risk": "At-Risk",
+      "churned": "Churned",
+      "developing": "Developing"
+    }
+  },
+  "insights": {
+    "revenueTrend": "{direction, select, increase {Revenue rose {deltaPct}% vs. the prior period ({priorRevenue} → {currentRevenue} SAR).} decrease {Revenue fell {deltaPct}% vs. the prior period ({priorRevenue} → {currentRevenue} SAR).} other {}}",
+    "yieldShrinkageOutlier": "{category} yield shrinkage ran {deltaPct} points above expected during the {shift} shift ({observedPct}% observed vs. {expectedPct}% expected). Recommend calibrating scale weights or reviewing portioning for that shift.",
+    "unaccountedLoss": "{kg}kg of meat was lost beyond expected cooking shrinkage this period — worth investigating for over-portioning or spoilage.",
+    "cancellationRate": "{pct}% of orders this period were cancelled or voided — above the healthy range. Check for a recurring cause (stock-outs, order errors).",
+    "dogsRevenueShare": "Low-margin, low-volume \"Dog\" items still account for {pct}% of revenue — consider repricing or retiring the weakest of them.",
+    "cashVariance": "{direction, select, overage {Shift closed on {date} had an overage of {amount} SAR — worth a register recount or camera review.} shortage {Shift closed on {date} had a shortage of {amount} SAR — worth a register recount or camera review.} other {}}",
+    "noAnomalies": "{periodPreset, select, today {No material anomalies detected for today — operations are tracking within expected ranges.} sevenDays {No material anomalies detected for the last 7 days — operations are tracking within expected ranges.} thirtyDays {No material anomalies detected for the last 30 days — operations are tracking within expected ranges.} other {No material anomalies detected for this period — operations are tracking within expected ranges.}}",
+    "shiftLabels": {
+      "Late Night": "Late Night",
+      "Morning": "Morning",
+      "Afternoon": "Afternoon",
+      "Evening": "Evening"
+    }
+  }
+}

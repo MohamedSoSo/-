@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "title": "Smart BBQ — Admin",
+    "description": "Owner & Developer control center."
+  },
+  "home": {
+    "heading": "Admin",
+    "body": "Owner BI links to the <bi>bi</bi> app. The hidden technical control center lives at <link>/admin/developer</link> — restricted to the <developer>developer</developer> role."
+  },
+  "login": {
+    "heading": "Sign in",
+    "body": "Supabase Auth UI (email/password + magic link) wires up in Phase 2."
+  },
+  "unauthorized": {
+    "title": "Access denied",
+    "restrictedTo": "The Developer Portal is restricted to the <code>developer</code> role.",
+    "currentlySignedInAs": "You're currently signed in as <code>{role}</code> — on localhost, dev sessions are shared across every Smart BBQ app's port, so signing into another app (POS, Customer…) first carries that role over here.",
+    "signInAsDeveloper": "Sign in as Developer (dev only)"
+  },
+  "developerPortal": {
+    "title": "Developer Portal",
+    "subtitle": "Runtime control center — branding, theme, and feature flags across all four apps. Changes here never require a code deploy; every write is captured in <auditLogs>audit_logs</auditLogs> via the <developer>developer</developer>-only RLS policies.",
+    "featureFlags": "Feature Flags",
+    "noFlags": "No feature flags yet.",
+    "brandAssets": "Brand Assets",
+    "themeTokens": "Theme Tokens",
+    "noThemeRows": "No theme rows yet.",
+    "assetSlots": {
+      "logo_primary": "Primary Logo",
+      "logo_monochrome": "Monochrome Logo",
+      "favicon": "Favicon",
+      "hero_bg_customer": "Customer Hero Background",
+      "hero_bg_pos": "POS Hero Background",
+      "login_bg": "Login Background"
+    }
+  },
+  "featureFlagRow": {
+    "rollout": "{pct}% rollout",
+    "updateFailed": "Failed to update flag"
+  },
+  "assetUploader": {
+    "invalidType": "Use PNG, JPEG, WebP, SVG, or ICO.",
+    "tooLarge": "Max 5MB.",
+    "notSignedIn": "Not signed in.",
+    "noAsset": "No asset set",
+    "uploading": "Uploading…",
+    "replace": "Replace",
+    "upload": "Upload",
+    "saved": "Saved"
+  },
+  "themeEditor": {
+    "saving": "Saving…",
+    "saved": "Saved",
+    "save": "Save",
+    "tokens": {
+      "--brand-bg": "Background",
+      "--brand-accent": "Accent",
+      "--brand-surface": "Surface"
+    }
+  },
+  "credentialsPanel": {
+    "title": "API Credentials",
+    "subtitle": "Status only — set these in each app's <envLocal>.env.local</envLocal> (or your hosting provider's environment variables in production), never in the database.",
+    "configured": "Configured",
+    "notSet": "Not set",
+    "checks": {
+      "supabaseServiceRole": "Supabase service role",
+      "zatcaCertificate": "ZATCA certificate",
+      "zatcaPrivateKey": "ZATCA private key",
+      "mapsApiKey": "Maps API key",
+      "twilioAccountSid": "Twilio account SID",
+      "twilioAuthToken": "Twilio auth token",
+      "paymentGatewayKey": "Payment gateway key"
+    }
+  },
+  "demoDataPurge": {
+    "title": "Demo Data Purge",
+    "explain": "Permanently deletes every order (and its items, payments, waste, and shift records) placed within the date range you choose — no way to distinguish synthetic demo orders from real ones beyond the dates you pick. There is no undo. Use this to clear seed data before handing the app to the restaurant owner.",
+    "typePhrase": "Type <code>{phrase}</code> to enable the button",
+    "purging": "Purging…",
+    "permanentlyDelete": "Permanently delete",
+    "result": "Deleted {count} orders (and their items/payments) placed between {start} and {end}."
+  }
+}
