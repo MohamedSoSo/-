@@ -85,7 +85,7 @@ export default function SettingsPage() {
             )}
           </>
         )}
-        {scale.error && <p className="text-xs text-red-400 mt-2">{scale.error}</p>}
+        {scale.error && <p role="alert" aria-live="polite" className="text-xs text-red-400 mt-2">{scale.error}</p>}
       </section>
 
       {failedActions.length > 0 && (
@@ -100,10 +100,10 @@ export default function SettingsPage() {
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm text-charcoal-100 capitalize">{action.type.replace("_", " ")}</span>
                   <div className="flex gap-1.5">
-                    <Button variant="glass" size="sm" onClick={() => retry(action.id)}>
+                    <Button variant="glass" size="sm" onClick={() => retry(action.id)} aria-label={t("retryAction")}>
                       <RotateCcw size={12} />
                     </Button>
-                    <Button variant="destructive" size="sm" onClick={() => discard(action.id)}>
+                    <Button variant="destructive" size="sm" onClick={() => discard(action.id)} aria-label={t("discardAction")}>
                       <Trash2 size={12} />
                     </Button>
                   </div>
@@ -115,7 +115,7 @@ export default function SettingsPage() {
         </section>
       )}
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p role="alert" aria-live="polite" className="text-sm text-red-400">{error}</p>}
     </main>
   );
 }

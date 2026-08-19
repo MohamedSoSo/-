@@ -19,10 +19,16 @@ export function MenuBrowser({ categories }: { categories: MenuCategoryView[] }) 
 
   return (
     <div className="max-w-5xl mx-auto px-4 pb-24">
-      <div className="flex gap-2 overflow-x-auto py-4 sticky top-[57px] z-30 bg-charcoal-900/95 backdrop-blur-glass">
+      <div
+        role="radiogroup"
+        aria-label={t("categoriesLabel")}
+        className="flex gap-2 overflow-x-auto py-4 sticky top-[57px] z-30 bg-charcoal-900/95 backdrop-blur-glass"
+      >
         {categories.map((c) => (
           <button
             key={c.id}
+            role="radio"
+            aria-checked={c.id === active?.id}
             onClick={() => setActiveCategory(c.id)}
             className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               c.id === active?.id ? "bg-ember-500 text-charcoal-900" : "bg-white/5 text-charcoal-100"

@@ -43,7 +43,7 @@ export function FeatureFlagRow({ flagKey, description, rolloutPercentage, initia
         {rolloutPercentage < 100 && (
           <p className="text-xs text-ember-400 mt-0.5">{t("rollout", { pct: rolloutPercentage })}</p>
         )}
-        {error && <p className="text-xs text-red-400 mt-0.5">{error}</p>}
+        {error && <p role="alert" aria-live="polite" className="text-xs text-red-400 mt-0.5">{error}</p>}
       </div>
       <button
         type="button"

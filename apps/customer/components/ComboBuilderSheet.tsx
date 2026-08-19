@@ -115,35 +115,40 @@ export function ComboBuilderSheet({ item, onClose }: { item: MenuItemView; onClo
 
       {!slots && <p className="text-sm text-smoke-400">{t("loading")}</p>}
 
-      {slots?.map((slot) => (
-        <section key={slot.id} className="mb-6">
-          <h3 className="text-sm font-medium text-charcoal-100 mb-2">
-            {slot.slot_label}
-            {slot.upcharge > 0 && (
-              <span className="text-smoke-500"> · +{slot.upcharge.toFixed(0)} {tCommon("sar")}</span>
+      {slots?.map((slot) => {
+        const slotHeadingId = `${slot.id}-heading`;
+        return (
+          <section key={slot.id} className="mb-6">
+            <h3 id={slotHeadingId} className="text-sm font-medium text-charcoal-100 mb-2">
+              {slot.slot_label}
+              {slot.upcharge > 0 && (
+                <span className="text-smoke-400"> · +{slot.upcharge.toFixed(0)} {tCommon("sar")}</span>
+              )}
+            </h3>
+            {slot.candidates.length === 0 ? (
+              <p className="text-xs text-red-400">{t("noOptions")}</p>
+            ) : (
+              <div role="radiogroup" aria-labelledby={slotHeadingId} className="space-y-2">
+                {slot.candidates.map((candidate) => (
+                  <button
+                    key={candidate.id}
+                    role="radio"
+                    aria-checked={selections[slot.id] === candidate.id}
+                    onClick={() => setSelections((prev) => ({ ...prev, [slot.id]: candidate.id }))}
+                    className={`w-full flex items-center justify-between rounded-xl2 border px-4 py-2.5 text-sm transition-colors ${
+                      selections[slot.id] === candidate.id
+                        ? "border-ember-500 bg-ember-500/10 text-white"
+                        : "border-white/10 text-charcoal-100"
+                    }`}
+                  >
+                    {localizedField(candidate.name_en, candidate.name_ar, locale)}
+                  </button>
+                ))}
+              </div>
             )}
-          </h3>
-          {slot.candidates.length === 0 ? (
-            <p className="text-xs text-red-400">{t("noOptions")}</p>
-          ) : (
-            <div className="space-y-2">
-              {slot.candidates.map((candidate) => (
-                <button
-                  key={candidate.id}
-                  onClick={() => setSelections((prev) => ({ ...prev, [slot.id]: candidate.id }))}
-                  className={`w-full flex items-center justify-between rounded-xl2 border px-4 py-2.5 text-sm transition-colors ${
-                    selections[slot.id] === candidate.id
-                      ? "border-ember-500 bg-ember-500/10 text-white"
-                      : "border-white/10 text-charcoal-100"
-                  }`}
-                >
-                  {localizedField(candidate.name_en, candidate.name_ar, locale)}
-                </button>
-              ))}
-            </div>
-          )}
-        </section>
-      ))}
+          </section>
+        );
+      })}
     </BottomSheet>
   );
 }

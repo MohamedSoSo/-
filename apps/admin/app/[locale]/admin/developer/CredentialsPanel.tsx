@@ -28,14 +28,14 @@ export function CredentialsPanel({ statuses }: { statuses: CredentialStatus[] })
           <div key={s.envVar} className="flex items-center justify-between rounded-lg border border-white/5 px-3 py-2">
             <div>
               <p className="text-sm text-charcoal-100">{s.label}</p>
-              <p className="text-xs text-smoke-500 font-mono">{s.envVar}</p>
+              <p className="text-xs text-smoke-400 font-mono">{s.envVar}</p>
             </div>
             {s.isSet ? (
               <span className="flex items-center gap-1 text-xs text-emerald-400">
                 <CheckCircle2 size={14} /> {t("configured")}
               </span>
             ) : (
-              <span className="flex items-center gap-1 text-xs text-smoke-500">
+              <span className="flex items-center gap-1 text-xs text-smoke-400">
                 <XCircle size={14} /> {t("notSet")}
               </span>
             )}

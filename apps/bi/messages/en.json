@@ -12,6 +12,7 @@
   },
   "phoneAuth": {
     "invalidPhone": "Enter a valid phone number.",
+    "otpRateLimited": "Too many code requests — please wait a few minutes and try again.",
     "otpSentTo": "Enter the code sent to {phone}.",
     "verifying": "Verifying…",
     "openDashboard": "Open dashboard",
@@ -33,12 +34,14 @@
     "orders": "Orders",
     "avgOrderValue": "Avg order value",
     "loggedWaste": "Logged waste (dropped/reject/etc.)",
-    "unaccountedLoss": "Unaccounted loss beyond expected"
+    "unaccountedLoss": "Unaccounted loss beyond expected",
+    "tabsLabel": "Dashboard sections"
   },
   "dateRange": {
     "today": "Today",
     "7d": "7D",
-    "30d": "30D"
+    "30d": "30D",
+    "label": "Date range"
   },
   "statTile": {
     "vsPriorPeriod": "vs. prior period"
@@ -137,7 +140,9 @@
   "cogsPanel": {
     "title": "Supplier prices → live COGS",
     "explain": "Editing a raw price recalculates margin for every menu item that uses it — instantly in this preview, and for real once you save.",
-    "sarPerKg": "SAR/kg"
+    "sarPerKg": "SAR/kg",
+    "priceLabel": "{ingredient} price, SAR per kg",
+    "save": "Save"
   },
   "rfmPanel": {
     "title": "Customer segments (RFM)",
@@ -145,6 +150,7 @@
     "noCustomers": "No customer-attributed completed orders yet — segments populate once signed-in customers order.",
     "ordersMeta": "{count} orders · {amount} SAR · {days}d ago",
     "reEngage": "Re-engage",
+    "reEngageFor": "Re-engage {name} via WhatsApp",
     "segments": {
       "champion": "Champions",
       "at_risk": "At-Risk",

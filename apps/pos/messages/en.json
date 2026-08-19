@@ -5,7 +5,9 @@
   },
   "common": {
     "sar": "SAR",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity"
   },
   "supervisorPin": {
     "heading": "Supervisor approval",
@@ -33,6 +35,7 @@
   },
   "phoneAuth": {
     "invalidPhone": "Enter a valid phone number.",
+    "otpRateLimited": "Too many code requests — please wait a few minutes and try again.",
     "otpSentTo": "Enter the code sent to {phone}.",
     "verifying": "Verifying…",
     "openTerminal": "Open terminal",
@@ -66,6 +69,8 @@
     "grillStation": "Grill station",
     "assemblyDrinks": "Assembly / Drinks",
     "noActiveTickets": "No active tickets.",
+    "viewLabel": "Station view",
+    "ticketCount": "{count} active tickets",
     "nextStatus": {
       "grilling": "grilling",
       "kitchen_prep": "kitchen prep",
@@ -86,7 +91,8 @@
     "switchToManual": "— switch to manual entry.",
     "confirmWeight": "Confirm weight",
     "weightInGrams": "Weight in grams",
-    "reasonPlaceholder": "Reason (scale unavailable, disconnected...)"
+    "reasonPlaceholder": "Reason (scale unavailable, disconnected...)",
+    "modeLabel": "Entry mode"
   },
   "orderDetail": {
     "table": "Table {label}",
@@ -103,6 +109,8 @@
     "reasonPlaceholder": "Reason",
     "apply": "Apply",
     "paymentsSection": "Payments (split-bill friendly — add as many as needed)",
+    "paymentMethodLabel": "Payment method",
+    "paymentAmountLabel": "Payment amount",
     "add": "Add",
     "transferTable": "Transfer table",
     "moveTo": "Move to…",
@@ -190,6 +198,8 @@
     "failedActions": "Failed offline actions",
     "failedActionsExplain": "These didn't sync after retrying — usually a real rejection (e.g. sold out), not a network blip. Retry after fixing the underlying issue, or discard if it's no longer relevant.",
     "printerNotSupported": "Web Serial not supported in this browser.",
-    "printerError": "Couldn't register printer."
+    "printerError": "Couldn't register printer.",
+    "retryAction": "Retry",
+    "discardAction": "Discard"
   }
 }

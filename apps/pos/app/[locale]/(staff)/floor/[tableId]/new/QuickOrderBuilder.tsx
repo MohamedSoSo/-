@@ -104,7 +104,7 @@ export function QuickOrderBuilder({ tableId, categories }: { tableId: string; ca
                     className="rounded-xl2 border border-white/10 px-3 py-2.5 text-start text-sm text-charcoal-100 hover:border-ember-500/40"
                   >
                     <p>{name}</p>
-                    <p className="text-xs text-smoke-500">
+                    <p className="text-xs text-smoke-400">
                       {tier.label} · {(item.base_price * tier.price_multiplier).toFixed(0)} {tCommon("sar")}
                     </p>
                   </button>
@@ -116,7 +116,7 @@ export function QuickOrderBuilder({ tableId, categories }: { tableId: string; ca
                   className="rounded-xl2 border border-white/10 px-3 py-2.5 text-start text-sm text-charcoal-100 hover:border-ember-500/40"
                 >
                   <p>{name}</p>
-                  <p className="text-xs text-smoke-500">
+                  <p className="text-xs text-smoke-400">
                     {item.base_price.toFixed(0)} {tCommon("sar")}
                   </p>
                 </button>
@@ -132,11 +132,11 @@ export function QuickOrderBuilder({ tableId, categories }: { tableId: string; ca
             <div key={idx} className="flex items-center justify-between text-sm py-1">
               <span className="text-charcoal-100">{localizedField(line.name_en, line.name_ar, locale)}</span>
               <div className="flex items-center gap-2">
-                <button onClick={() => adjustQty(idx, -1)}>
+                <button onClick={() => adjustQty(idx, -1)} aria-label={tCommon("decreaseQuantity")}>
                   <Minus size={14} className="text-smoke-400" />
                 </button>
                 <span className="text-white w-4 text-center">{line.quantity}</span>
-                <button onClick={() => adjustQty(idx, 1)}>
+                <button onClick={() => adjustQty(idx, 1)} aria-label={tCommon("increaseQuantity")}>
                   <Plus size={14} className="text-smoke-400" />
                 </button>
                 <span className="text-ember-400 w-16 text-end">
@@ -145,7 +145,7 @@ export function QuickOrderBuilder({ tableId, categories }: { tableId: string; ca
               </div>
             </div>
           ))}
-          {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
+          {error && <p role="alert" aria-live="polite" className="text-xs text-red-400 mt-1">{error}</p>}
           <Button
             variant="primary"
             size="lg"

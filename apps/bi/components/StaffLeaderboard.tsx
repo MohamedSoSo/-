@@ -12,7 +12,7 @@ export function StaffLeaderboard({ rows }: { rows: StaffLeaderboardRow[] }) {
   return (
     <div className="glass-panel p-4">
       <h3 className="text-sm font-medium text-charcoal-100 mb-1">{t("title")}</h3>
-      <p className="text-xs text-smoke-500 mb-3">{t("explain")}</p>
+      <p className="text-xs text-smoke-400 mb-3">{t("explain")}</p>
 
       {rows.length === 0 ? (
         <p className="text-sm text-smoke-400">{t("noActivity")}</p>
@@ -21,7 +21,7 @@ export function StaffLeaderboard({ rows }: { rows: StaffLeaderboardRow[] }) {
           <div>
             <p className="text-xs font-medium text-ember-400 mb-1.5">{t("grillKitchen")}</p>
             {chefs.length === 0 ? (
-              <p className="text-xs text-smoke-500">{t("noKds")}</p>
+              <p className="text-xs text-smoke-400">{t("noKds")}</p>
             ) : (
               chefs.map((c) => (
                 <div key={c.staffId} className="flex justify-between text-sm py-1 border-t border-white/5">
@@ -36,7 +36,7 @@ export function StaffLeaderboard({ rows }: { rows: StaffLeaderboardRow[] }) {
           <div>
             <p className="text-xs font-medium text-ember-400 mb-1.5">{t("cashiers")}</p>
             {cashiers.length === 0 ? (
-              <p className="text-xs text-smoke-500">{t("noPayments")}</p>
+              <p className="text-xs text-smoke-400">{t("noPayments")}</p>
             ) : (
               cashiers.map((c) => (
                 <div key={c.staffId} className="flex justify-between text-sm py-1 border-t border-white/5">

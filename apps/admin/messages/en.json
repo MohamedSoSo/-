@@ -77,6 +77,8 @@
     "title": "Demo Data Purge",
     "explain": "Permanently deletes every order (and its items, payments, waste, and shift records) placed within the date range you choose — no way to distinguish synthetic demo orders from real ones beyond the dates you pick. There is no undo. Use this to clear seed data before handing the app to the restaurant owner.",
     "typePhrase": "Type <code>{phrase}</code> to enable the button",
+    "startDateLabel": "Purge range start date",
+    "endDateLabel": "Purge range end date",
     "purging": "Purging…",
     "permanentlyDelete": "Permanently delete",
     "result": "Deleted {count} orders (and their items/payments) placed between {start} and {end}."

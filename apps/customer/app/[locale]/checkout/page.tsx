@@ -1,12 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { MapPin, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
 import { CheckoutPayloadSchema } from "@bbq/types";
 import { useCartStore, type OrderMode } from "@/lib/cart-store";
-import { createClient } from "@/lib/supabase/client";
 import { cartSubtotal, estimateTax, toCheckoutItems } from "@/lib/pricing";
 import { DELIVERY_FEE, MIN_PRE_ORDER_LEAD_MINUTES, RESTAURANT_CLOSE_HOUR, RESTAURANT_OPEN_HOUR, TIME_SLOT_INTERVAL_MINUTES } from "@/lib/constants";
 import { getPaymentAdapter, type PaymentMethod } from "@/lib/payments/adapter";
@@ -36,6 +35,13 @@ export default function CheckoutPage() {
   const tableId = useCartStore((s) => s.tableId);
   const tableLabel = useCartStore((s) => s.tableLabel);
   const clearCart = useCartStore((s) => s.clear);
+
+  const orderTypeHeadingId = useId();
+  const deliveryAddressHeadingId = useId();
+  const scheduleDateId = useId();
+  const scheduleTimeId = useId();
+  const paymentHeadingId = useId();
+  const checkoutErrorId = useId();
 
   const [address, setAddress] = useState("");
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
@@ -68,6 +74,7 @@ export default function CheckoutPage() {
 
   function friendlyRpcError(message?: string): string {
     if (!message) return t("errorGeneric");
+    if (message.includes("RATE_LIMITED")) return t("errorRateLimited");
     if (message.includes("OUT_OF_STOCK")) return t("errorOutOfStock");
     if (message.includes("ITEM_UNAVAILABLE")) return t("errorItemUnavailable");
     if (message.includes("TABLE_REQUIRED")) return t("errorTableRequired");
@@ -99,25 +106,20 @@ export default function CheckoutPage() {
     }
 
     setIsPlacing(true);
-    const supabase = createClient();
-    const { data, error: rpcError } = await supabase.rpc("place_order", {
-      p_channel: payload.data.channel,
-      p_table_id: payload.data.table_id ?? null,
-      p_scheduled_for: payload.data.scheduled_for ?? null,
-      p_delivery_address: payload.data.delivery_address ?? null,
-      p_delivery_lat: payload.data.delivery_lat ?? null,
-      p_delivery_lng: payload.data.delivery_lng ?? null,
-      p_delivery_notes: payload.data.delivery_notes ?? null,
-      p_items: payload.data.items,
+    const response = await fetch("/api/checkout/place-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload.data),
     });
+    const result: { order_id?: string; error?: string; message?: string } = await response.json().catch(() => ({}));
 
-    if (rpcError || !data?.[0]) {
+    if (!response.ok || !result.order_id) {
       setIsPlacing(false);
-      setError(friendlyRpcError(rpcError?.message));
+      setError(friendlyRpcError(result.error ?? result.message));
       return;
     }
 
-    const orderId = data[0].order_id;
+    const orderId = result.order_id;
 
     if (!isDineIn) {
       await getPaymentAdapter().charge({ amount: total, currency: "SAR", method: paymentMethod, orderId });
@@ -152,8 +154,10 @@ export default function CheckoutPage() {
         </div>
       ) : (
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-charcoal-100 mb-2">{t("orderType")}</h2>
-          <div className="grid grid-cols-3 gap-2">
+          <h2 id={orderTypeHeadingId} className="text-sm font-medium text-charcoal-100 mb-2">
+            {t("orderType")}
+          </h2>
+          <div role="radiogroup" aria-labelledby={orderTypeHeadingId} className="grid grid-cols-3 gap-2">
             {(
               [
                 { mode: "pickup" as OrderMode, label: t("pickup") },
@@ -163,6 +167,8 @@ export default function CheckoutPage() {
             ).map((opt) => (
               <button
                 key={opt.mode}
+                role="radio"
+                aria-checked={orderMode === opt.mode}
                 onClick={() => setOrderMode(opt.mode)}
                 className={`rounded-xl2 border px-3 py-2.5 text-sm transition-colors ${
                   orderMode === opt.mode ? "border-ember-500 bg-ember-500/10 text-white" : "border-white/10 text-charcoal-100"
@@ -177,13 +183,16 @@ export default function CheckoutPage() {
 
       {orderMode === "delivery" && !isDineIn && (
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-charcoal-100 mb-2">{t("deliveryAddress")}</h2>
+          <h2 id={deliveryAddressHeadingId} className="text-sm font-medium text-charcoal-100 mb-2">
+            {t("deliveryAddress")}
+          </h2>
           <textarea
+            aria-labelledby={deliveryAddressHeadingId}
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             placeholder={t("addressPlaceholder")}
             rows={2}
-            className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-smoke-500 focus:border-ember-500 focus:outline-none"
+            className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-smoke-400 focus:border-ember-500 focus:outline-none"
           />
           <button
             onClick={captureLocation}
@@ -200,33 +209,47 @@ export default function CheckoutPage() {
         <section className="mb-6">
           <h2 className="text-sm font-medium text-charcoal-100 mb-2">{t("schedule")}</h2>
           <div className="flex gap-2">
-            <input
-              type="date"
-              value={scheduledDate}
-              min={new Date(Date.now() + MIN_PRE_ORDER_LEAD_MINUTES * 60000).toISOString().slice(0, 10)}
-              onChange={(e) => setScheduledDate(e.target.value)}
-              className="flex-1 rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white focus:border-ember-500 focus:outline-none"
-            />
-            <select
-              value={scheduledTime}
-              onChange={(e) => setScheduledTime(e.target.value)}
-              className="flex-1 rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white focus:border-ember-500 focus:outline-none"
-            >
-              <option value="">{t("time")}</option>
-              {timeSlots.map((slot) => (
-                <option key={slot} value={slot}>
-                  {slot}
-                </option>
-              ))}
-            </select>
+            <div className="flex-1">
+              <label htmlFor={scheduleDateId} className="sr-only">
+                {t("scheduleDateLabel")}
+              </label>
+              <input
+                id={scheduleDateId}
+                type="date"
+                value={scheduledDate}
+                min={new Date(Date.now() + MIN_PRE_ORDER_LEAD_MINUTES * 60000).toISOString().slice(0, 10)}
+                onChange={(e) => setScheduledDate(e.target.value)}
+                className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white focus:border-ember-500 focus:outline-none"
+              />
+            </div>
+            <div className="flex-1">
+              <label htmlFor={scheduleTimeId} className="sr-only">
+                {t("scheduleTimeLabel")}
+              </label>
+              <select
+                id={scheduleTimeId}
+                value={scheduledTime}
+                onChange={(e) => setScheduledTime(e.target.value)}
+                className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white focus:border-ember-500 focus:outline-none"
+              >
+                <option value="">{t("time")}</option>
+                {timeSlots.map((slot) => (
+                  <option key={slot} value={slot}>
+                    {slot}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </section>
       )}
 
       {!isDineIn && (
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-charcoal-100 mb-2">{t("payment")}</h2>
-          <div className="space-y-2">
+          <h2 id={paymentHeadingId} className="text-sm font-medium text-charcoal-100 mb-2">
+            {t("payment")}
+          </h2>
+          <div role="radiogroup" aria-labelledby={paymentHeadingId} className="space-y-2">
             {(
               [
                 { method: "card" as PaymentMethod, label: t("cardPayment") },
@@ -236,6 +259,8 @@ export default function CheckoutPage() {
             ).map((opt) => (
               <button
                 key={opt.method}
+                role="radio"
+                aria-checked={paymentMethod === opt.method}
                 onClick={() => setPaymentMethod(opt.method)}
                 className={`w-full text-start rounded-xl2 border px-4 py-2.5 text-sm transition-colors ${
                   paymentMethod === opt.method ? "border-ember-500 bg-ember-500/10 text-white" : "border-white/10 text-charcoal-100"
@@ -277,9 +302,20 @@ export default function CheckoutPage() {
         </div>
       </section>
 
-      {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
+      {error && (
+        <p id={checkoutErrorId} role="alert" aria-live="polite" className="text-sm text-red-400 mb-4">
+          {error}
+        </p>
+      )}
 
-      <Button variant="primary" size="lg" className="w-full" disabled={isPlacing} onClick={placeOrder}>
+      <Button
+        variant="primary"
+        size="lg"
+        className="w-full"
+        disabled={isPlacing}
+        onClick={placeOrder}
+        aria-describedby={error ? checkoutErrorId : undefined}
+      >
         {isPlacing ? t("placingOrder") : t("placeOrder", { total: total.toFixed(2) })}
       </Button>
     </main>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -25,6 +26,7 @@ export function CartDrawer() {
   const orderMode = useCartStore((s) => s.orderMode);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
+  const titleId = useId();
 
   const subtotal = cartSubtotal(items);
   const tax = estimateTax(subtotal);
@@ -44,6 +46,9 @@ export function CartDrawer() {
             onClick={close}
           />
           <motion.aside
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
             className={`fixed end-0 top-0 z-50 h-full w-full max-w-md bg-charcoal-900 border-s border-white/10 flex flex-col`}
             initial={{ x: offscreenX }}
             animate={{ x: 0 }}
@@ -51,7 +56,7 @@ export function CartDrawer() {
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
           >
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
-              <h2 className="text-lg font-semibold text-white">{t("title")}</h2>
+              <h2 id={titleId} className="text-lg font-semibold text-white">{t("title")}</h2>
               <button onClick={close} className="p-1 text-smoke-400 hover:text-white" aria-label={t("close")}>
                 <X size={22} />
               </button>
@@ -81,7 +86,7 @@ export function CartDrawer() {
                     </div>
                     <button
                       onClick={() => removeItem(item.cart_line_id)}
-                      className="text-smoke-500 hover:text-red-400 h-fit"
+                      className="text-smoke-400 hover:text-red-400 h-fit"
                       aria-label={t("removeItem")}
                     >
                       <Trash2 size={16} />
@@ -106,7 +111,7 @@ export function CartDrawer() {
                     <p className="text-ember-400 font-medium">
                       {lineTotalOf(item).toFixed(2)} {tCommon("sar")}
                       {item.quantity > 1 && (
-                        <span className="text-smoke-500 font-normal">
+                        <span className="text-smoke-400 font-normal">
                           {" "}
                           {t("eachPrice", { price: unitPriceOf(item).toFixed(2) })}
                         </span>

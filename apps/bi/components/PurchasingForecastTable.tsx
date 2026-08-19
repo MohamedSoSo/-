@@ -12,7 +12,7 @@ export function PurchasingForecastTable({ rows }: { rows: PurchasingForecastRow[
   return (
     <div className="glass-panel p-4">
       <h3 className="text-sm font-medium text-charcoal-100 mb-1">{t("title")}</h3>
-      <p className="text-xs text-smoke-500 mb-3">{t("explain")}</p>
+      <p className="text-xs text-smoke-400 mb-3">{t("explain")}</p>
       {rows.length === 0 ? (
         <p className="text-sm text-smoke-400">{t("noData")}</p>
       ) : (
@@ -41,11 +41,11 @@ function Table({ rows }: { rows: PurchasingForecastRow[] }) {
   return (
     <table className="w-full text-sm">
       <thead>
-        <tr className="text-start text-xs text-smoke-500">
-          <th className="font-normal pb-1">{t("category")}</th>
-          <th className="font-normal pb-1">{t("day")}</th>
-          <th className="font-normal pb-1 text-end">{t("avgKg")}</th>
-          <th className="font-normal pb-1 text-end">{t("forecast")}</th>
+        <tr className="text-start text-xs text-smoke-400">
+          <th scope="col" className="font-normal pb-1">{t("category")}</th>
+          <th scope="col" className="font-normal pb-1">{t("day")}</th>
+          <th scope="col" className="font-normal pb-1 text-end">{t("avgKg")}</th>
+          <th scope="col" className="font-normal pb-1 text-end">{t("forecast")}</th>
         </tr>
       </thead>
       <tbody>

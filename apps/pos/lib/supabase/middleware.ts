@@ -4,7 +4,7 @@ import type { Database } from "@bbq/supabase";
 import { buildCsp, SECURITY_HEADERS } from "@bbq/config/csp";
 import { stripLocalePrefix } from "@bbq/i18n";
 
-const PUBLIC_PATHS = ["/login", "/api/health", "/api/dev-login", "/sw.js", "/manifest.json"];
+const PUBLIC_PATHS = ["/login", "/api/health", "/api/dev-login", "/api/auth/request-otp", "/sw.js", "/manifest.json"];
 
 function withSecurityHeaders(response: NextResponse, nonce: string): NextResponse {
   // CSP (script-src 'strict-dynamic') is production-only: Next.js dev mode's

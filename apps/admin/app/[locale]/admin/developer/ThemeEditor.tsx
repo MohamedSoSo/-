@@ -46,25 +46,30 @@ export function ThemeEditor({ appKey, tokens }: { appKey: string; tokens: Record
         </button>
       </div>
       <div className="space-y-2">
-        {Object.entries(draft).map(([token, value]) => (
-          <div key={token} className="flex items-center justify-between gap-3">
-            <label className="text-xs text-smoke-400">{t.has(`tokens.${token}`) ? t(`tokens.${token}`) : token}</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={value}
-                onChange={(e) => setDraft((d) => ({ ...d, [token]: e.target.value }))}
-                className="h-7 w-7 rounded border border-white/10 bg-transparent"
-              />
-              <input
-                type="text"
-                value={value}
-                onChange={(e) => setDraft((d) => ({ ...d, [token]: e.target.value }))}
-                className="w-24 rounded-lg bg-charcoal-800 border border-white/10 px-2 py-1 text-xs text-white"
-              />
+        {Object.entries(draft).map(([token, value]) => {
+          const labelId = `theme-${appKey}-${token}-label`;
+          return (
+            <div key={token} className="flex items-center justify-between gap-3">
+              <label id={labelId} className="text-xs text-smoke-400">{t.has(`tokens.${token}`) ? t(`tokens.${token}`) : token}</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  aria-labelledby={labelId}
+                  value={value}
+                  onChange={(e) => setDraft((d) => ({ ...d, [token]: e.target.value }))}
+                  className="h-7 w-7 rounded border border-white/10 bg-transparent"
+                />
+                <input
+                  type="text"
+                  aria-labelledby={labelId}
+                  value={value}
+                  onChange={(e) => setDraft((d) => ({ ...d, [token]: e.target.value }))}
+                  className="w-24 rounded-lg bg-charcoal-800 border border-white/10 px-2 py-1 text-xs text-white"
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
@@ -18,6 +18,11 @@ export function PhoneAuthForm() {
   const searchParams = useSearchParams();
   const supabase = createClient();
 
+  const countryCodeId = useId();
+  const phoneNumberId = useId();
+  const codeInputId = useId();
+  const errorId = useId();
+
   const [step, setStep] = useState<Step>("phone");
   const [countryCode, setCountryCode] = useState<string>(GCC_COUNTRY_CODES[0].code);
   const [localNumber, setLocalNumber] = useState("");
@@ -34,6 +39,22 @@ export function PhoneAuthForm() {
     return () => clearTimeout(timer);
   }, [resendCooldown]);
 
+  async function requestOtp(phone: string): Promise<boolean> {
+    const response = await fetch("/api/auth/request-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone, channel }),
+    });
+    if (response.ok) return true;
+    const result: { error?: string } = await response.json().catch(() => ({}));
+    setError(
+      response.status === 429 || result.error?.includes("RATE_LIMITED")
+        ? t("otpRateLimited")
+        : (result.error ?? t("invalidPhone"))
+    );
+    return false;
+  }
+
   async function sendCode(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -43,15 +64,9 @@ export function PhoneAuthForm() {
       return;
     }
     setIsSubmitting(true);
-    const { error: otpError } = await supabase.auth.signInWithOtp({
-      phone,
-      options: { channel },
-    });
+    const ok = await requestOtp(phone);
     setIsSubmitting(false);
-    if (otpError) {
-      setError(otpError.message);
-      return;
-    }
+    if (!ok) return;
     setPhoneE164(phone);
     setStep("otp");
     setResendCooldown(60);
@@ -60,13 +75,9 @@ export function PhoneAuthForm() {
   async function resend() {
     if (!phoneE164 || resendCooldown > 0) return;
     setIsSubmitting(true);
-    const { error: otpError } = await supabase.auth.signInWithOtp({
-      phone: phoneE164,
-      options: { channel },
-    });
+    const ok = await requestOtp(phoneE164);
     setIsSubmitting(false);
-    if (otpError) setError(otpError.message);
-    else setResendCooldown(60);
+    if (ok) setResendCooldown(60);
   }
 
   async function verifyCode(e: React.FormEvent) {
@@ -97,16 +108,28 @@ export function PhoneAuthForm() {
             channel: channel === "whatsapp" ? t("whatsapp") : t("sms"),
           })}
         </p>
-        <input
-          inputMode="numeric"
-          autoFocus
-          maxLength={6}
-          value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
-          placeholder="123456"
-          className="w-full text-center text-2xl tracking-[0.5em] rounded-xl2 bg-charcoal-800 border border-white/10 py-3 text-white focus:border-ember-500 focus:outline-none"
-        />
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        <div>
+          <label htmlFor={codeInputId} className="sr-only">
+            {t("verificationCodeLabel")}
+          </label>
+          <input
+            id={codeInputId}
+            inputMode="numeric"
+            autoFocus
+            maxLength={6}
+            value={code}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+            placeholder="123456"
+            aria-invalid={!!error}
+            aria-describedby={error ? errorId : undefined}
+            className="w-full text-center text-2xl tracking-[0.5em] rounded-xl2 bg-charcoal-800 border border-white/10 py-3 text-white focus:border-ember-500 focus:outline-none"
+          />
+        </div>
+        {error && (
+          <p id={errorId} role="alert" aria-live="polite" className="text-sm text-red-400">
+            {error}
+          </p>
+        )}
         <Button type="submit" variant="primary" size="lg" className="w-full" disabled={isSubmitting || code.length < 4}>
           {isSubmitting ? t("verifying") : t("verifyContinue")}
         </Button>
@@ -125,32 +148,48 @@ export function PhoneAuthForm() {
   return (
     <form onSubmit={sendCode} className="space-y-4">
       <div className="flex gap-2">
-        <select
-          value={countryCode}
-          onChange={(e) => setCountryCode(e.target.value)}
-          className="rounded-xl2 bg-charcoal-800 border border-white/10 px-3 text-white focus:border-ember-500 focus:outline-none"
-        >
-          {GCC_COUNTRY_CODES.map((c) => (
-            <option key={c.code} value={c.code}>
-              {c.label} {c.code}
-            </option>
-          ))}
-        </select>
-        <input
-          type="tel"
-          inputMode="numeric"
-          value={localNumber}
-          onChange={(e) => setLocalNumber(e.target.value)}
-          placeholder="5X XXX XXXX"
-          className="flex-1 rounded-xl2 bg-charcoal-800 border border-white/10 px-4 py-3 text-white focus:border-ember-500 focus:outline-none"
-        />
+        <div>
+          <label htmlFor={countryCodeId} className="sr-only">
+            {t("countryCodeLabel")}
+          </label>
+          <select
+            id={countryCodeId}
+            value={countryCode}
+            onChange={(e) => setCountryCode(e.target.value)}
+            className="rounded-xl2 bg-charcoal-800 border border-white/10 px-3 text-white focus:border-ember-500 focus:outline-none"
+          >
+            {GCC_COUNTRY_CODES.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.label} {c.code}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex-1">
+          <label htmlFor={phoneNumberId} className="sr-only">
+            {t("phoneNumberLabel")}
+          </label>
+          <input
+            id={phoneNumberId}
+            type="tel"
+            inputMode="numeric"
+            value={localNumber}
+            onChange={(e) => setLocalNumber(e.target.value)}
+            placeholder="5X XXX XXXX"
+            aria-invalid={!!error}
+            aria-describedby={error ? errorId : undefined}
+            className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-4 py-3 text-white focus:border-ember-500 focus:outline-none"
+          />
+        </div>
       </div>
 
-      <div className="flex rounded-xl2 border border-white/10 p-1 bg-charcoal-800">
+      <div role="radiogroup" aria-label={t("channelGroupLabel")} className="flex rounded-xl2 border border-white/10 p-1 bg-charcoal-800">
         {(["sms", "whatsapp"] as Channel[]).map((c) => (
           <button
             key={c}
             type="button"
+            role="radio"
+            aria-checked={channel === c}
             onClick={() => setChannel(c)}
             className={`flex-1 rounded-xl py-2 text-sm transition-colors ${
               channel === c ? "bg-ember-500 text-charcoal-900 font-medium" : "text-smoke-400"
@@ -161,7 +200,11 @@ export function PhoneAuthForm() {
         ))}
       </div>
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && (
+        <p id={errorId} role="alert" aria-live="polite" className="text-sm text-red-400">
+          {error}
+        </p>
+      )}
 
       <Button type="submit" variant="primary" size="lg" className="w-full" disabled={isSubmitting || !localNumber}>
         {isSubmitting ? t("sending") : t("sendCode", { channel: channel === "whatsapp" ? t("whatsapp") : t("sms") })}

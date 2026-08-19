@@ -54,7 +54,7 @@ export default async function AccountPage({ params: { locale } }: { params: { lo
           <p className="text-sm text-smoke-400">{t("loyaltyPoints")}</p>
           <p className="text-2xl font-semibold text-ember-400">{loyaltyPoints}</p>
         </div>
-        <p className="text-xs text-smoke-500 max-w-[10rem] text-end">{t("loyaltyExplain")}</p>
+        <p className="text-xs text-smoke-400 max-w-[10rem] text-end">{t("loyaltyExplain")}</p>
       </div>
 
       {activeOrder && (

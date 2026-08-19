@@ -26,6 +26,7 @@ export function StaffHeader() {
           <Link
             key={href}
             href={href}
+            aria-current={pathname?.includes(href) ? "page" : undefined}
             className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm ${
               pathname?.includes(href) ? "bg-ember-500 text-charcoal-900 font-medium" : "text-charcoal-100 hover:bg-white/5"
             }`}

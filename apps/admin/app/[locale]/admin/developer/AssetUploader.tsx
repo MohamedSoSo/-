@@ -81,12 +81,13 @@ export function AssetUploader({
           // eslint-disable-next-line @next/next/no-img-element -- arbitrary uploaded asset, not an optimized local image
           <img src={preview} alt={label} className="max-h-full max-w-full object-contain" />
         ) : (
-          <span className="text-xs text-smoke-500">{t("noAsset")}</span>
+          <span className="text-xs text-smoke-400">{t("noAsset")}</span>
         )}
       </div>
       <input
         ref={inputRef}
         type="file"
+        aria-label={label}
         accept={ACCEPTED.join(",")}
         className="hidden"
         onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
@@ -98,10 +99,10 @@ export function AssetUploader({
       >
         {isUploading ? t("uploading") : <><Upload size={14} /> {currentUrl ? t("replace") : t("upload")}</>}
       </button>
-      {error && <p className="text-xs text-red-400 mt-2">{error}</p>}
+      {error && <p role="alert" aria-live="polite" className="text-xs text-red-400 mt-2">{error}</p>}
       {!isUploading && !error && preview && preview !== currentUrl && (
-        <p className="text-xs text-emerald-400 mt-2 flex items-center gap-1">
-          <Check size={12} /> {t("saved")}
+        <p role="status" aria-live="polite" className="text-xs text-emerald-400 mt-2 flex items-center gap-1">
+          <Check size={12} aria-hidden="true" /> {t("saved")}
         </p>
       )}
     </div>

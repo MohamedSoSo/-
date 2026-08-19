@@ -19,10 +19,12 @@ export function DateRangeFilter({ current }: { current: DateRangePreset }) {
   }
 
   return (
-    <div className="flex rounded-full border border-white/10 p-1">
+    <div role="radiogroup" aria-label={t("label")} className="flex rounded-full border border-white/10 p-1">
       {PRESET_VALUES.map((value) => (
         <button
           key={value}
+          role="radio"
+          aria-checked={current === value}
           onClick={() => setPreset(value)}
           className={`rounded-full px-3 py-1.5 text-sm ${
             current === value ? "bg-ember-500 text-charcoal-900 font-medium" : "text-charcoal-100"

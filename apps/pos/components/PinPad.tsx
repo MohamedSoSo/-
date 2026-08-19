@@ -29,7 +29,7 @@ export function PinPad({
 
   return (
     <div className="w-full max-w-xs mx-auto">
-      <div className="flex justify-center gap-3 mb-6">
+      <div className="flex justify-center gap-3 mb-6" aria-hidden="true">
         {Array.from({ length: maxLength }).map((_, i) => (
           <div
             key={i}
@@ -39,8 +39,15 @@ export function PinPad({
           />
         ))}
       </div>
+      <p className="sr-only" role="status" aria-live="polite">
+        {pin.length} of {maxLength} digits entered
+      </p>
 
-      {error && <p className="text-center text-sm text-red-400 mb-4">{error}</p>}
+      {error && (
+        <p role="alert" aria-live="polite" className="text-center text-sm text-red-400 mb-4">
+          {error}
+        </p>
+      )}
 
       <div className="grid grid-cols-3 gap-3">
         {KEYS.map((key, i) => (
@@ -48,6 +55,7 @@ export function PinPad({
             key={i}
             type="button"
             disabled={key === "" || isSubmitting}
+            aria-label={key === "⌫" ? "Backspace" : undefined}
             onClick={() => press(key)}
             className="h-16 rounded-2xl bg-white/5 text-2xl font-medium text-white hover:bg-white/10 disabled:opacity-0 flex items-center justify-center"
           >

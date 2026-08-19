@@ -35,14 +35,14 @@ export function HourlyHeatmap({ cells }: { cells: HeatmapCell[] }) {
         <div className="grid grid-cols-[32px_repeat(24,1fr)] gap-[2px] mb-1">
           <div />
           {HOURS.map((h) => (
-            <div key={h} className="text-[9px] text-smoke-500 text-center">
+            <div key={h} className="text-[9px] text-smoke-400 text-center">
               {h % 3 === 0 ? h : ""}
             </div>
           ))}
         </div>
         {DOW_ORDER.map((dow) => (
           <div key={dow} className="grid grid-cols-[32px_repeat(24,1fr)] gap-[2px] mb-[2px]">
-            <div className="text-[10px] text-smoke-500 flex items-center">{t(`dow.${dow}`)}</div>
+            <div className="text-[10px] text-smoke-400 flex items-center">{t(`dow.${dow}`)}</div>
             {HOURS.map((hour) => {
               const cell = byKey.get(`${dow}::${hour}`) ?? { dow, hour, orderCount: 0 };
               return (

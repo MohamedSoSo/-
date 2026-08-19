@@ -5,7 +5,9 @@
   },
   "common": {
     "sar": "ريال",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "decreaseQuantity": "إنقاص الكمية",
+    "increaseQuantity": "زيادة الكمية"
   },
   "supervisorPin": {
     "heading": "موافقة المشرف",
@@ -33,6 +35,7 @@
   },
   "phoneAuth": {
     "invalidPhone": "يرجى إدخال رقم جوال صحيح.",
+    "otpRateLimited": "تم طلب الرمز عدة مرات — يرجى الانتظار بضع دقائق ثم المحاولة مرة أخرى.",
     "otpSentTo": "أدخل الرمز المُرسَل إلى {phone}.",
     "verifying": "جارٍ التحقق…",
     "openTerminal": "فتح الجهاز",
@@ -66,6 +69,8 @@
     "grillStation": "محطة الشواء",
     "assemblyDrinks": "التجهيز / المشروبات",
     "noActiveTickets": "لا توجد تذاكر نشطة.",
+    "viewLabel": "عرض المحطة",
+    "ticketCount": "{count} تذكرة نشطة",
     "nextStatus": {
       "grilling": "على الشواية",
       "kitchen_prep": "التحضير في المطبخ",
@@ -86,7 +91,8 @@
     "switchToManual": "— تحوّل إلى الإدخال اليدوي.",
     "confirmWeight": "تأكيد الوزن",
     "weightInGrams": "الوزن بالجرام",
-    "reasonPlaceholder": "السبب (الميزان غير متاح، انقطع الاتصال...)"
+    "reasonPlaceholder": "السبب (الميزان غير متاح، انقطع الاتصال...)",
+    "modeLabel": "طريقة الإدخال"
   },
   "orderDetail": {
     "table": "طاولة {label}",
@@ -103,6 +109,8 @@
     "reasonPlaceholder": "السبب",
     "apply": "تطبيق",
     "paymentsSection": "الدفعات (تدعم تقسيم الفاتورة — أضف بقدر ما تحتاج)",
+    "paymentMethodLabel": "طريقة الدفع",
+    "paymentAmountLabel": "مبلغ الدفعة",
     "add": "إضافة",
     "transferTable": "نقل الطاولة",
     "moveTo": "نقل إلى…",
@@ -190,6 +198,8 @@
     "failedActions": "الإجراءات غير المتصلة الفاشلة",
     "failedActionsExplain": "لم تتم مزامنة هذه العناصر بعد المحاولة — غالبًا رفض فعلي (مثل نفاد الكمية)، وليس مجرد انقطاع شبكة مؤقت. أعد المحاولة بعد معالجة السبب، أو تجاهلها إذا لم تعد ذات صلة.",
     "printerNotSupported": "Web Serial غير مدعوم في هذا المتصفح.",
-    "printerError": "تعذّر تسجيل الطابعة."
+    "printerError": "تعذّر تسجيل الطابعة.",
+    "retryAction": "إعادة المحاولة",
+    "discardAction": "تجاهل"
   }
 }

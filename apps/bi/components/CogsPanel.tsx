@@ -42,7 +42,7 @@ export function CogsPanel({
   return (
     <div className="glass-panel p-4">
       <h3 className="text-sm font-medium text-charcoal-100 mb-1">{t("title")}</h3>
-      <p className="text-xs text-smoke-500 mb-4">{t("explain")}</p>
+      <p className="text-xs text-smoke-400 mb-4">{t("explain")}</p>
 
       <div className="space-y-5">
         {ingredients.map((ing) => {
@@ -55,14 +55,15 @@ export function CogsPanel({
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm text-white font-medium">{localizedField(ing.name_en, ing.name_ar, locale)}</p>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-smoke-500">{t("sarPerKg")}</span>
+                  <span className="text-xs text-smoke-400">{t("sarPerKg")}</span>
                   <input
                     type="number"
+                    aria-label={t("priceLabel", { ingredient: localizedField(ing.name_en, ing.name_ar, locale) })}
                     value={draftValue}
                     onChange={(e) => setDrafts((d) => ({ ...d, [ing.id]: e.target.value }))}
                     className="w-24 rounded-lg bg-charcoal-800 border border-white/10 px-2 py-1 text-sm text-white text-end"
                   />
-                  <Button variant="glass" size="sm" disabled={saving === ing.id} onClick={() => save(ing.id)}>
+                  <Button variant="glass" size="sm" disabled={saving === ing.id} onClick={() => save(ing.id)} aria-label={t("save")}>
                     <Save size={14} />
                   </Button>
                 </div>
@@ -82,7 +83,7 @@ export function CogsPanel({
                       <div key={link.menu_item_id} className="flex justify-between text-xs">
                         <span className="text-smoke-400">{localizedField(bcgItem.nameEn, bcgItem.nameAr, locale)}</span>
                         <span className="tabular-nums">
-                          <span className="text-smoke-500">{(bcgItem.marginPct * 100).toFixed(0)}%</span>
+                          <span className="text-smoke-400">{(bcgItem.marginPct * 100).toFixed(0)}%</span>
                           <span className="text-smoke-600 mx-1">→</span>
                           <span className={marginDelta >= 0 ? "text-emerald-400" : "text-red-400"}>
                             {(newMargin * 100).toFixed(0)}%

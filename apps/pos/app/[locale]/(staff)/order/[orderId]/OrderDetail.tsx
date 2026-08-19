@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, ArrowRightLeft, Receipt } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -88,6 +88,12 @@ export function OrderDetail({
   });
   const [isPrinting, setIsPrinting] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+
+  const discountAmountId = useId();
+  const discountReasonId = useId();
+  const paymentMethodId = useId();
+  const paymentAmountId = useId();
+  const transferTableHeadingId = useId();
 
   useEffect(() => {
     const supabase = createClient();
@@ -330,14 +336,18 @@ export function OrderDetail({
       <section className="glass-panel p-4 mb-6">
         <h2 className="text-sm font-medium text-charcoal-100 mb-3">{t("discountSection")}</h2>
         <div className="flex gap-2">
+          <label htmlFor={discountAmountId} className="sr-only">{t("amountPlaceholder")}</label>
           <input
+            id={discountAmountId}
             type="number"
             placeholder={t("amountPlaceholder")}
             value={discountDraft.amount}
             onChange={(e) => setDiscountDraft((d) => ({ ...d, amount: e.target.value }))}
             className="w-24 rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
           />
+          <label htmlFor={discountReasonId} className="sr-only">{t("reasonPlaceholder")}</label>
           <input
+            id={discountReasonId}
             type="text"
             placeholder={t("reasonPlaceholder")}
             value={discountDraft.reason}
@@ -366,7 +376,9 @@ export function OrderDetail({
           </div>
         ))}
         <div className="flex gap-2 mt-2">
+          <label htmlFor={paymentMethodId} className="sr-only">{t("paymentMethodLabel")}</label>
           <select
+            id={paymentMethodId}
             value={paymentDraft.method}
             onChange={(e) => setPaymentDraft((d) => ({ ...d, method: e.target.value as PaymentMethod }))}
             className="rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
@@ -376,7 +388,9 @@ export function OrderDetail({
             <option value="apple_pay">{t("paymentMethods.apple_pay")}</option>
             <option value="terminal">{t("paymentMethods.terminal")}</option>
           </select>
+          <label htmlFor={paymentAmountId} className="sr-only">{t("paymentAmountLabel")}</label>
           <input
+            id={paymentAmountId}
             type="number"
             placeholder={balanceDue.toFixed(2)}
             value={paymentDraft.amount}
@@ -390,10 +404,11 @@ export function OrderDetail({
       </section>
 
       <section className="glass-panel p-4 mb-6">
-        <h2 className="text-sm font-medium text-charcoal-100 mb-3 flex items-center gap-1.5">
+        <h2 id={transferTableHeadingId} className="text-sm font-medium text-charcoal-100 mb-3 flex items-center gap-1.5">
           <ArrowRightLeft size={14} /> {t("transferTable")}
         </h2>
         <select
+          aria-labelledby={transferTableHeadingId}
           defaultValue=""
           onChange={(e) => e.target.value && transferTable(e.target.value)}
           className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
@@ -411,7 +426,7 @@ export function OrderDetail({
         </select>
       </section>
 
-      {notice && <p className="text-xs text-ember-400 mb-3">{notice}</p>}
+      {notice && <p role="status" aria-live="polite" className="text-xs text-ember-400 mb-3">{notice}</p>}
 
       <Button variant="primary" size="lg" className="w-full flex items-center justify-center gap-2" disabled={isPrinting} onClick={finalizeAndPrint}>
         {order.zatca_signed_at ? <Printer size={18} /> : <Receipt size={18} />}

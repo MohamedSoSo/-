@@ -15,12 +15,12 @@ export function ZReportTable({ shifts, staffNames }: { shifts: RawShift[]; staff
       ) : (
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-start text-xs text-smoke-500">
-              <th className="font-normal pb-1">{t("date")}</th>
-              <th className="font-normal pb-1">{t("cashier")}</th>
-              <th className="font-normal pb-1 text-end">{t("expected")}</th>
-              <th className="font-normal pb-1 text-end">{t("counted")}</th>
-              <th className="font-normal pb-1 text-end">{t("variance")}</th>
+            <tr className="text-start text-xs text-smoke-400">
+              <th scope="col" className="font-normal pb-1">{t("date")}</th>
+              <th scope="col" className="font-normal pb-1">{t("cashier")}</th>
+              <th scope="col" className="font-normal pb-1 text-end">{t("expected")}</th>
+              <th scope="col" className="font-normal pb-1 text-end">{t("counted")}</th>
+              <th scope="col" className="font-normal pb-1 text-end">{t("variance")}</th>
             </tr>
           </thead>
           <tbody>
@@ -36,7 +36,7 @@ export function ZReportTable({ shifts, staffNames }: { shifts: RawShift[]; staff
                 </td>
                 <td
                   className={`py-1.5 text-end tabular-nums font-medium ${
-                    s.cash_variance == null ? "text-smoke-500" : Math.abs(s.cash_variance) < 5 ? "text-emerald-400" : "text-red-400"
+                    s.cash_variance == null ? "text-smoke-400" : Math.abs(s.cash_variance) < 5 ? "text-emerald-400" : "text-red-400"
                   }`}
                 >
                   {s.cash_variance != null ? `${s.cash_variance >= 0 ? "+" : ""}${s.cash_variance.toFixed(2)}` : t("open")}

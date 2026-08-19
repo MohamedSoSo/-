@@ -547,6 +547,10 @@ export interface Database {
     };
     Views: Record<string, never>;
     Functions: {
+      check_and_record_otp_rate_limit: {
+        Args: { p_phone: string; p_client_ip: string | null };
+        Returns: undefined;
+      };
       place_order: {
         Args: {
           p_channel: OrderChannel;
@@ -557,6 +561,7 @@ export interface Database {
           p_delivery_lng: number | null;
           p_delivery_notes: string | null;
           p_items: Json;
+          p_client_ip?: string | null;
         };
         Returns: { order_id: string; order_number: string }[];
       };

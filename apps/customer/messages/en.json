@@ -40,11 +40,13 @@
   },
   "menu": {
     "soldOut": "Sold out",
-    "priceFrom": "From {price} SAR"
+    "priceFrom": "From {price} SAR",
+    "categoriesLabel": "Menu categories"
   },
   "itemSheet": {
     "chooseToContinue": "Choose {groups} to continue.",
     "weight": "Weight",
+    "weightUnitLabel": "Weight display unit",
     "doneness": "Doneness",
     "notes": "Notes",
     "notesPlaceholder": "Any special requests?",
@@ -72,6 +74,8 @@
     "locationCaptured": "Location captured",
     "useCurrentLocation": "Use my current location",
     "schedule": "Schedule",
+    "scheduleDateLabel": "Date",
+    "scheduleTimeLabel": "Time",
     "time": "Time",
     "payment": "Payment",
     "cardPayment": "Card (Visa/Mastercard)",
@@ -80,6 +84,7 @@
     "placingOrder": "Placing order…",
     "placeOrder": "Place order — {total} SAR",
     "errorGeneric": "Something went wrong placing your order. Please try again.",
+    "errorRateLimited": "You're placing orders a bit too quickly — please wait a moment and try again.",
     "errorOutOfStock": "One of your items just sold out — please update your cart.",
     "errorItemUnavailable": "One of your items is no longer available.",
     "errorTableRequired": "Please scan your table's QR code to order dine-in.",
@@ -118,6 +123,11 @@
   },
   "phoneAuth": {
     "invalidPhone": "Enter a valid phone number.",
+    "otpRateLimited": "Too many code requests — please wait a few minutes and try again.",
+    "countryCodeLabel": "Country code",
+    "phoneNumberLabel": "Phone number",
+    "channelGroupLabel": "Send code via",
+    "verificationCodeLabel": "Verification code",
     "otpSentTo": "Enter the code sent to {phone} via {channel}.",
     "whatsapp": "WhatsApp",
     "sms": "SMS",

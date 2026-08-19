@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { motion } from "framer-motion";
 import { X, ShieldAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -19,6 +19,7 @@ export function SupervisorPinModal({
   const tCommon = useTranslations("common");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const titleId = useId();
 
   async function handlePin(pin: string) {
     setError(null);
@@ -43,6 +44,9 @@ export function SupervisorPinModal({
         onClick={onClose}
       />
       <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
         className="fixed left-1/2 top-1/2 z-50 w-full max-w-xs -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-white/10 bg-charcoal-900 p-6"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -51,7 +55,7 @@ export function SupervisorPinModal({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2 text-ember-400">
             <ShieldAlert size={18} />
-            <span className="text-sm font-medium">{t("heading")}</span>
+            <span id={titleId} className="text-sm font-medium">{t("heading")}</span>
           </div>
           <button onClick={onClose} className="text-smoke-400 hover:text-white" aria-label={tCommon("cancel")}>
             <X size={18} />

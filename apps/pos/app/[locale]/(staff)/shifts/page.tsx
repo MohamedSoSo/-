@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { DoorOpen, Wallet, AlertTriangle, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
@@ -33,6 +33,15 @@ export default function ShiftsPage() {
   const [menuItems, setMenuItems] = useState<{ id: string; name_en: string; name_ar: string }[]>([]);
   const [closeResult, setCloseResult] = useState<{ expected_cash: number; variance: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const openingBalanceId = useId();
+  const pettyCashAmountId = useId();
+  const pettyCashReasonId = useId();
+  const wasteItemId = useId();
+  const wasteWeightId = useId();
+  const wasteQtyId = useId();
+  const wasteReasonId = useId();
+  const countedCashId = useId();
 
   useEffect(() => {
     if (!operator) return;
@@ -123,10 +132,10 @@ export default function ShiftsPage() {
     <main className="p-4 max-w-lg mx-auto space-y-6">
       <h1 className="text-xl font-semibold text-white">{t("title")}</h1>
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p role="alert" aria-live="polite" className="text-sm text-red-400">{error}</p>}
 
       {closeResult && (
-        <div className="glass-panel p-4">
+        <div role="status" aria-live="polite" className="glass-panel p-4">
           <h2 className="text-sm font-medium text-charcoal-100 mb-2">{t("zReport")}</h2>
           <div className="flex justify-between text-sm text-charcoal-100">
             <span>{t("expectedCash")}</span>
@@ -150,7 +159,9 @@ export default function ShiftsPage() {
             <DoorOpen size={16} /> {t("openShift")}
           </h2>
           <div className="flex gap-2">
+            <label htmlFor={openingBalanceId} className="sr-only">{t("openingBalancePlaceholder")}</label>
             <input
+              id={openingBalanceId}
               type="number"
               placeholder={t("openingBalancePlaceholder")}
               value={openingBalance}
@@ -176,14 +187,18 @@ export default function ShiftsPage() {
               <Wallet size={16} /> {t("pettyCash")}
             </h2>
             <div className="flex gap-2">
+              <label htmlFor={pettyCashAmountId} className="sr-only">{t("amountPlaceholder")}</label>
               <input
+                id={pettyCashAmountId}
                 type="number"
                 placeholder={t("amountPlaceholder")}
                 value={pettyCash.amount}
                 onChange={(e) => setPettyCash((p) => ({ ...p, amount: e.target.value }))}
                 className="w-24 rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
               />
+              <label htmlFor={pettyCashReasonId} className="sr-only">{t("reasonPlaceholder")}</label>
               <input
+                id={pettyCashReasonId}
                 type="text"
                 placeholder={t("reasonPlaceholder")}
                 value={pettyCash.reason}
@@ -201,7 +216,9 @@ export default function ShiftsPage() {
               <Trash2 size={16} /> {t("logWaste")}
             </h2>
             <div className="space-y-2">
+              <label htmlFor={wasteItemId} className="sr-only">{t("selectItem")}</label>
               <select
+                id={wasteItemId}
                 value={wasteDraft.itemId}
                 onChange={(e) => setWasteDraft((w) => ({ ...w, itemId: e.target.value }))}
                 className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
@@ -214,14 +231,18 @@ export default function ShiftsPage() {
                 ))}
               </select>
               <div className="flex gap-2">
+                <label htmlFor={wasteWeightId} className="sr-only">{t("weightPlaceholder")}</label>
                 <input
+                  id={wasteWeightId}
                   type="number"
                   placeholder={t("weightPlaceholder")}
                   value={wasteDraft.weight}
                   onChange={(e) => setWasteDraft((w) => ({ ...w, weight: e.target.value }))}
                   className="flex-1 rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
                 />
+                <label htmlFor={wasteQtyId} className="sr-only">{t("qtyPlaceholder")}</label>
                 <input
+                  id={wasteQtyId}
                   type="number"
                   placeholder={t("qtyPlaceholder")}
                   value={wasteDraft.qty}
@@ -229,7 +250,9 @@ export default function ShiftsPage() {
                   className="w-16 rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
                 />
               </div>
+              <label htmlFor={wasteReasonId} className="sr-only">{t("logWaste")}</label>
               <select
+                id={wasteReasonId}
                 value={wasteDraft.reason}
                 onChange={(e) => setWasteDraft((w) => ({ ...w, reason: e.target.value as WasteReason }))}
                 className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white"
@@ -252,7 +275,9 @@ export default function ShiftsPage() {
           <div className="glass-panel p-4">
             <h2 className="text-sm font-medium text-charcoal-100 mb-3">{t("closeShift")}</h2>
             <div className="flex gap-2">
+              <label htmlFor={countedCashId} className="sr-only">{t("countedCashPlaceholder")}</label>
               <input
+                id={countedCashId}
                 type="number"
                 placeholder={t("countedCashPlaceholder")}
                 value={countedCash}

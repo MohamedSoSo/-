@@ -36,7 +36,7 @@ export function DevQuickLogin() {
   return (
     <div className="fixed bottom-4 right-4 z-[100] w-72 rounded-2xl border border-yellow-500/30 bg-charcoal-900/95 backdrop-blur-glass p-4 shadow-2xl">
       <p className="text-[10px] font-semibold uppercase tracking-wide text-yellow-400 mb-1">Dev Quick Login</p>
-      <p className="text-[11px] text-smoke-500 mb-3">
+      <p className="text-[11px] text-smoke-400 mb-3">
         Local testing only — seeds a real Supabase session per role, bypassing OTP/PIN. Needs
         SUPABASE_SERVICE_ROLE_KEY in .env.local.
       </p>

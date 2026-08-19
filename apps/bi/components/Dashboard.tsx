@@ -68,10 +68,14 @@ export function Dashboard({ data }: { data: DashboardData }) {
 
       <InsightsBanner insights={data.insights} />
 
-      <div className="flex gap-1 overflow-x-auto mb-6 border-b border-white/5">
+      <div role="tablist" aria-label={t("tabsLabel")} className="flex gap-1 overflow-x-auto mb-6 border-b border-white/5">
         {TAB_KEYS.map((key) => (
           <button
             key={key}
+            id={`bi-tab-${key}`}
+            role="tab"
+            aria-selected={tab === key}
+            aria-controls={`bi-tabpanel-${key}`}
             onClick={() => setTab(key)}
             className={`shrink-0 px-4 py-2 text-sm border-b-2 transition-colors ${
               tab === key ? "border-ember-500 text-white font-medium" : "border-transparent text-smoke-400"
@@ -83,7 +87,7 @@ export function Dashboard({ data }: { data: DashboardData }) {
       </div>
 
       {tab === "overview" && (
-        <div className="space-y-4">
+        <div role="tabpanel" id={`bi-tabpanel-${tab}`} aria-labelledby={`bi-tab-${tab}`} className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <StatTile
               label={t("revenue")}
@@ -116,14 +120,14 @@ export function Dashboard({ data }: { data: DashboardData }) {
       )}
 
       {tab === "menuEngineering" && (
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div role="tabpanel" id={`bi-tabpanel-${tab}`} aria-labelledby={`bi-tab-${tab}`} className="grid gap-4 lg:grid-cols-2">
           <BcgScatter items={data.bcg} />
           <CogsPanel ingredients={data.ingredients} usage={data.ingredientUsage} bcgItems={data.bcg} />
         </div>
       )}
 
       {tab === "yieldPurchasing" && (
-        <div className="space-y-4">
+        <div role="tabpanel" id={`bi-tabpanel-${tab}`} aria-labelledby={`bi-tab-${tab}`} className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-2">
             <StatTile label={t("loggedWaste")} value={`${data.yieldAnalytics.totalDeclaredWasteKg.toFixed(1)} kg`} />
             <StatTile
@@ -139,7 +143,7 @@ export function Dashboard({ data }: { data: DashboardData }) {
       )}
 
       {tab === "operations" && (
-        <div className="space-y-4">
+        <div role="tabpanel" id={`bi-tabpanel-${tab}`} aria-labelledby={`bi-tab-${tab}`} className="space-y-4">
           <HourlyHeatmap cells={data.heatmap} />
           <div className="grid gap-4 lg:grid-cols-2">
             <GrillVelocityTable rows={data.grillVelocity} />
@@ -149,7 +153,7 @@ export function Dashboard({ data }: { data: DashboardData }) {
       )}
 
       {tab === "customersFinance" && (
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div role="tabpanel" id={`bi-tabpanel-${tab}`} aria-labelledby={`bi-tab-${tab}`} className="grid gap-4 lg:grid-cols-2">
           <RfmPanel rows={data.rfm} />
           <ZReportTable shifts={data.shifts} staffNames={data.staffNames} />
         </div>

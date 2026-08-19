@@ -12,7 +12,11 @@ export function OfflineBanner() {
 
   if (failedCount > 0) {
     return (
-      <div className="sticky top-0 z-50 flex items-center justify-center gap-2 py-1.5 text-xs font-medium bg-red-500/20 text-red-300">
+      <div
+        role="alert"
+        aria-live="polite"
+        className="sticky top-0 z-50 flex items-center justify-center gap-2 py-1.5 text-xs font-medium bg-red-500/20 text-red-300"
+      >
         <AlertTriangle size={12} />
         {t("failedActions", { count: failedCount })}
       </div>
@@ -21,6 +25,8 @@ export function OfflineBanner() {
 
   return (
     <div
+      role="status"
+      aria-live="polite"
       className={`sticky top-0 z-50 flex items-center justify-center gap-2 py-1.5 text-xs font-medium ${
         isOnline ? "bg-ember-500/20 text-ember-300" : "bg-red-500/20 text-red-300"
       }`}

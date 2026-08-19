@@ -40,11 +40,13 @@
   },
   "menu": {
     "soldOut": "نفدت الكمية",
-    "priceFrom": "يبدأ من {price} ريال"
+    "priceFrom": "يبدأ من {price} ريال",
+    "categoriesLabel": "تصنيفات القائمة"
   },
   "itemSheet": {
     "chooseToContinue": "يرجى اختيار {groups} للمتابعة.",
     "weight": "الوزن",
+    "weightUnitLabel": "وحدة عرض الوزن",
     "doneness": "درجة النضج",
     "notes": "ملاحظات",
     "notesPlaceholder": "هل لديك أي طلبات خاصة؟",
@@ -72,6 +74,8 @@
     "locationCaptured": "تم تحديد الموقع",
     "useCurrentLocation": "استخدام موقعي الحالي",
     "schedule": "الموعد",
+    "scheduleDateLabel": "التاريخ",
+    "scheduleTimeLabel": "الوقت",
     "time": "الوقت",
     "payment": "الدفع",
     "cardPayment": "بطاقة (فيزا/ماستركارد)",
@@ -80,6 +84,7 @@
     "placingOrder": "جارٍ إرسال الطلب…",
     "placeOrder": "إرسال الطلب — {total} ريال",
     "errorGeneric": "حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى.",
+    "errorRateLimited": "أنت ترسل الطلبات بسرعة كبيرة — يرجى الانتظار قليلًا ثم المحاولة مرة أخرى.",
     "errorOutOfStock": "أحد الأصناف في طلبك نفدت كميته للتو — يرجى تحديث سلتك.",
     "errorItemUnavailable": "أحد الأصناف في طلبك لم يعد متاحًا.",
     "errorTableRequired": "يرجى مسح رمز الاستجابة السريع الخاص بطاولتك لطلب التناول داخل المطعم.",
@@ -118,6 +123,11 @@
   },
   "phoneAuth": {
     "invalidPhone": "يرجى إدخال رقم جوال صحيح.",
+    "otpRateLimited": "تم طلب الرمز عدة مرات — يرجى الانتظار بضع دقائق ثم المحاولة مرة أخرى.",
+    "countryCodeLabel": "رمز الدولة",
+    "phoneNumberLabel": "رقم الجوال",
+    "channelGroupLabel": "إرسال الرمز عبر",
+    "verificationCodeLabel": "رمز التحقق",
     "otpSentTo": "أدخل الرمز المُرسَل إلى {phone} عبر {channel}.",
     "whatsapp": "واتساب",
     "sms": "رسالة نصية",

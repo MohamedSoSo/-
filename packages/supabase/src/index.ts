@@ -5,6 +5,7 @@ export {
   type CookieAdapter,
 } from "./server-client";
 export { devSeedAndSignIn, isDevRole, DEV_ROLE_LIST, type DevRole, type DevSeedResult } from "./dev-login";
+export { requestOtpWithRateLimit, type RequestOtpResult } from "./otp-rate-limit";
 export type {
   Database,
   AppRole,

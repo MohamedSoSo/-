@@ -20,7 +20,7 @@ export function RfmPanel({ rows }: { rows: RfmRow[] }) {
   return (
     <div className="glass-panel p-4">
       <h3 className="text-sm font-medium text-charcoal-100 mb-1">{t("title")}</h3>
-      <p className="text-xs text-smoke-500 mb-4">{t("explain")}</p>
+      <p className="text-xs text-smoke-400 mb-4">{t("explain")}</p>
 
       {rows.length === 0 ? (
         <p className="text-sm text-smoke-400">{t("noCustomers")}</p>
@@ -34,7 +34,7 @@ export function RfmPanel({ rows }: { rows: RfmRow[] }) {
                 <div className="flex items-center gap-2 mb-2">
                   <span className="h-2 w-2 rounded-full" style={{ background: SEGMENT_COLOR[segment] }} />
                   <p className="text-sm font-medium text-white">{t(`segments.${segment}`)}</p>
-                  <span className="text-xs text-smoke-500">({inSegment.length})</span>
+                  <span className="text-xs text-smoke-400">({inSegment.length})</span>
                 </div>
                 <div className="space-y-1.5">
                   {inSegment.slice(0, 8).map((customer) => {
@@ -43,7 +43,7 @@ export function RfmPanel({ rows }: { rows: RfmRow[] }) {
                       <div key={customer.customerId} className="flex items-center justify-between text-sm">
                         <div>
                           <span className="text-charcoal-100">{customer.displayName}</span>
-                          <span className="text-smoke-500 text-xs ms-2">
+                          <span className="text-smoke-400 text-xs ms-2">
                             {t("ordersMeta", {
                               count: customer.frequency,
                               amount: customer.monetary.toFixed(0),
@@ -56,9 +56,10 @@ export function RfmPanel({ rows }: { rows: RfmRow[] }) {
                             href={link}
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label={t("reEngageFor", { name: customer.displayName })}
                             className="flex items-center gap-1 text-xs text-emerald-400 border border-emerald-500/30 rounded-full px-2 py-1"
                           >
-                            <MessageCircle size={12} /> {t("reEngage")}
+                            <MessageCircle size={12} aria-hidden="true" /> {t("reEngage")}
                           </a>
                         )}
                       </div>

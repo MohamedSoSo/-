@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
@@ -24,6 +24,10 @@ export function PhoneAuthForm() {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const phoneNumberId = useId();
+  const codeInputId = useId();
+  const errorId = useId();
+
   const errorParam = searchParams.get("error");
 
   async function sendCode(e: React.FormEvent) {
@@ -36,10 +40,19 @@ export function PhoneAuthForm() {
     }
     const phone = `${COUNTRY_CODE}${digits}`;
     setIsSubmitting(true);
-    const { error: otpError } = await supabase.auth.signInWithOtp({ phone });
+    const response = await fetch("/api/auth/request-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone }),
+    });
     setIsSubmitting(false);
-    if (otpError) {
-      setError(otpError.message);
+    if (!response.ok) {
+      const result: { error?: string } = await response.json().catch(() => ({}));
+      setError(
+        response.status === 429 || result.error?.includes("RATE_LIMITED")
+          ? t("otpRateLimited")
+          : (result.error ?? t("invalidPhone"))
+      );
       return;
     }
     setPhoneE164(phone);
@@ -65,16 +78,20 @@ export function PhoneAuthForm() {
     return (
       <form onSubmit={verifyCode} className="space-y-4">
         <p className="text-sm text-charcoal-100">{t("otpSentTo", { phone: phoneE164 ?? "" })}</p>
+        <label htmlFor={codeInputId} className="sr-only">{t("otpSentTo", { phone: phoneE164 ?? "" })}</label>
         <input
+          id={codeInputId}
           inputMode="numeric"
           autoFocus
           maxLength={6}
           value={code}
           onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
           placeholder="123456"
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           className="w-full text-center text-2xl tracking-[0.5em] rounded-xl2 bg-charcoal-800 border border-white/10 py-3 text-white focus:border-ember-500 focus:outline-none"
         />
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p id={errorId} role="alert" aria-live="polite" className="text-sm text-red-400">{error}</p>}
         <Button type="submit" variant="primary" size="lg" className="w-full" disabled={isSubmitting || code.length < 4}>
           {isSubmitting ? t("verifying") : t("openDashboard")}
         </Button>
@@ -85,23 +102,29 @@ export function PhoneAuthForm() {
   return (
     <form onSubmit={sendCode} className="space-y-4">
       {errorParam === "not_management" && (
-        <p className="text-sm text-yellow-400 bg-yellow-500/10 rounded-xl2 px-3 py-2">{t("notManagement")}</p>
+        <p role="alert" aria-live="polite" className="text-sm text-yellow-400 bg-yellow-500/10 rounded-xl2 px-3 py-2">
+          {t("notManagement")}
+        </p>
       )}
       <div className="flex gap-2">
-        <span className="flex items-center rounded-xl2 bg-charcoal-800 border border-white/10 px-3 text-white">
+        <span aria-hidden="true" className="flex items-center rounded-xl2 bg-charcoal-800 border border-white/10 px-3 text-white">
           {COUNTRY_CODE}
         </span>
+        <label htmlFor={phoneNumberId} className="sr-only">{t("sendCode")}</label>
         <input
+          id={phoneNumberId}
           type="tel"
           inputMode="numeric"
           autoFocus
           value={localNumber}
           onChange={(e) => setLocalNumber(e.target.value)}
           placeholder="5X XXX XXXX"
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           className="flex-1 rounded-xl2 bg-charcoal-800 border border-white/10 px-4 py-3 text-white focus:border-ember-500 focus:outline-none"
         />
       </div>
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p id={errorId} role="alert" aria-live="polite" className="text-sm text-red-400">{error}</p>}
       <Button type="submit" variant="primary" size="lg" className="w-full" disabled={isSubmitting || !localNumber}>
         {isSubmitting ? t("sending") : t("sendCode")}
       </Button>

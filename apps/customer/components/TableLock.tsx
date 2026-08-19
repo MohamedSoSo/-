@@ -44,14 +44,18 @@ export function TableLock() {
 
   if (orderMode === "qr_table" && tableLabel) {
     return (
-      <div className="bg-ember-500 text-charcoal-900 text-sm font-medium text-center py-2">
+      <div role="status" aria-live="polite" className="bg-ember-500 text-charcoal-900 text-sm font-medium text-center py-2">
         {t("orderingForTable", { label: tableLabel })}
       </div>
     );
   }
 
   if (notFound) {
-    return <div className="bg-red-500/20 text-red-300 text-sm text-center py-2">{t("notFound")}</div>;
+    return (
+      <div role="alert" aria-live="polite" className="bg-red-500/20 text-red-300 text-sm text-center py-2">
+        {t("notFound")}
+      </div>
+    );
   }
 
   return null;

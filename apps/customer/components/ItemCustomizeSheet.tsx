@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
@@ -24,6 +24,11 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
   const [selectedModifiers, setSelectedModifiers] = useState<Record<string, Set<string>>>({});
   const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState("");
+
+  const weightHeadingId = useId();
+  const donenessHeadingId = useId();
+  const notesHeadingId = useId();
+  const requiredGroupsMsgId = useId();
 
   const weightTier = item.weight_tiers.find((t) => t.id === weightTierId) ?? null;
   const itemName = localizedField(item.name_en, item.name_ar, locale);
@@ -81,7 +86,7 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
       footer={
         <div className="space-y-3">
           {unmetRequiredGroups.length > 0 && (
-            <p className="text-xs text-ember-400">
+            <p id={requiredGroupsMsgId} role="status" aria-live="polite" className="text-xs text-ember-400">
               {t("chooseToContinue", {
                 groups: unmetRequiredGroups
                   .map((g) => localizedField(g.name_en, g.name_ar, locale).toLowerCase())
@@ -99,7 +104,14 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
                 <Plus size={16} className="text-smoke-400" />
               </button>
             </div>
-            <Button variant="primary" size="lg" className="flex-1" disabled={!canAdd} onClick={handleAdd}>
+            <Button
+              variant="primary"
+              size="lg"
+              className="flex-1"
+              disabled={!canAdd}
+              onClick={handleAdd}
+              aria-describedby={unmetRequiredGroups.length > 0 ? requiredGroupsMsgId : undefined}
+            >
               {t("addToCart", { price: round2(unitPrice * quantity).toFixed(2) })}
             </Button>
           </div>
@@ -111,23 +123,27 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
       {item.is_weight_based && item.weight_tiers.length > 0 && (
         <section className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-charcoal-100">{t("weight")}</h3>
-            <div className="flex rounded-full border border-white/10 p-0.5 text-xs">
+            <h3 id={weightHeadingId} className="text-sm font-medium text-charcoal-100">{t("weight")}</h3>
+            <div role="radiogroup" aria-label={t("weightUnitLabel")} className="flex rounded-full border border-white/10 p-0.5 text-xs">
               {(["g", "kg"] as const).map((u) => (
                 <button
                   key={u}
+                  role="radio"
+                  aria-checked={displayUnit === u}
                   onClick={() => setDisplayUnit(u)}
-                  className={`px-2 py-1 rounded-full ${displayUnit === u ? "bg-white/10 text-white" : "text-smoke-500"}`}
+                  className={`px-2 py-1 rounded-full ${displayUnit === u ? "bg-white/10 text-white" : "text-smoke-400"}`}
                 >
                   {u.toUpperCase()}
                 </button>
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div role="radiogroup" aria-labelledby={weightHeadingId} className="grid grid-cols-3 gap-2">
             {item.weight_tiers.map((tier) => (
               <button
                 key={tier.id}
+                role="radio"
+                aria-checked={weightTierId === tier.id}
                 onClick={() => setWeightTierId(tier.id)}
                 className={`rounded-xl2 border px-3 py-2.5 text-center transition-colors ${
                   weightTierId === tier.id
@@ -138,7 +154,7 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
                 <p className="text-sm font-medium">
                   {displayUnit === "kg" ? `${(tier.grams / 1000).toFixed(tier.grams % 1000 === 0 ? 0 : 2)}kg` : tier.label}
                 </p>
-                <p className="text-xs text-smoke-500">
+                <p className="text-xs text-smoke-400">
                   {round2(item.base_price * tier.price_multiplier).toFixed(0)} {tCommon("sar")}
                 </p>
               </button>
@@ -149,11 +165,13 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
 
       {item.supports_doneness && item.available_doneness_levels.length > 0 && (
         <section className="mb-6">
-          <h3 className="text-sm font-medium text-charcoal-100 mb-2">{t("doneness")}</h3>
-          <div className="flex flex-wrap gap-2">
+          <h3 id={donenessHeadingId} className="text-sm font-medium text-charcoal-100 mb-2">{t("doneness")}</h3>
+          <div role="radiogroup" aria-labelledby={donenessHeadingId} className="flex flex-wrap gap-2">
             {item.available_doneness_levels.map((level) => (
               <button
                 key={level}
+                role="radio"
+                aria-checked={doneness === level}
                 onClick={() => setDoneness(level)}
                 className={`rounded-full px-3 py-1.5 text-sm border transition-colors ${
                   doneness === level ? "border-ember-500 bg-ember-500/10 text-white" : "border-white/10 text-charcoal-100"
@@ -166,45 +184,57 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
         </section>
       )}
 
-      {item.modifier_groups.map((group) => (
-        <section key={group.id} className="mb-6">
-          <h3 className="text-sm font-medium text-charcoal-100 mb-2">
-            {localizedField(group.name_en, group.name_ar, locale)}
-            {group.is_required && <span className="text-ember-400"> · {t("required")}</span>}
-            {group.selection_type === "multiple" && (
-              <span className="text-smoke-500"> · {t("upTo", { count: group.max_select })}</span>
-            )}
-          </h3>
-          <div className="space-y-2">
-            {group.modifiers.map((mod) => {
-              const isSelected = selectedModifiers[group.id]?.has(mod.id) ?? false;
-              return (
-                <button
-                  key={mod.id}
-                  onClick={() => toggleModifier(group.id, mod.id, group.selection_type, group.max_select)}
-                  className={`w-full flex items-center justify-between rounded-xl2 border px-4 py-2.5 text-sm transition-colors ${
-                    isSelected ? "border-ember-500 bg-ember-500/10 text-white" : "border-white/10 text-charcoal-100"
-                  }`}
-                >
-                  <span>{localizedField(mod.name_en, mod.name_ar, locale)}</span>
-                  <span className="text-smoke-400">
-                    {mod.price_delta > 0 ? t("priceAdd", { price: mod.price_delta.toFixed(0) }) : t("free")}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      ))}
+      {item.modifier_groups.map((group) => {
+        const groupHeadingId = `${group.id}-heading`;
+        const isSingle = group.selection_type === "single";
+        return (
+          <section key={group.id} className="mb-6">
+            <h3 id={groupHeadingId} className="text-sm font-medium text-charcoal-100 mb-2">
+              {localizedField(group.name_en, group.name_ar, locale)}
+              {group.is_required && <span className="text-ember-400"> · {t("required")}</span>}
+              {group.selection_type === "multiple" && (
+                <span className="text-smoke-400"> · {t("upTo", { count: group.max_select })}</span>
+              )}
+            </h3>
+            <div
+              role={isSingle ? "radiogroup" : "group"}
+              aria-labelledby={groupHeadingId}
+              className="space-y-2"
+            >
+              {group.modifiers.map((mod) => {
+                const isSelected = selectedModifiers[group.id]?.has(mod.id) ?? false;
+                return (
+                  <button
+                    key={mod.id}
+                    role={isSingle ? "radio" : undefined}
+                    aria-checked={isSingle ? isSelected : undefined}
+                    aria-pressed={isSingle ? undefined : isSelected}
+                    onClick={() => toggleModifier(group.id, mod.id, group.selection_type, group.max_select)}
+                    className={`w-full flex items-center justify-between rounded-xl2 border px-4 py-2.5 text-sm transition-colors ${
+                      isSelected ? "border-ember-500 bg-ember-500/10 text-white" : "border-white/10 text-charcoal-100"
+                    }`}
+                  >
+                    <span>{localizedField(mod.name_en, mod.name_ar, locale)}</span>
+                    <span className="text-smoke-400">
+                      {mod.price_delta > 0 ? t("priceAdd", { price: mod.price_delta.toFixed(0) }) : t("free")}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
 
       <section>
-        <h3 className="text-sm font-medium text-charcoal-100 mb-2">{t("notes")}</h3>
+        <h3 id={notesHeadingId} className="text-sm font-medium text-charcoal-100 mb-2">{t("notes")}</h3>
         <textarea
+          aria-labelledby={notesHeadingId}
           value={notes}
           onChange={(e) => setNotes(e.target.value.slice(0, 280))}
           placeholder={t("notesPlaceholder")}
           rows={2}
-          className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-smoke-500 focus:border-ember-500 focus:outline-none"
+          className="w-full rounded-xl2 bg-charcoal-800 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-smoke-400 focus:border-ember-500 focus:outline-none"
         />
       </section>
     </BottomSheet>

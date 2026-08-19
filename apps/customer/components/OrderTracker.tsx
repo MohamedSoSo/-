@@ -63,8 +63,19 @@ export function OrderTracker({
   const activeIndex = currentStepIndex(order.channel, order.status);
   const failed = isTerminalFailure(order.status);
 
+  const currentStepLabel = failed
+    ? t("orderStatus", { status: t(`statusValues.${order.status}`) })
+    : t(`steps.${steps[activeIndex]?.labelKey ?? steps[0]!.labelKey}`);
+
   return (
     <div className="max-w-lg mx-auto px-4 py-8">
+      {/* Screen-reader-only live region: announces status changes as the
+          Realtime subscription above updates `order.status`, without
+          re-announcing the whole visual step list on every change. */}
+      <p className="sr-only" role="status" aria-live="polite">
+        {currentStepLabel}
+      </p>
+
       <div className="glass-panel p-5 mb-6">
         <p className="text-sm text-smoke-400">{t("orderLabel")}</p>
         <p className="text-xl font-semibold text-white">{order.order_number}</p>
@@ -84,7 +95,7 @@ export function OrderTracker({
             const done = idx < activeIndex;
             const active = idx === activeIndex;
             return (
-              <li key={step.status} className="flex items-start gap-3">
+              <li key={step.status} aria-current={active ? "step" : undefined} className="flex items-start gap-3">
                 <div className="flex flex-col items-center">
                   <motion.div
                     initial={false}
@@ -104,7 +115,7 @@ export function OrderTracker({
                     <div className="w-0.5 h-8" style={{ background: done ? "var(--brand-accent)" : "rgba(255,255,255,0.08)" }} />
                   )}
                 </div>
-                <p className={`pt-1 text-sm ${active ? "text-white font-medium" : done ? "text-charcoal-100" : "text-smoke-500"}`}>
+                <p className={`pt-1 text-sm ${active ? "text-white font-medium" : done ? "text-charcoal-100" : "text-smoke-400"}`}>
                   {t(`steps.${step.labelKey}`)}
                 </p>
               </li>

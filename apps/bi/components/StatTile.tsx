@@ -29,7 +29,8 @@ export function StatTile({
       <p className="text-2xl font-semibold text-white tabular-nums">{value}</p>
       {hasDelta && Math.abs(deltaPct!) >= 0.5 && (
         <p className={`text-xs flex items-center gap-1 mt-1 ${isGood ? "text-emerald-400" : isBad ? "text-red-400" : "text-smoke-400"}`}>
-          {deltaPct! > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+          {deltaPct! > 0 ? <TrendingUp aria-hidden="true" size={12} /> : <TrendingDown aria-hidden="true" size={12} />}
+          {deltaPct! > 0 ? "+" : "−"}
           {Math.abs(deltaPct!).toFixed(1)}% {t("vsPriorPeriod")}
         </p>
       )}

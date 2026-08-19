@@ -24,7 +24,7 @@ export function ReorderButton({ orderId }: { orderId: string }) {
   }
 
   return (
-    <Button variant="glass" size="sm" onClick={handleReorder} disabled={loading}>
+    <Button variant="glass" size="sm" onClick={handleReorder} disabled={loading} aria-busy={loading}>
       {loading ? t("adding") : t("button")}
     </Button>
   );

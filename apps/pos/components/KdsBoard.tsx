@@ -151,10 +151,12 @@ export function KdsBoard({ initialItems }: { initialItems: KdsItem[] }) {
         <h1 className="text-xl font-semibold text-white flex items-center gap-2">
           <Flame size={20} className="text-ember-500" /> {t("title")}
         </h1>
-        <div className="flex rounded-full border border-white/10 p-1">
+        <div role="radiogroup" aria-label={t("viewLabel")} className="flex rounded-full border border-white/10 p-1">
           {(["grill", "assembly"] as View[]).map((v) => (
             <button
               key={v}
+              role="radio"
+              aria-checked={view === v}
               onClick={() => setView(v)}
               className={`rounded-full px-4 py-1.5 text-sm ${
                 view === v ? "bg-ember-500 text-charcoal-900 font-medium" : "text-charcoal-100"
@@ -165,6 +167,10 @@ export function KdsBoard({ initialItems }: { initialItems: KdsItem[] }) {
           ))}
         </div>
       </div>
+
+      <p className="sr-only" role="status" aria-live="polite">
+        {t("ticketCount", { count: visible.length })}
+      </p>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence>

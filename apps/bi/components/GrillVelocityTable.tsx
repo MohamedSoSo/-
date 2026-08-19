@@ -16,11 +16,11 @@ export function GrillVelocityTable({ rows }: { rows: GrillVelocity[] }) {
       ) : (
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-start text-xs text-smoke-500">
-              <th className="font-normal pb-1">{t("item")}</th>
-              <th className="font-normal pb-1 text-end">{t("avgTime")}</th>
-              <th className="font-normal pb-1 text-end">{t("slaBreach")}</th>
-              <th className="font-normal pb-1 text-end">{t("n")}</th>
+            <tr className="text-start text-xs text-smoke-400">
+              <th scope="col" className="font-normal pb-1">{t("item")}</th>
+              <th scope="col" className="font-normal pb-1 text-end">{t("avgTime")}</th>
+              <th scope="col" className="font-normal pb-1 text-end">{t("slaBreach")}</th>
+              <th scope="col" className="font-normal pb-1 text-end">{t("n")}</th>
             </tr>
           </thead>
           <tbody>
@@ -31,7 +31,7 @@ export function GrillVelocityTable({ rows }: { rows: GrillVelocity[] }) {
                 <td className={`py-1.5 text-end tabular-nums ${r.slaBreachPct >= 20 ? "text-red-400" : "text-smoke-400"}`}>
                   {r.slaBreachPct.toFixed(0)}%
                 </td>
-                <td className="py-1.5 text-end text-smoke-500 tabular-nums">{r.sampleCount}</td>
+                <td className="py-1.5 text-end text-smoke-400 tabular-nums">{r.sampleCount}</td>
               </tr>
             ))}
           </tbody>
