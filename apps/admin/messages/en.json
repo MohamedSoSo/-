@@ -5,7 +5,8 @@
   },
   "home": {
     "heading": "Admin",
-    "body": "Owner BI links to the <bi>bi</bi> app. The hidden technical control center lives at <link>/admin/developer</link> — restricted to the <developer>developer</developer> role."
+    "body": "Owner BI links to the <bi>bi</bi> app. The hidden technical control center lives at <link>/admin/developer</link> — restricted to the <developer>developer</developer> role.",
+    "catalogBody": "Manage your menu — categories, items, prices, and images — at <link>/admin/catalog</link>."
   },
   "login": {
     "heading": "Sign in",
@@ -82,5 +83,86 @@
     "purging": "Purging…",
     "permanentlyDelete": "Permanently delete",
     "result": "Deleted {count} orders (and their items/payments) placed between {start} and {end}."
+  },
+  "catalog": {
+    "pageTitle": "Menu Catalog",
+    "pageSubtitle": "Manage categories and menu items — bilingual names, pricing, images, and featured status. Changes are live immediately, no deploy needed.",
+    "categoryManager": {
+      "title": "Categories",
+      "addCategory": "Add category",
+      "editCategory": "Edit {name}",
+      "restoreCategory": "Restore {name}",
+      "deleteCategory": "Delete {name}",
+      "noCategories": "No categories yet.",
+      "actionFailed": "Action failed."
+    },
+    "categoryForm": {
+      "nameEn": "Name (English)",
+      "nameAr": "Name (Arabic)",
+      "save": "Save",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "saveFailed": "Failed to save category."
+    },
+    "itemManager": {
+      "title": "Menu Items",
+      "addItem": "Add item",
+      "needCategoryFirst": "Add a category first before adding menu items.",
+      "editItem": "Edit {name}",
+      "restoreItem": "Restore {name}",
+      "deleteItem": "Delete {name}",
+      "noItems": "No menu items yet.",
+      "actionFailed": "Action failed.",
+      "sar": "SAR",
+      "inactive": "inactive"
+    },
+    "itemForm": {
+      "nameEn": "Name (English)",
+      "nameAr": "Name (Arabic)",
+      "descriptionEn": "Description (English)",
+      "descriptionAr": "Description (Arabic)",
+      "category": "Category",
+      "basePrice": "Base price (SAR)",
+      "station": "Kitchen station",
+      "stations": {
+        "grill": "Grill",
+        "kitchen": "Kitchen",
+        "bar": "Bar",
+        "dessert": "Dessert"
+      },
+      "isWeightBased": "Weight-based (priced by tier)",
+      "supportsDoneness": "Supports doneness level",
+      "isActive": "Active (visible to customers)",
+      "isFeatured": "Featured on homepage",
+      "weightTiers": "Weight tiers",
+      "tierLabel": "Label (e.g. 250g)",
+      "tierGrams": "Grams",
+      "tierMultiplier": "Price ×",
+      "removeTier": "Remove tier",
+      "addTier": "Add tier",
+      "doneness": "Available doneness levels",
+      "donenessLevels": {
+        "rare": "Rare",
+        "medium_rare": "Medium Rare",
+        "medium": "Medium",
+        "medium_well": "Medium Well",
+        "well_done": "Well Done"
+      },
+      "image": "Item image",
+      "save": "Save",
+      "saving": "Saving…",
+      "done": "Done",
+      "saveFailed": "Failed to save item."
+    },
+    "imageUploader": {
+      "invalidType": "Use PNG, JPEG, or WebP.",
+      "tooLarge": "Max 5MB.",
+      "notSignedIn": "Not signed in.",
+      "noImage": "No image set",
+      "uploading": "Uploading…",
+      "replace": "Replace",
+      "upload": "Upload",
+      "saved": "Saved"
+    }
   }
 }

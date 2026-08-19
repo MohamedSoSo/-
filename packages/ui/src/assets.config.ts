@@ -25,8 +25,8 @@ export const ASSET_FALLBACKS: Record<AssetKey, string> = {
   [ASSET_KEYS.logoPrimary]: "/assets/fallback/logo-primary.svg",
   [ASSET_KEYS.logoMonochrome]: "/assets/fallback/logo-mono.svg",
   [ASSET_KEYS.favicon]: "/favicon.ico",
-  [ASSET_KEYS.heroBgCustomer]: "/assets/fallback/hero-customer.jpg",
+  [ASSET_KEYS.heroBgCustomer]: "/assets/fallback/hero-customer.svg",
   [ASSET_KEYS.heroBgPos]: "/assets/fallback/hero-pos.jpg",
   [ASSET_KEYS.loginBg]: "/assets/fallback/login-bg.jpg",
-  [ASSET_KEYS.menuPlaceholder]: "/assets/fallback/menu-placeholder.jpg",
+  [ASSET_KEYS.menuPlaceholder]: "/assets/fallback/menu-placeholder.svg",
 };

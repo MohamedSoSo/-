@@ -30,7 +30,7 @@ export interface CartItem {
   menu_item_id: string;
   name_en: string;
   name_ar: string;
-  image_asset_key: string | null;
+  image_path: string | null;
   quantity: number;
   base_unit_price: number;
   weight_tier: CartWeightTier | null;

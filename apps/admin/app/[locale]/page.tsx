@@ -25,6 +25,15 @@ export default async function AdminHome({ params: { locale } }: { params: { loca
             ),
           })}
         </p>
+        <p className="mt-3 text-charcoal-100">
+          {t.rich("catalogBody", {
+            link: (chunks) => (
+              <Link href="/admin/catalog" className="underline text-ember-400">
+                {chunks}
+              </Link>
+            ),
+          })}
+        </p>
       </div>
     </main>
   );

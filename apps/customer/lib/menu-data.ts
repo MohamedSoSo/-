@@ -38,7 +38,8 @@ export interface MenuItemView {
   default_weight_unit: "g" | "kg";
   supports_doneness: boolean;
   available_doneness_levels: DonenessLevel[];
-  image_asset_key: string | null;
+  image_path: string | null;
+  is_featured: boolean;
   item_type: "single" | "combo";
   default_station: Station;
   stock_quantity: number | null;
@@ -63,7 +64,7 @@ export async function getMenuData(): Promise<MenuCategoryView[]> {
     supabase
       .from("menu_items")
       .select(
-        "id, name_en, name_ar, description_en, description_ar, base_price, is_weight_based, default_weight_unit, supports_doneness, available_doneness_levels, image_asset_key, item_type, default_station, stock_quantity, category_id"
+        "id, name_en, name_ar, description_en, description_ar, base_price, is_weight_based, default_weight_unit, supports_doneness, available_doneness_levels, image_path, is_featured, item_type, default_station, stock_quantity, category_id"
       )
       .is("deleted_at", null)
       .eq("is_active", true),

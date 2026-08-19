@@ -53,8 +53,9 @@ export interface Database {
           supports_doneness: boolean;
           available_doneness_levels: DonenessLevel[];
           cogs: number;
-          image_asset_key: string | null;
+          image_path: string | null;
           is_active: boolean;
+          is_featured: boolean;
           item_type: MenuItemType;
           default_station: Station;
           stock_quantity: number | null;

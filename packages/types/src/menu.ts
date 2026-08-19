@@ -28,8 +28,9 @@ export const MenuItemSchema = z.object({
   supports_doneness: z.boolean().default(false),
   available_doneness_levels: z.array(DonenessLevelSchema).default([]),
   cogs: z.number().nonnegative(), // cost of goods sold, feeds Owner BI
-  image_asset_key: z.string().nullable(), // resolved via assets.config.ts / Supabase Storage
+  image_path: z.string().nullable(), // object path in the catalog-images Storage bucket
   is_active: z.boolean().default(true),
+  is_featured: z.boolean().default(false),
   item_type: MenuItemTypeSchema.default("single"),
   default_station: StationSchema,
   stock_quantity: z.number().int().nonnegative().nullable(), // null = unmetered

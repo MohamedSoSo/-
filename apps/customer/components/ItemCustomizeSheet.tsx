@@ -67,7 +67,7 @@ export function ItemCustomizeSheet({ item, onClose }: { item: MenuItemView; onCl
       menu_item_id: item.id,
       name_en: item.name_en,
       name_ar: item.name_ar,
-      image_asset_key: item.image_asset_key,
+      image_path: item.image_path,
       quantity,
       base_unit_price: item.base_price,
       weight_tier: weightTier,

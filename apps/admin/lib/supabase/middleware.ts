@@ -5,6 +5,12 @@ import { buildCsp, SECURITY_HEADERS } from "@bbq/config/csp";
 import { stripLocalePrefix } from "@bbq/i18n";
 
 const DEVELOPER_ONLY_PREFIX = "/admin/developer";
+// Catalog management is an owner/management concern, not a developer-only
+// one — gated to is_management()'s role set (owner, developer), the same
+// tier as the RLS policies backing menu_items/categories writes (0006,
+// 0032), not the stricter developer-only tier above.
+const MANAGEMENT_PREFIX = "/admin/catalog";
+const MANAGEMENT_ROLES = new Set(["owner", "developer"]);
 
 function withSecurityHeaders(response: NextResponse, nonce: string): NextResponse {
   // CSP (script-src 'strict-dynamic') is production-only: Next.js dev mode's
@@ -48,7 +54,7 @@ export async function updateSession(request: NextRequest) {
 
   const { locale, path } = stripLocalePrefix(request.nextUrl.pathname);
 
-  if (path.startsWith(DEVELOPER_ONLY_PREFIX)) {
+  if (path.startsWith(DEVELOPER_ONLY_PREFIX) || path.startsWith(MANAGEMENT_PREFIX)) {
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = `/${locale}/login`;
@@ -58,7 +64,11 @@ export async function updateSession(request: NextRequest) {
 
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
 
-    if (profile?.role !== "developer") {
+    const allowed = path.startsWith(DEVELOPER_ONLY_PREFIX)
+      ? profile?.role === "developer"
+      : MANAGEMENT_ROLES.has(profile?.role ?? "");
+
+    if (!allowed) {
       const url = request.nextUrl.clone();
       url.pathname = `/${locale}/unauthorized`;
       return withSecurityHeaders(NextResponse.redirect(url), nonce);

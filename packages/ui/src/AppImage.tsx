@@ -54,6 +54,11 @@ export function AppImage({ assetKey, alt, ...imageProps }: AppImageProps) {
       {...imageProps}
       src={src}
       alt={resolvedAlt ?? ""}
+      // SVGs are vector — raster optimization doesn't apply, and Next's
+      // optimizer rejects SVG sources outright unless dangerouslyAllowSVG
+      // is set. Serving them unoptimized (as static files) is the correct
+      // behavior here, not a workaround.
+      unoptimized={src.endsWith(".svg")}
       onError={() => setSrc(ASSET_FALLBACKS[assetKey])}
     />
   );

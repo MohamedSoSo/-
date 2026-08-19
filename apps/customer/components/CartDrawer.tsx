@@ -2,7 +2,7 @@
 
 import { useId } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Minus, Plus, Trash2 } from "lucide-react";
+import { X, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
 import { localizedField, type Locale } from "@bbq/i18n";
@@ -10,6 +10,7 @@ import { useCartStore } from "@/lib/cart-store";
 import { cartSubtotal, estimateTax, lineTotalOf, unitPriceOf } from "@/lib/pricing";
 import { DELIVERY_FEE } from "@/lib/constants";
 import { useRouter } from "@/i18n/navigation";
+import { EmptyState } from "./EmptyState";
 
 export function CartDrawer() {
   const locale = useLocale() as Locale;
@@ -62,8 +63,22 @@ export function CartDrawer() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-              {items.length === 0 && <p className="text-smoke-400 text-sm">{t("empty")}</p>}
+            <div className={`flex-1 overflow-y-auto px-5 py-4 ${items.length === 0 ? "flex flex-col" : "space-y-4"}`}>
+              {items.length === 0 && (
+                <div className="flex-1 flex flex-col items-center justify-center">
+                  <EmptyState icon={<ShoppingBag size={22} />} title={t("empty")} subtitle={t("emptySubtitle")} />
+                  <Button
+                    variant="glass"
+                    size="sm"
+                    onClick={() => {
+                      close();
+                      router.push("/");
+                    }}
+                  >
+                    {t("browseMenu")}
+                  </Button>
+                </div>
+              )}
               {items.map((item) => (
                 <div key={item.cart_line_id} className="rounded-xl2 border border-white/5 p-3">
                   <div className="flex justify-between gap-2">

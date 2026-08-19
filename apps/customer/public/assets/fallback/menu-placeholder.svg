@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="400" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#332c27"/>
+      <stop offset="1" stop-color="#120c08"/>
+    </linearGradient>
+    <radialGradient id="glow3" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#e8792f" stop-opacity="0.32"/>
+      <stop offset="0.6" stop-color="#c65f1e" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#c65f1e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flameFill" x1="176" y1="150" x2="224" y2="222" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f79b4c"/>
+      <stop offset="1" stop-color="#c65f1e"/>
+    </linearGradient>
+    <pattern id="grate2" width="26" height="26" patternTransform="rotate(35)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="26" stroke="#ffffff" stroke-opacity="0.12" stroke-width="6"/>
+    </pattern>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#bg2)"/>
+  <rect width="400" height="300" fill="url(#grate2)"/>
+  <rect width="400" height="300" fill="url(#glow3)"/>
+
+  <!-- plate -->
+  <ellipse cx="200" cy="182" rx="92" ry="30" fill="#000000" opacity="0.28"/>
+  <circle cx="200" cy="168" r="78" fill="#2a231d" stroke="#e2dfdc" stroke-opacity="0.55" stroke-width="3"/>
+  <circle cx="200" cy="168" r="56" fill="none" stroke="#e2dfdc" stroke-opacity="0.4" stroke-width="2"/>
+
+  <!-- flame mark -->
+  <path
+    d="M200 96c8 13 18 21 18 37 0 6-2 11-2 11s7-4 7-15c5 7 7 14 7 20 0 17-14 31-31 31s-31-14-31-31c0-11 5-18 10-24-.5 7 3.5 12 3.5 12-2-16 6-27 18.5-41Z"
+    fill="url(#flameFill)"
+  />
+</svg>

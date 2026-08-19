@@ -6,6 +6,7 @@ import "../globals.css";
 import { Header } from "@/components/Header";
 import { CartDrawer } from "@/components/CartDrawer";
 import { MaintenanceOverlay } from "@/components/MaintenanceOverlay";
+import { MotionProvider } from "@/components/MotionProvider";
 import { getThemeOverrideCss } from "@/lib/theme";
 import { createClient } from "@/lib/supabase/server";
 import { locales, isLocale } from "@bbq/i18n";
@@ -45,15 +46,17 @@ export default async function RootLayout({
       <head>{themeCss && <style dangerouslySetInnerHTML={{ __html: themeCss }} />}</head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {isMaintenance ? (
-            <MaintenanceOverlay />
-          ) : (
-            <>
-              <Header isAuthed={!!user} />
-              {children}
-              <CartDrawer />
-            </>
-          )}
+          <MotionProvider>
+            {isMaintenance ? (
+              <MaintenanceOverlay />
+            ) : (
+              <>
+                <Header isAuthed={!!user} />
+                {children}
+                <CartDrawer />
+              </>
+            )}
+          </MotionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

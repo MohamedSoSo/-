@@ -67,22 +67,27 @@ export default async function AccountPage({ params: { locale } }: { params: { lo
         </Link>
       )}
 
-      <h2 className="text-sm font-medium text-charcoal-100 mb-3">{t("orderHistory")}</h2>
-      <div className="space-y-3">
-        {(orders ?? []).map((order) => (
-          <div key={order.id} className="glass-panel p-4 flex items-center justify-between gap-3">
-            <div>
-              <Link href={`/orders/${order.id}`} className="text-white font-medium hover:underline">
-                {order.order_number}
-              </Link>
-              <p className="text-xs text-smoke-400 mt-0.5">
-                {t(`orderStatus.${order.status}`)} · {order.grand_total.toFixed(2)} {tCommon("sar")}
-              </p>
-            </div>
-            {order.status === "completed" && <ReorderButton orderId={order.id} />}
+      <div className="glass-panel p-5">
+        <h2 className="text-sm font-medium text-charcoal-100 mb-3">{t("orderHistory")}</h2>
+        {orders?.length ? (
+          <div className="divide-y divide-white/5">
+            {orders.map((order) => (
+              <div key={order.id} className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+                <div>
+                  <Link href={`/orders/${order.id}`} className="text-white font-medium hover:underline">
+                    {order.order_number}
+                  </Link>
+                  <p className="text-xs text-smoke-400 mt-0.5">
+                    {t(`orderStatus.${order.status}`)} · {order.grand_total.toFixed(2)} {tCommon("sar")}
+                  </p>
+                </div>
+                {order.status === "completed" && <ReorderButton orderId={order.id} />}
+              </div>
+            ))}
           </div>
-        ))}
-        {!orders?.length && <p className="text-smoke-400 text-sm">{t("noOrders")}</p>}
+        ) : (
+          <p className="text-smoke-400 text-sm">{t("noOrders")}</p>
+        )}
       </div>
     </main>
   );

@@ -7,7 +7,8 @@
     "decreaseQuantity": "Decrease quantity",
     "increaseQuantity": "Increase quantity",
     "close": "Close",
-    "sar": "SAR"
+    "sar": "SAR",
+    "loading": "Loading…"
   },
   "pricing": {
     "subtotal": "Subtotal",
@@ -24,7 +25,9 @@
   },
   "home": {
     "heroTitle": "Fire. Smoke. Flavor.",
-    "heroSubtitle": "Order grilled-to-perfection BBQ, your way."
+    "heroSubtitle": "Order grilled-to-perfection BBQ, your way.",
+    "ctaOrderNow": "Order now",
+    "featuredTitle": "Chef's Picks"
   },
   "header": {
     "account": "Account",
@@ -34,6 +37,8 @@
     "title": "Your order",
     "close": "Close cart",
     "empty": "Your cart is empty.",
+    "emptySubtitle": "Add something from the menu to get started.",
+    "browseMenu": "Browse menu",
     "removeItem": "Remove item",
     "eachPrice": "({price} ea)",
     "checkout": "Checkout"
@@ -41,7 +46,9 @@
   "menu": {
     "soldOut": "Sold out",
     "priceFrom": "From {price} SAR",
-    "categoriesLabel": "Menu categories"
+    "categoriesLabel": "Menu categories",
+    "emptyCategoryTitle": "Nothing here yet",
+    "emptyCategorySubtitle": "This category doesn't have any items available right now — check back soon or browse another category."
   },
   "itemSheet": {
     "chooseToContinue": "Choose {groups} to continue.",

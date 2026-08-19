@@ -16,7 +16,7 @@ export async function reconstructCartItems(orderId: string): Promise<CartItem[]>
   const { data: orderItems } = await supabase
     .from("order_items")
     .select(
-      "id, menu_item_id, quantity, weight_grams_ordered, doneness, notes, menu_items (name_en, name_ar, base_price, image_asset_key, is_weight_based)"
+      "id, menu_item_id, quantity, weight_grams_ordered, doneness, notes, menu_items (name_en, name_ar, base_price, image_path, is_weight_based)"
     )
     .eq("order_id", orderId);
 
@@ -42,7 +42,7 @@ export async function reconstructCartItems(orderId: string): Promise<CartItem[]>
       name_en: string;
       name_ar: string;
       base_price: number;
-      image_asset_key: string | null;
+      image_path: string | null;
       is_weight_based: boolean;
     } | null;
     if (!menuItem) continue;
@@ -62,7 +62,7 @@ export async function reconstructCartItems(orderId: string): Promise<CartItem[]>
       menu_item_id: oi.menu_item_id,
       name_en: menuItem.name_en,
       name_ar: menuItem.name_ar,
-      image_asset_key: menuItem.image_asset_key,
+      image_path: menuItem.image_path,
       quantity: oi.quantity,
       base_unit_price: menuItem.base_price,
       weight_tier: weightTier,

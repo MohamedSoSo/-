@@ -5,7 +5,8 @@
   },
   "home": {
     "heading": "الإدارة",
-    "body": "تحليلات المالك ترتبط بتطبيق <bi>bi</bi>. مركز التحكم التقني المخفي موجود في <link>/admin/developer</link> — مقتصر على دور <developer>developer</developer>."
+    "body": "تحليلات المالك ترتبط بتطبيق <bi>bi</bi>. مركز التحكم التقني المخفي موجود في <link>/admin/developer</link> — مقتصر على دور <developer>developer</developer>.",
+    "catalogBody": "أدر قائمة طعامك — التصنيفات والأصناف والأسعار والصور — من <link>/admin/catalog</link>."
   },
   "login": {
     "heading": "تسجيل الدخول",
@@ -82,5 +83,86 @@
     "purging": "جارٍ الحذف…",
     "permanentlyDelete": "حذف نهائي",
     "result": "تم حذف {count} طلب (مع أصنافه ومدفوعاته) بين {start} و{end}."
+  },
+  "catalog": {
+    "pageTitle": "قائمة الطعام",
+    "pageSubtitle": "إدارة التصنيفات وأصناف القائمة — الأسماء ثنائية اللغة، الأسعار، الصور، وحالة التمييز. التغييرات فورية ولا تتطلب نشرًا جديدًا.",
+    "categoryManager": {
+      "title": "التصنيفات",
+      "addCategory": "إضافة تصنيف",
+      "editCategory": "تعديل {name}",
+      "restoreCategory": "استعادة {name}",
+      "deleteCategory": "حذف {name}",
+      "noCategories": "لا توجد تصنيفات بعد.",
+      "actionFailed": "فشل الإجراء."
+    },
+    "categoryForm": {
+      "nameEn": "الاسم (إنجليزي)",
+      "nameAr": "الاسم (عربي)",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ…",
+      "cancel": "إلغاء",
+      "saveFailed": "فشل حفظ التصنيف."
+    },
+    "itemManager": {
+      "title": "أصناف القائمة",
+      "addItem": "إضافة صنف",
+      "needCategoryFirst": "أضف تصنيفًا أولًا قبل إضافة أصناف القائمة.",
+      "editItem": "تعديل {name}",
+      "restoreItem": "استعادة {name}",
+      "deleteItem": "حذف {name}",
+      "noItems": "لا توجد أصناف بعد.",
+      "actionFailed": "فشل الإجراء.",
+      "sar": "ريال",
+      "inactive": "غير نشط"
+    },
+    "itemForm": {
+      "nameEn": "الاسم (إنجليزي)",
+      "nameAr": "الاسم (عربي)",
+      "descriptionEn": "الوصف (إنجليزي)",
+      "descriptionAr": "الوصف (عربي)",
+      "category": "التصنيف",
+      "basePrice": "السعر الأساسي (ريال)",
+      "station": "محطة المطبخ",
+      "stations": {
+        "grill": "الشواية",
+        "kitchen": "المطبخ",
+        "bar": "البار",
+        "dessert": "الحلويات"
+      },
+      "isWeightBased": "مسعّر بالوزن (حسب الفئة)",
+      "supportsDoneness": "يدعم درجة النضج",
+      "isActive": "نشط (مرئي للعملاء)",
+      "isFeatured": "مميز في الصفحة الرئيسية",
+      "weightTiers": "فئات الوزن",
+      "tierLabel": "التسمية (مثال: 250 جم)",
+      "tierGrams": "الجرامات",
+      "tierMultiplier": "مضاعف السعر",
+      "removeTier": "إزالة الفئة",
+      "addTier": "إضافة فئة",
+      "doneness": "درجات النضج المتاحة",
+      "donenessLevels": {
+        "rare": "نيء قليلًا",
+        "medium_rare": "متوسط النضج قليلًا",
+        "medium": "متوسط النضج",
+        "medium_well": "شبه ناضج تمامًا",
+        "well_done": "ناضج تمامًا"
+      },
+      "image": "صورة الصنف",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ…",
+      "done": "تم",
+      "saveFailed": "فشل حفظ الصنف."
+    },
+    "imageUploader": {
+      "invalidType": "استخدم PNG أو JPEG أو WebP.",
+      "tooLarge": "الحد الأقصى 5 ميغابايت.",
+      "notSignedIn": "غير مسجل الدخول.",
+      "noImage": "لا توجد صورة",
+      "uploading": "جارٍ الرفع…",
+      "replace": "استبدال",
+      "upload": "رفع",
+      "saved": "تم الحفظ"
+    }
   }
 }

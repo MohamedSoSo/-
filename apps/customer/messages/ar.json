@@ -7,7 +7,8 @@
     "decreaseQuantity": "إنقاص الكمية",
     "increaseQuantity": "زيادة الكمية",
     "close": "إغلاق",
-    "sar": "ريال"
+    "sar": "ريال",
+    "loading": "جارٍ التحميل…"
   },
   "pricing": {
     "subtotal": "المجموع الفرعي",
@@ -24,7 +25,9 @@
   },
   "home": {
     "heroTitle": "نار. دخان. نكهة.",
-    "heroSubtitle": "اطلب مشاوي مشوية بإتقان، بالطريقة التي تفضّلها."
+    "heroSubtitle": "اطلب مشاوي مشوية بإتقان، بالطريقة التي تفضّلها.",
+    "ctaOrderNow": "اطلب الآن",
+    "featuredTitle": "أطباق مميزة"
   },
   "header": {
     "account": "حسابي",
@@ -34,6 +37,8 @@
     "title": "طلبك",
     "close": "إغلاق السلة",
     "empty": "سلتك فارغة.",
+    "emptySubtitle": "أضف شيئًا من القائمة للبدء.",
+    "browseMenu": "تصفّح القائمة",
     "removeItem": "إزالة الصنف",
     "eachPrice": "({price} للقطعة)",
     "checkout": "إتمام الطلب"
@@ -41,7 +46,9 @@
   "menu": {
     "soldOut": "نفدت الكمية",
     "priceFrom": "يبدأ من {price} ريال",
-    "categoriesLabel": "تصنيفات القائمة"
+    "categoriesLabel": "تصنيفات القائمة",
+    "emptyCategoryTitle": "لا يوجد شيء هنا بعد",
+    "emptyCategorySubtitle": "لا تتوفر أصناف في هذا التصنيف حاليًا — تحقق لاحقًا أو تصفح تصنيفًا آخر."
   },
   "itemSheet": {
     "chooseToContinue": "يرجى اختيار {groups} للمتابعة.",
