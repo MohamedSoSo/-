@@ -1,8 +1,8 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Pencil, RotateCcw, Trash2, Star } from "lucide-react";
+import { Plus, Pencil, RotateCcw, Trash2, Star, ImageOff, Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
 import { upsertMenuItem, setMenuItemDeleted } from "./actions";
@@ -370,6 +370,11 @@ export function MenuItemManager({ categories, items }: { categories: CategoryRow
     kind: "list",
   });
   const [error, setError] = useState<string | null>(null);
+  const [showDeleted, setShowDeleted] = useState(false);
+
+  const activeItems = useMemo(() => items.filter((i) => !i.deleted_at), [items]);
+  const deletedItems = useMemo(() => items.filter((i) => i.deleted_at), [items]);
+  const visibleItems = showDeleted ? items : activeItems;
 
   async function toggleDeleted(row: MenuItemRow) {
     setError(null);
@@ -411,7 +416,7 @@ export function MenuItemManager({ categories, items }: { categories: CategoryRow
       )}
 
       <div className="space-y-2">
-        {items.map((item) =>
+        {visibleItems.map((item) =>
           mode.kind === "edit" && mode.row.id === item.id ? (
             <div key={item.id} className="mb-2">
               <MenuItemForm categories={categories} initial={item} onDone={() => setMode({ kind: "list" })} />
@@ -422,16 +427,19 @@ export function MenuItemManager({ categories, items }: { categories: CategoryRow
               className={`flex items-center justify-between gap-3 rounded-lg border border-white/5 px-3 py-2 ${item.deleted_at ? "opacity-50" : ""}`}
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="relative h-10 w-10 shrink-0 rounded-lg overflow-hidden bg-charcoal-800">
-                  {item.image_url && (
+                <div className="relative h-10 w-10 shrink-0 rounded-lg overflow-hidden bg-charcoal-800 flex items-center justify-center">
+                  {item.image_url ? (
                     // eslint-disable-next-line @next/next/no-img-element -- small admin-list thumbnail, no next/image benefit at this size
                     <img src={item.image_url} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <ImageOff size={16} className="text-smoke-400" aria-label={t("noImage")} />
                   )}
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm text-charcoal-100 truncate flex items-center gap-1.5">
                     {item.name_en}
                     {item.is_featured && <Star size={12} className="text-ember-400 shrink-0" aria-hidden="true" />}
+                    {item.deleted_at && <span className="text-xs text-red-400">({t("deletedTag")})</span>}
                   </p>
                   <p className="text-xs text-smoke-400 truncate">
                     {categoryName(item.category_id)} · {item.base_price.toFixed(0)} {t("sar")}
@@ -458,8 +466,20 @@ export function MenuItemManager({ categories, items }: { categories: CategoryRow
             </div>
           )
         )}
-        {items.length === 0 && categories.length > 0 && <p className="text-smoke-400 text-sm">{t("noItems")}</p>}
+        {activeItems.length === 0 && !showDeleted && categories.length > 0 && (
+          <p className="text-smoke-400 text-sm">{t("noItems")}</p>
+        )}
       </div>
+
+      {deletedItems.length > 0 && (
+        <button
+          onClick={() => setShowDeleted((v) => !v)}
+          className="flex items-center gap-1.5 text-xs text-smoke-400 hover:text-charcoal-100 mt-4"
+        >
+          {showDeleted ? <EyeOff size={12} /> : <Eye size={12} />}
+          {showDeleted ? t("hideDeleted") : t("showDeleted", { count: deletedItems.length })}
+        </button>
+      )}
     </section>
   );
 }

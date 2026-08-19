@@ -94,7 +94,10 @@
       "restoreCategory": "استعادة {name}",
       "deleteCategory": "حذف {name}",
       "noCategories": "لا توجد تصنيفات بعد.",
-      "actionFailed": "فشل الإجراء."
+      "actionFailed": "فشل الإجراء.",
+      "deletedTag": "محذوف",
+      "showDeleted": "إظهار المحذوفة ({count})",
+      "hideDeleted": "إخفاء المحذوفة"
     },
     "categoryForm": {
       "nameEn": "الاسم (إنجليزي)",
@@ -114,7 +117,11 @@
       "noItems": "لا توجد أصناف بعد.",
       "actionFailed": "فشل الإجراء.",
       "sar": "ريال",
-      "inactive": "غير نشط"
+      "inactive": "غير نشط",
+      "noImage": "لا توجد صورة",
+      "deletedTag": "محذوف",
+      "showDeleted": "إظهار المحذوفة ({count})",
+      "hideDeleted": "إخفاء المحذوفة"
     },
     "itemForm": {
       "nameEn": "الاسم (إنجليزي)",

@@ -94,7 +94,10 @@
       "restoreCategory": "Restore {name}",
       "deleteCategory": "Delete {name}",
       "noCategories": "No categories yet.",
-      "actionFailed": "Action failed."
+      "actionFailed": "Action failed.",
+      "deletedTag": "deleted",
+      "showDeleted": "Show deleted ({count})",
+      "hideDeleted": "Hide deleted"
     },
     "categoryForm": {
       "nameEn": "Name (English)",
@@ -114,7 +117,11 @@
       "noItems": "No menu items yet.",
       "actionFailed": "Action failed.",
       "sar": "SAR",
-      "inactive": "inactive"
+      "inactive": "inactive",
+      "noImage": "No image set",
+      "deletedTag": "deleted",
+      "showDeleted": "Show deleted ({count})",
+      "hideDeleted": "Hide deleted"
     },
     "itemForm": {
       "nameEn": "Name (English)",

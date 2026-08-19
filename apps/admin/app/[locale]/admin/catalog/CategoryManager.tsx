@@ -1,8 +1,8 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Pencil, RotateCcw, Trash2 } from "lucide-react";
+import { Plus, Pencil, RotateCcw, Trash2, Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@bbq/ui";
 import { upsertCategory, setCategoryDeleted } from "./actions";
@@ -97,6 +97,11 @@ export function CategoryManager({ categories }: { categories: CategoryRow[] }) {
     kind: "list",
   });
   const [error, setError] = useState<string | null>(null);
+  const [showDeleted, setShowDeleted] = useState(false);
+
+  const activeCategories = useMemo(() => categories.filter((c) => !c.deleted_at), [categories]);
+  const deletedCategories = useMemo(() => categories.filter((c) => c.deleted_at), [categories]);
+  const visibleCategories = showDeleted ? categories : activeCategories;
 
   async function toggleDeleted(row: CategoryRow) {
     setError(null);
@@ -132,7 +137,7 @@ export function CategoryManager({ categories }: { categories: CategoryRow[] }) {
       )}
 
       <div className="space-y-2">
-        {categories.map((c) =>
+        {visibleCategories.map((c) =>
           mode.kind === "edit" && mode.row.id === c.id ? (
             <div key={c.id} className="mb-2">
               <CategoryForm initial={c} onDone={() => setMode({ kind: "list" })} />
@@ -143,7 +148,10 @@ export function CategoryManager({ categories }: { categories: CategoryRow[] }) {
               className={`flex items-center justify-between rounded-lg border border-white/5 px-3 py-2 ${c.deleted_at ? "opacity-50" : ""}`}
             >
               <div>
-                <p className="text-sm text-charcoal-100">{c.name_en}</p>
+                <p className="text-sm text-charcoal-100">
+                  {c.name_en}
+                  {c.deleted_at && <span className="text-xs text-red-400 ms-2">({t("deletedTag")})</span>}
+                </p>
                 <p className="text-xs text-smoke-400" dir="rtl">
                   {c.name_ar}
                 </p>
@@ -167,8 +175,20 @@ export function CategoryManager({ categories }: { categories: CategoryRow[] }) {
             </div>
           )
         )}
-        {categories.length === 0 && <p className="text-smoke-400 text-sm">{t("noCategories")}</p>}
+        {activeCategories.length === 0 && !showDeleted && (
+          <p className="text-smoke-400 text-sm">{t("noCategories")}</p>
+        )}
       </div>
+
+      {deletedCategories.length > 0 && (
+        <button
+          onClick={() => setShowDeleted((v) => !v)}
+          className="flex items-center gap-1.5 text-xs text-smoke-400 hover:text-charcoal-100 mt-4"
+        >
+          {showDeleted ? <EyeOff size={12} /> : <Eye size={12} />}
+          {showDeleted ? t("hideDeleted") : t("showDeleted", { count: deletedCategories.length })}
+        </button>
+      )}
     </section>
   );
 }
